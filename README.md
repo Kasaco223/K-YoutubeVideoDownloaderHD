@@ -59,9 +59,15 @@
 3. **¡Listo!** El instalador descarga TODO automáticamente desde GitHub
 
 **⚠️  Si tienes problemas con Python 3.13.7:**
-- Ejecuta [Diagnostico.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Diagnostico.bat) para identificar el problema
-- Asegúrate de marcar "Add Python to PATH" durante la instalación
-- Reinicia la consola después de instalar Python
+
+#### **Problema: "Python no está en PATH"**
+- **Solución automática**: Ejecuta [Reparar_Python.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Reparar_Python.bat) como administrador
+- **Solución manual**: Agregar Python al PATH manualmente
+- **Diagnóstico**: Ejecuta [Diagnostico.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Diagnostico.bat) para identificar el problema
+
+#### **Problema: "Add Python to PATH no aparece"**
+- **Solución**: Python 3.13.7 a veces no muestra esta opción
+- **Alternativa**: Usar Reparar_Python.bat para agregar al PATH automáticamente
 
 #### **Opción 2: Instalador del Proyecto**
 1. **Descarga el proyecto**
@@ -148,6 +154,15 @@ K-YYYYMMDD_HHMMSS.mp4
 ### ❌ **Error: "Dependencias no encontradas"**
 - **Ejecuta** `python installer.py` para reinstalar
 - **Verifica** que Python esté en el PATH del sistema
+
+### ❌ **Error: "Python no está instalado o no está en el PATH"**
+- **Solución automática**: Ejecuta [Reparar_Python.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Reparar_Python.bat) como administrador
+- **Solución manual**: 
+  1. Presiona `Win + R`, escribe `sysdm.cpl`
+  2. Ve a `Avanzado` → `Variables de entorno`
+  3. En `Variables del sistema`, busca `Path`
+  4. Agrega la ruta de Python (ej: `C:\Program Files\Python313`)
+  5. Reinicia la consola
 
 ### ❌ **Error: "No se pudo crear ejecutable"**
 - **Asegúrate** de tener permisos de administrador
