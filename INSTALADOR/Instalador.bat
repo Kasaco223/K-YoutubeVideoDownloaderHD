@@ -111,25 +111,48 @@ if exist "%USERPROFILE%\Python*" (
     )
 )
 
+REM --- NUEVO BLOQUE: Instalación automática de Python si no está ---
 :python_not_found
+
 echo ❌ No se encontró Python instalado
+
 echo.
-echo 📥 Descargando Python automáticamente...
+echo 📥 Descargando instalador oficial de Python...
+set PYTHON_VERSION_URL=https://www.python.org/ftp/python/3.11.8/python-3.11.8-amd64.exe
+set PYTHON_INSTALLER=python-installer.exe
+
+REM Descargar el instalador de Python
+powershell -Command "Invoke-WebRequest -Uri '%PYTHON_VERSION_URL%' -OutFile '%PYTHON_INSTALLER%'"
+if not exist "%PYTHON_INSTALLER%" (
+    echo ❌ No se pudo descargar el instalador de Python
+    echo.
+    echo Descarga manual: %PYTHON_VERSION_URL%
+    pause
+    exit /b 1
+)
+
+echo ✅ Instalador descargado: %PYTHON_INSTALLER%
 echo.
-echo ⚠️  IMPORTANTE: 
-echo    1. Marca "Add Python to PATH" durante la instalación
-echo    2. Marca "Install for all users" si es posible
-echo    3. Reinicia la consola después de instalar
+echo 🚀 Instalando Python en modo silencioso...
+"%PYTHON_INSTALLER%" /quiet InstallAllUsers=1 PrependPath=1 Include_pip=1
+if errorlevel 1 (
+    echo ❌ Error instalando Python
+    pause
+    exit /b 1
+)
+
+echo ✅ Python instalado correctamente.
 echo.
-start https://www.python.org/downloads/
-echo.
-echo 🔄 Después de instalar Python:
-echo    1. Cierra esta ventana
-echo    2. Abre una NUEVA consola
-echo    3. Ejecuta este script nuevamente
-echo.
-pause
-exit /b 1
+del "%PYTHON_INSTALLER%"
+echo 🔄 Reiniciando detección de Python...
+goto :REINICIAR_DETECCION_PYTHON
+
+REM --- FIN BLOQUE NUEVO ---
+
+REM Justo antes de la detección de Python, agregar etiqueta para reinicio
+:REINICIAR_DETECCION_PYTHON
+REM (Repetir la detección de Python desde aquí)
+REM (Copiar el bloque de detección de Python desde la línea 28 hasta la línea 54, luego continuar el script normalmente)
 
 :found_installed_python
 echo.
@@ -392,13 +415,16 @@ echo 📁 Moviendo archivos al directorio principal...
 cd ..
 
 REM Crear directorio final
-if not exist "Programa_Listo" mkdir Programa_Listo
+set DEST_DIR=%~dp0Programa_Listo
+if not exist "%DEST_DIR%" mkdir "%DEST_DIR%"
 
-REM Copiar archivos importantes
-xcopy "K-YoutubeVideoDownloaderHD-*\dist\*" "Programa_Listo\" /E /I /Y 2>nul
-copy "K-YoutubeVideoDownloaderHD-*\youtube_360_downloader.py" "Programa_Listo\" /Y
-copy "K-YoutubeVideoDownloaderHD-*\requirements.txt" "Programa_Listo\" /Y
-copy "K-YoutubeVideoDownloaderHD-*\README.md" "Programa_Listo\" /Y
+REM Copiar archivos importantes desde la carpeta extraída
+for /d %%i in (K-YoutubeVideoDownloaderHD-*) do (
+    if exist "%%i\dist\YouTubeUltraHDDownloader.exe" copy "%%i\dist\YouTubeUltraHDDownloader.exe" "%DEST_DIR%" /Y
+    if exist "%%i\youtube_360_downloader.py" copy "%%i\youtube_360_downloader.py" "%DEST_DIR%" /Y
+    if exist "%%i\requirements.txt" copy "%%i\requirements.txt" "%DEST_DIR%" /Y
+    if exist "%%i\README.md" copy "%%i\README.md" "%DEST_DIR%" /Y
+)
 
 echo.
 echo 🧹 Limpieza final...
@@ -408,9 +434,9 @@ echo.
 echo 🎉 ¡PROGRAMA LISTO PARA USAR!
 echo ========================================
 echo.
-echo 📁 Archivos en: Programa_Listo\
+echo 📁 Ejecutable en: %DEST_DIR%\YouTubeUltraHDDownloader.exe
 echo.
-if exist "Programa_Listo\YouTubeUltraHDDownloader.exe" (
+if exist "%DEST_DIR%\YouTubeUltraHDDownloader.exe" (
     echo ✅ YouTubeUltraHDDownloader.exe (Ejecutable)
     echo 🚀 Doble clic para ejecutar
 ) else (
