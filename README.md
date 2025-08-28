@@ -48,7 +48,7 @@
 ## 🛠️ Instalación
 
 ### 📋 **Requisitos Previos**
-- **Python 3.8** o superior
+- **Python 3.8** o superior (✅ **Python 3.13.7 compatible**)
 - **Conexión a Internet** para descargar dependencias
 
 ### 🚀 **Instalación Automática (Recomendada)**
@@ -57,6 +57,11 @@
 1. **Descarga solo este archivo**: [Instalador.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Instalador.bat)
 2. **Ejecuta el archivo** con doble clic
 3. **¡Listo!** El instalador descarga TODO automáticamente desde GitHub
+
+**⚠️  Si tienes problemas con Python 3.13.7:**
+- Ejecuta [Diagnostico.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Diagnostico.bat) para identificar el problema
+- Asegúrate de marcar "Add Python to PATH" durante la instalación
+- Reinicia la consola después de instalar Python
 
 #### **Opción 2: Instalador del Proyecto**
 1. **Descarga el proyecto**
@@ -159,7 +164,7 @@ K-YYYYMMDD_HHMMSS.mp4
 - ✅ **Ubuntu 18.04+**
 
 ### 🐍 **Versiones de Python**
-- ✅ **Python 3.8+** (Recomendado: 3.11)
+- ✅ **Python 3.8+** (Recomendado: 3.11, ✅ **3.13.7 compatible**)
 - ❌ **Python 3.7** o inferior
 
 ---
