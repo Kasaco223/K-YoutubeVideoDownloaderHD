@@ -133,8 +133,10 @@ if not exist "%PYTHON_INSTALLER%" (
 
 echo ✅ Instalador descargado: %PYTHON_INSTALLER%
 echo.
-echo 🚀 Instalando Python en modo silencioso...
-"%PYTHON_INSTALLER%" /quiet InstallAllUsers=1 PrependPath=1 Include_pip=1
+echo 🚀 Instalando Python en modo PASIVO (verás una barra de progreso)...
+echo    Por favor, espera a que termine la instalación.
+echo    Si ves algún error, toma nota o haz captura de pantalla.
+"%PYTHON_INSTALLER%" /passive InstallAllUsers=1 PrependPath=1 Include_pip=1
 if errorlevel 1 (
     echo ❌ Error instalando Python
     pause
