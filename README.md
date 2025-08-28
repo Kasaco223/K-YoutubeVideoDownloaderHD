@@ -53,21 +53,20 @@
 
 ### 🚀 **Instalación Automática (Recomendada)**
 
-#### **Opción 1: Instalador Completo (Solo 1 archivo)**
-1. **Descarga solo este archivo**: [Instalador.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Instalador.bat)
+#### **Opción 1: Instalador Inteligente (Solo 1 archivo)**
+1. **Descarga solo este archivo**: [Instalador_Inteligente.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Instalador_Inteligente.bat)
 2. **Ejecuta el archivo** con doble clic
-3. **¡Listo!** El instalador descarga TODO automáticamente desde GitHub
+3. **¡Listo!** El instalador:
+   - ✅ **Detecta automáticamente** si Python está en PATH
+   - ✅ **Repara Python** si no está en PATH (requiere permisos de administrador)
+   - ✅ **Descarga TODO** automáticamente desde GitHub
+   - ✅ **Instala dependencias** y crea ejecutable
 
-**⚠️  Si tienes problemas con Python 3.13.7:**
-
-#### **Problema: "Python no está en PATH"**
-- **Solución automática**: Ejecuta [Reparar_Python.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Reparar_Python.bat) como administrador
-- **Solución manual**: Agregar Python al PATH manualmente
-- **Diagnóstico**: Ejecuta [Diagnostico.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Diagnostico.bat) para identificar el problema
-
-#### **Problema: "Add Python to PATH no aparece"**
-- **Solución**: Python 3.13.7 a veces no muestra esta opción
-- **Alternativa**: Usar Reparar_Python.bat para agregar al PATH automáticamente
+**🔧 Características del instalador inteligente:**
+- **Detección automática** de Python instalado
+- **Reparación automática** del PATH si es necesario
+- **Compatibilidad total** con Python 3.13.7
+- **Manejo inteligente** de errores y fallbacks
 
 #### **Opción 2: Instalador del Proyecto**
 1. **Descarga el proyecto**
@@ -86,6 +85,11 @@
    - ✅ Crea un ejecutable (.exe en Windows)
    - ✅ Crea acceso directo en el escritorio
    - ✅ Genera archivo .bat para ejecución rápida
+
+#### **🔧 Herramientas Adicionales (Opcionales)**
+- **[Diagnostico.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Diagnostico.bat)** - Diagnóstico completo del sistema
+- **[Reparar_Python.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Reparar_Python.bat)** - Solo reparar Python (para usuarios avanzados)
+- **[Instalador.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Instalador.bat)** - Instalador básico (sin reparación automática)
 
 ### 📦 **Instalación Manual**
 
