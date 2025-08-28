@@ -1,58 +1,118 @@
 @echo off
-title Instalador - YouTube Ultra HD Video Downloader
+title Instalador Inteligente - YouTube Ultra HD Video Downloader
 color 0B
 
 echo.
 echo ========================================
-echo    🚀 INSTALADOR COMPLETO
+echo    🚀 INSTALADOR INTELIGENTE
 echo    YouTube Ultra HD Video Downloader
 echo ========================================
 echo.
-echo ⚡ Este instalador descargará TODO automáticamente
-echo    desde GitHub y creará el programa listo para usar
+echo ⚡ Este instalador detecta y repara Python automáticamente
+echo    y luego instala todo el programa desde GitHub
 echo.
+
+REM ========================================
+REM    🔍 DETECCIÓN Y REPARACIÓN DE PYTHON
+REM ========================================
 
 echo 🔍 Verificando Python...
 echo.
 
-REM Intentar diferentes comandos de Python
 set PYTHON_CMD=
 set PYTHON_VERSION=
+set PYTHON_PATH=
+set PYTHON_NEEDS_REPAIR=0
 
-REM Probar python
+REM Probar diferentes comandos de Python
 python --version >nul 2>&1
 if not errorlevel 1 (
     set PYTHON_CMD=python
     for /f "tokens=2" %%i in ('python --version 2^>^&1') do set PYTHON_VERSION=%%i
-    goto :python_found
+    goto :python_working
 )
 
-REM Probar python3
 python3 --version >nul 2>&1
 if not errorlevel 1 (
     set PYTHON_CMD=python3
     for /f "tokens=2" %%i in ('python3 --version 2^>^&1') do set PYTHON_VERSION=%%i
-    goto :python_found
+    goto :python_working
 )
 
-REM Probar py (Windows Python Launcher)
 py --version >nul 2>&1
 if not errorlevel 1 (
     set PYTHON_CMD=py
     for /f "tokens=2" %%i in ('py --version 2^>^&1') do set PYTHON_VERSION=%%i
-    goto :python_found
+    goto :python_working
 )
 
-REM Probar python.exe directamente
 python.exe --version >nul 2>&1
 if not errorlevel 1 (
     set PYTHON_CMD=python.exe
     for /f "tokens=2" %%i in ('python.exe --version 2^>^&1') do set PYTHON_VERSION=%%i
-    goto :python_found
+    goto :python_working
+)
+
+REM Python no está en PATH, buscar instalado
+echo ❌ Python no está en PATH
+echo 🔍 Buscando Python instalado en el sistema...
+echo.
+
+set PYTHON_NEEDS_REPAIR=1
+
+REM Buscar en ubicaciones comunes
+if exist "C:\Program Files\Python*" (
+    for /d %%i in ("C:\Program Files\Python*") do (
+        if exist "%%i\python.exe" (
+            set PYTHON_PATH=%%i
+            echo ✅ Python encontrado en: %%i
+            goto :found_installed_python
+        )
+    )
+)
+
+if exist "C:\Program Files (x86)\Python*" (
+    for /d %%i in ("C:\Program Files (x86)\Python*") do (
+        if exist "%%i\python.exe" (
+            set PYTHON_PATH=%%i
+            echo ✅ Python encontrado en: %%i
+            goto :found_installed_python
+        )
+    )
+)
+
+if exist "%LOCALAPPDATA%\Programs\Python*" (
+    for /d %%i in ("%LOCALAPPDATA%\Programs\Python*") do (
+        if exist "%%i\python.exe" (
+            set PYTHON_PATH=%%i
+            echo ✅ Python encontrado en: %%i
+            goto :found_installed_python
+        )
+    )
+)
+
+if exist "%USERPROFILE%\AppData\Local\Programs\Python*" (
+    for /d %%i in ("%USERPROFILE%\AppData\Local\Programs\Python*") do (
+        if exist "%%i\python.exe" (
+            set PYTHON_PATH=%%i
+            echo ✅ Python encontrado en: %%i
+            goto :found_installed_python
+        )
+    )
+)
+
+if exist "%USERPROFILE%\Python*" (
+    for /d %%i in ("%USERPROFILE%\Python*") do (
+        if exist "%%i\python.exe" (
+            set PYTHON_PATH=%%i
+            echo ✅ Python encontrado en: %%i
+            goto :found_installed_python
+        )
+    )
 )
 
 :python_not_found
-echo ❌ Python no está instalado o no está en el PATH
+echo ❌ No se encontró Python instalado
 echo.
 echo 📥 Descargando Python automáticamente...
 echo.
@@ -71,11 +131,25 @@ echo.
 pause
 exit /b 1
 
-:python_found
-echo ✅ Python detectado: %PYTHON_VERSION%
-echo 🔧 Comando: %PYTHON_CMD%
+:found_installed_python
+echo.
+echo 📋 Información de Python:
+echo - Ruta: %PYTHON_PATH%
+echo - Ejecutable: %PYTHON_PATH%\python.exe
+echo.
 
-REM Verificar versión mínima (3.8+)
+REM Verificar versión
+echo 🔍 Verificando versión...
+"%PYTHON_PATH%\python.exe" --version >nul 2>&1
+if not errorlevel 1 (
+    for /f "tokens=2" %%i in ('"%PYTHON_PATH%\python.exe" --version 2^>^&1') do set PYTHON_VERSION=%%i
+    echo ✅ Versión: %PYTHON_VERSION%
+) else (
+    echo ❌ No se pudo obtener la versión
+    set PYTHON_VERSION=Desconocida
+)
+
+REM Verificar versión mínima
 for /f "tokens=2 delims=." %%a in ("%PYTHON_VERSION%") do set MAJOR_VERSION=%%a
 for /f "tokens=3 delims=." %%b in ("%PYTHON_VERSION%") do set MINOR_VERSION=%%b
 
@@ -96,21 +170,112 @@ if %MAJOR_VERSION% EQU 3 (
 echo ✅ Versión compatible: %PYTHON_VERSION%
 echo.
 
-REM Verificar pip
-echo 🔍 Verificando pip...
-%PYTHON_CMD% -m pip --version >nul 2>&1
-if errorlevel 1 (
-    echo ❌ pip no está disponible
-    echo 🔧 Instalando pip...
-    %PYTHON_CMD% -m ensurepip --upgrade
+REM Reparar Python si es necesario
+if %PYTHON_NEEDS_REPAIR% EQU 1 (
+    echo 🔧 Python necesita ser agregado al PATH
+    echo.
+    echo ⚠️  IMPORTANTE: Este script necesita permisos de administrador
+    echo para modificar las variables de entorno del sistema.
+    echo.
+    echo 🔒 Verificando permisos de administrador...
+    net session >nul 2>&1
     if errorlevel 1 (
-        echo ❌ Error instalando pip
+        echo ❌ No tienes permisos de administrador
+        echo.
+        echo 🔧 Soluciones:
+        echo 1. Hacer clic derecho en este archivo
+        echo 2. Seleccionar "Ejecutar como administrador"
+        echo 3. O ejecutar CMD como administrador y navegar aquí
+        echo.
+        pause
+        exit /b 1
+    )
+
+    echo ✅ Permisos de administrador confirmados
+    echo.
+
+    echo 🔧 Agregando Python al PATH del sistema...
+    echo.
+
+    REM Agregar Python al PATH del sistema
+    setx PATH "%PATH%;%PYTHON_PATH%" /M
+    if errorlevel 1 (
+        echo ❌ Error agregando Python al PATH del sistema
+        echo.
+        echo 🔧 Intentando método alternativo...
+        echo.
+        
+        REM Método alternativo: modificar PATH del usuario
+        echo 🔧 Agregando Python al PATH del usuario...
+        setx PATH "%PATH%;%PYTHON_PATH%"
+        if errorlevel 1 (
+            echo ❌ Error agregando Python al PATH del usuario
+            echo.
+            echo 🔧 Método manual requerido:
+            echo 1. Presiona Win + R
+            echo 2. Escribe: sysdm.cpl
+            echo 3. Ve a: Avanzado -^> Variables de entorno
+            echo 4. En "Variables del sistema", busca "Path"
+            echo 5. Agrega: %PYTHON_PATH%
+            echo.
+            pause
+            exit /b 1
+        ) else (
+            echo ✅ Python agregado al PATH del usuario
+        )
+    ) else (
+        echo ✅ Python agregado al PATH del sistema
+    )
+
+    echo.
+    echo 🔧 Agregando Scripts al PATH...
+    if exist "%PYTHON_PATH%\Scripts" (
+        setx PATH "%PATH%;%PYTHON_PATH%\Scripts" /M
+        if not errorlevel 1 (
+            echo ✅ Scripts de Python agregados al PATH
+        ) else (
+            echo ⚠️  No se pudieron agregar los Scripts al PATH
+        )
+    )
+
+    echo.
+    echo 🔄 Reiniciando variables de entorno...
+    call refreshenv >nul 2>&1
+
+    echo.
+    echo 🧪 Probando Python desde PATH...
+    echo.
+
+    REM Probar Python
+    python --version >nul 2>&1
+    if not errorlevel 1 (
+        set PYTHON_CMD=python
+        echo ✅ Python funciona correctamente desde PATH
+    ) else (
+        echo ❌ Python aún no funciona desde PATH
+        echo.
+        echo 🔧 Solución manual requerida:
+        echo 1. Reinicia la consola/terminal
+        echo 2. O reinicia el explorador de Windows
+        echo 3. O reinicia la computadora
+        echo.
+        echo 📋 Ruta de Python: %PYTHON_PATH%
+        echo.
         pause
         exit /b 1
     )
 )
-echo ✅ pip disponible
+
+:python_working
 echo.
+echo 🎉 ¡Python está funcionando correctamente!
+echo 📋 Comando: %PYTHON_CMD%
+echo 📋 Versión: %PYTHON_VERSION%
+echo.
+
+REM ========================================
+REM    📥 INSTALACIÓN DEL PROGRAMA
+REM ========================================
 
 echo 📥 Descargando proyecto completo desde GitHub...
 echo.

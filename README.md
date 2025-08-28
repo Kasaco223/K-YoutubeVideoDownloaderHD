@@ -53,8 +53,8 @@
 
 ### 🚀 **Instalación Automática (Recomendada)**
 
-#### **Opción 1: Instalador Inteligente (Solo 1 archivo)**
-1. **Descarga solo este archivo**: [Instalador_Inteligente.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Instalador_Inteligente.bat)
+#### **🚀 Instalador Automático (Solo 1 archivo)**
+1. **Descarga solo este archivo**: [Instalador.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Instalador.bat)
 2. **Ejecuta el archivo** con doble clic
 3. **¡Listo!** El instalador:
    - ✅ **Detecta automáticamente** si Python está en PATH
@@ -62,46 +62,32 @@
    - ✅ **Descarga TODO** automáticamente desde GitHub
    - ✅ **Instala dependencias** y crea ejecutable
 
-**🔧 Características del instalador inteligente:**
+**🔧 Características del instalador:**
 - **Detección automática** de Python instalado
 - **Reparación automática** del PATH si es necesario
 - **Compatibilidad total** con Python 3.13.7
 - **Manejo inteligente** de errores y fallbacks
 
-#### **Opción 2: Instalador del Proyecto**
+#### **📦 Instalación Manual (Para desarrolladores)**
 1. **Descarga el proyecto**
    ```bash
    git clone https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD.git
    cd K-YoutubeVideoDownloaderHD
    ```
 
-2. **Ejecuta el instalador automático**
-   ```bash
-   python installer.py
-   ```
-
-3. **¡Listo!** El instalador:
-   - ✅ Descarga todas las dependencias
-   - ✅ Crea un ejecutable (.exe en Windows)
-   - ✅ Crea acceso directo en el escritorio
-   - ✅ Genera archivo .bat para ejecución rápida
-
-#### **🔧 Herramientas Adicionales (Opcionales)**
-- **[Diagnostico.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Diagnostico.bat)** - Diagnóstico completo del sistema
-- **[Reparar_Python.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Reparar_Python.bat)** - Solo reparar Python (para usuarios avanzados)
-- **[Instalador.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Instalador.bat)** - Instalador básico (sin reparación automática)
-
-### 📦 **Instalación Manual**
-
-1. **Instala las dependencias**
+2. **Instala las dependencias**
    ```bash
    pip install -r requirements.txt
    ```
 
-2. **Ejecuta el programa**
+3. **Ejecuta el programa**
    ```bash
    python youtube_360_downloader.py
    ```
+
+
+
+
 
 ---
 
