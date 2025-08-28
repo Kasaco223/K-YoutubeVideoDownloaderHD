@@ -58,11 +58,13 @@
 2. **Ejecuta el archivo** con doble clic
 3. **¡Listo!** El instalador:
    - ✅ **Detecta automáticamente** si Python está en PATH
+   - ✅ **Si no tienes Python, lo descarga e instala automáticamente** (modo silencioso, con pip y en el PATH)
    - ✅ **Repara Python** si no está en PATH (requiere permisos de administrador)
    - ✅ **Descarga TODO** automáticamente desde GitHub
    - ✅ **Instala dependencias** y crea ejecutable
 
 **🔧 Características del instalador:**
+- **Instalación automática de Python** si no está presente
 - **Detección automática** de Python instalado
 - **Reparación automática** del PATH si es necesario
 - **Compatibilidad total** con Python 3.13.7
