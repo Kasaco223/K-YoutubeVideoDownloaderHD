@@ -54,7 +54,7 @@
 ### 🚀 **Instalación Automática (Recomendada)**
 
 #### **Opción 1: Instalador Completo (Solo 1 archivo)**
-1. **Descarga solo este archivo**: [DESCARGAR_Y_USAR.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/DESCARGAR_Y_USAR.bat)
+1. **Descarga solo este archivo**: [Instalador.bat](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/raw/master/INSTALADOR/Instalador.bat)
 2. **Ejecuta el archivo** con doble clic
 3. **¡Listo!** El instalador descarga TODO automáticamente desde GitHub
 
