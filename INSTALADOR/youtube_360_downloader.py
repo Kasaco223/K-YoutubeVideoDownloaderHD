@@ -24,37 +24,13 @@ class ModernYouTubeDownloader:
         self.quality_var = tk.StringVar(value="1080p")
         self.downloading = False
         self.cookies_path = tk.StringVar(value="")
+        self.audio_only = tk.BooleanVar(value=False)
+        self.audio_format = tk.StringVar(value="MP3")
         
         # Configure custom styles
         self.setup_styles()
         self.setup_ui()
         
-    def _get_base_dir(self):
-        """Devuelve la carpeta base del programa (soporta ejecutable PyInstaller)."""
-        try:
-            if getattr(sys, 'frozen', False):
-                return os.path.dirname(sys.executable)
-            return os.path.dirname(os.path.abspath(__file__))
-        except Exception:
-            return os.getcwd()
-
-    def _find_ffmpeg(self):
-        """Busca ffmpeg/ffprobe en una carpeta local 'bin' o en PATH y devuelve ruta para yt-dlp."""
-        base_dir = self._get_base_dir()
-        local_bin = os.path.join(base_dir, 'bin')
-        ffmpeg_exe = 'ffmpeg.exe' if os.name == 'nt' else 'ffmpeg'
-        ffprobe_exe = 'ffprobe.exe' if os.name == 'nt' else 'ffprobe'
-
-        local_ffmpeg = os.path.join(local_bin, ffmpeg_exe)
-        local_ffprobe = os.path.join(local_bin, ffprobe_exe)
-        if os.path.exists(local_ffmpeg) and os.path.exists(local_ffprobe):
-            self.log_message(f"🎬 FFmpeg encontrado en carpeta local: {local_bin}")
-            return local_bin
-
-        # Si no está en bin, confiar en el PATH del sistema
-        self.log_message("ℹ️ FFmpeg no encontrado en carpeta local. Se intentará usar el del sistema (PATH).")
-        return None
-
     def setup_styles(self):
         """Configura estilos personalizados modernos"""
         style = ttk.Style()
@@ -215,6 +191,27 @@ class ModernYouTubeDownloader:
             
             btn.pack(side=tk.LEFT, padx=(0, 10))
             self.quality_buttons.append(btn)
+
+        # Audio-only options
+        audio_opts_frame = tk.Frame(quality_card, bg="#1a1a1a")
+        audio_opts_frame.pack(fill=tk.X, padx=20, pady=(10, 10))
+
+        audio_check = tk.Checkbutton(
+            audio_opts_frame,
+            text="Solo audio",
+            variable=self.audio_only,
+            onvalue=True, offvalue=False,
+            font=("Segoe UI", 10, "bold"),
+            bg="#1a1a1a", fg="#ffffff",
+            activebackground="#1a1a1a", activeforeground="#ffffff",
+            selectcolor="#2a2a2a",
+        )
+        audio_check.pack(side=tk.LEFT)
+
+        tk.Label(audio_opts_frame, text="Formato:", bg="#1a1a1a", fg="#ffffff", font=("Segoe UI", 10)).pack(side=tk.LEFT, padx=(15, 5))
+        audio_combo = ttk.Combobox(audio_opts_frame, textvariable=self.audio_format, values=["MP3", "OPUS"], state="readonly")
+        audio_combo.current(0)
+        audio_combo.pack(side=tk.LEFT)
         
         # Destination folder card
         dest_card = tk.Frame(content_frame, bg="#1a1a1a", relief="flat", bd=0)
@@ -516,8 +513,12 @@ class ModernYouTubeDownloader:
                 format_spec = "bv*[height<=360]+ba/b[height<=360]/b"
             
             # Si la calidad seleccionada no está disponible, usar la mejor calidad posible
-            self.log_message("🎯 Si la calidad seleccionada no está disponible, se descargará la mejor calidad posible")
-            self.log_message("💡 Ahora no se fuerza MP4/M4A. Se aceptan WebM/Opus/AV1/VP9 y se fusiona automáticamente")
+            if self.audio_only.get():
+                self.log_message("🎧 Modo solo audio activado")
+                self.log_message(f"💡 Formato de salida: {self.audio_format.get().upper()}")
+            else:
+                self.log_message("🎯 Si la calidad seleccionada no está disponible, se descargará la mejor calidad posible")
+                self.log_message("💡 Ahora no se fuerza MP4/M4A. Se aceptan WebM/Opus/AV1/VP9 y se fusiona automáticamente")
             self.log_message(f"🎬 Intentando descargar en {quality} - si no está disponible, se usará la mejor calidad")
             self.log_message("📹 Solo se descargará el video individual (no la playlist completa)")
             
@@ -525,7 +526,11 @@ class ModernYouTubeDownloader:
             colombian_datetime = self.get_colombian_datetime()
             filename = f"K-{colombian_datetime}.%(ext)s"
             
-            ffmpeg_loc = self._find_ffmpeg()
+            # Detectar carpeta donde buscar ffmpeg (junto al EXE si está empaquetado)
+            try:
+                base_dir = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.dirname(os.path.abspath(__file__))
+            except Exception:
+                base_dir = os.getcwd()
 
             ydl_opts = {
                 'format': format_spec,
@@ -542,13 +547,19 @@ class ModernYouTubeDownloader:
                 'merge_output_format': 'mkv',
                 'noplaylist': True,  # Solo descargar el video individual, no la playlist
                 'geo_bypass': True,
+                'ffmpeg_location': base_dir,
             }
 
-            if ffmpeg_loc:
-                ydl_opts['ffmpeg_location'] = ffmpeg_loc
-                self.log_message(f"🔧 Usando FFmpeg desde: {ffmpeg_loc}")
-            else:
-                self.log_message("🔎 Intentando usar FFmpeg desde el PATH del sistema.")
+            # Configurar post-procesado si es solo audio
+            if self.audio_only.get():
+                preferred = 'mp3' if self.audio_format.get().upper() == 'MP3' else 'opus'
+                ydl_opts['postprocessors'] = [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': preferred,
+                    'preferredquality': '0',  # mejor calidad
+                }]
+                # Evitar mezcla de video
+                ydl_opts['merge_output_format'] = None
 
             # Adjuntar cookies si el usuario proporcionó un archivo
             cookies_file = self.cookies_path.get().strip()
