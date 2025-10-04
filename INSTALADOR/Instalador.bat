@@ -153,8 +153,49 @@ REM --- FIN BLOQUE NUEVO ---
 
 REM Justo antes de la detección de Python, agregar etiqueta para reinicio
 :REINICIAR_DETECCION_PYTHON
-REM (Repetir la detección de Python desde aquí)
-REM (Copiar el bloque de detección de Python desde la línea 28 hasta la línea 54, luego continuar el script normalmente)
+REM Re-detección automática de Python tras la instalación
+set PYTHON_CMD=
+set PYTHON_VERSION=
+set PYTHON_PATH=
+
+REM Intentar con 'python'
+python --version >nul 2>&1
+if not errorlevel 1 (
+    set PYTHON_CMD=python
+    for /f "tokens=2" %%i in ('python --version 2^>^&1') do set PYTHON_VERSION=%%i
+    for /f "usebackq tokens=*" %%p in (`python -c "import sys,os;print(os.path.dirname(sys.executable))"`) do set PYTHON_PATH=%%p
+    goto :found_installed_python
+)
+
+REM Intentar con 'python3'
+python3 --version >nul 2>&1
+if not errorlevel 1 (
+    set PYTHON_CMD=python3
+    for /f "tokens=2" %%i in ('python3 --version 2^>^&1') do set PYTHON_VERSION=%%i
+    for /f "usebackq tokens=*" %%p in (`python3 -c "import sys,os;print(os.path.dirname(sys.executable))"`) do set PYTHON_PATH=%%p
+    goto :found_installed_python
+)
+
+REM Intentar con 'py'
+py --version >nul 2>&1
+if not errorlevel 1 (
+    set PYTHON_CMD=py
+    for /f "tokens=2" %%i in ('py --version 2^>^&1') do set PYTHON_VERSION=%%i
+    for /f "usebackq tokens=*" %%p in (`py -c "import sys,os;print(os.path.dirname(sys.executable))"`) do set PYTHON_PATH=%%p
+    goto :found_installed_python
+)
+
+REM Intentar con 'python.exe'
+python.exe --version >nul 2>&1
+if not errorlevel 1 (
+    set PYTHON_CMD=python.exe
+    for /f "tokens=2" %%i in ('python.exe --version 2^>^&1') do set PYTHON_VERSION=%%i
+    for /f "usebackq tokens=*" %%p in (`python.exe -c "import sys,os;print(os.path.dirname(sys.executable))"`) do set PYTHON_PATH=%%p
+    goto :found_installed_python
+)
+
+REM Si aún no se detecta, volver al flujo de instalación
+goto :python_not_found
 
 :found_installed_python
 echo.

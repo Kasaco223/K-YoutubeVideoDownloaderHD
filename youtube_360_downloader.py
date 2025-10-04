@@ -4,9 +4,6 @@ import threading
 import os
 import sys
 import yt_dlp
-from PIL import Image, ImageTk
-import requests
-from io import BytesIO
 from datetime import datetime
 import pytz
 
@@ -16,7 +13,7 @@ class ModernYouTubeDownloader:
         self.root.title("Ultra HD Video Downloader")
         self.root.geometry("1000x700")
         self.root.configure(bg="#0a0a0a")
-        self.root.resizable(False, False)
+        self.root.resizable(True, True)
         
         # Variables
         self.download_path = tk.StringVar(value=os.path.expanduser("~/Downloads"))
@@ -435,7 +432,7 @@ class ModernYouTubeDownloader:
             colombia_tz = pytz.timezone('America/Bogota')
             now = datetime.now(colombia_tz)
             return now.strftime("%Y%m%d_%H%M%S")
-        except:
+        except Exception:
             # Fallback si pytz no está disponible
             now = datetime.now()
             return now.strftime("%Y%m%d_%H%M%S")
@@ -475,7 +472,13 @@ class ModernYouTubeDownloader:
         if not url.startswith(('http://', 'https://')):
             messagebox.showerror("Error", "Por favor ingresa una URL válida")
             return
-            
+            # Asegurar que la carpeta de descarga exista
+        try:
+            os.makedirs(self.download_path.get(), exist_ok=True)
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo crear la carpeta de destino:\n{e}")
+            return
+
         self.downloading = True
         self.download_btn.config(state='disabled')
         self.start_progress_animation()
@@ -517,7 +520,7 @@ class ModernYouTubeDownloader:
             
             # Si la calidad seleccionada no está disponible, usar la mejor calidad posible
             self.log_message("🎯 Si la calidad seleccionada no está disponible, se descargará la mejor calidad posible")
-            self.log_message("💡 Ahora no se fuerza MP4/M4A. Se aceptan WebM/Opus/AV1/VP9 y se fusiona automáticamente")
+            self.log_message("💡 No se fuerza MP4/M4A. Se aceptan WebM/Opus/AV1/VP9 y se fusiona automáticamente")
             self.log_message(f"🎬 Intentando descargar en {quality} - si no está disponible, se usará la mejor calidad")
             self.log_message("📹 Solo se descargará el video individual (no la playlist completa)")
             
@@ -535,8 +538,6 @@ class ModernYouTubeDownloader:
                 'writethumbnail': False,
                 'ignoreerrors': False,
                 'no_warnings': False,
-                'extractaudio': False,
-                'audioformat': 'mp3',
                 'postprocessors': [],
                 # Usamos MKV para compatibilidad (mezcla VP9/AV1 + Opus sin recodificar)
                 'merge_output_format': 'mkv',
@@ -582,7 +583,7 @@ class ModernYouTubeDownloader:
                     
                     # Check for special features
                     formats = info.get('formats', [])
-                    has_360 = False
+                    has_360deg = False
                     has_4k = False
                     has_60fps = False
                     
@@ -590,25 +591,31 @@ class ModernYouTubeDownloader:
                         for f in formats:
                             height = f.get('height')
                             fps = f.get('fps')
+                            projection = f.get('projection') or f.get('projection_type')
+                            is_360_flag = f.get('is_360')
                             
                             if height:
-                                if height >= 360:
-                                    has_360 = True
                                 if height >= 2160:
                                     has_4k = True
                             
                             if fps and fps >= 60:
                                 has_60fps = True
+
+                            # Detección de video 360° real (esférico)
+                            if (is_360_flag is True) or (isinstance(projection, str) and projection.lower() in (
+                                '360', 'equirectangular', 'spherical', 'cubemap'
+                            )):
+                                has_360deg = True
                     
                     # Log special features
                     if has_4k:
                         self.log_message("🎬 Video 4K (2160p) disponible!")
                     if has_60fps:
                         self.log_message("⚡ Video 60fps disponible!")
-                    if has_360:
-                        self.log_message("✓ Video 360° detectado!")
+                    if has_360deg:
+                        self.log_message("✓ Video 360° (esférico) detectado!")
                     
-                    if not has_360 and not has_4k:
+                    if not has_360deg and not has_4k:
                         self.log_message("📹 Video estándar - se descargará en la mejor calidad disponible")
                     
                     # Start actual download
