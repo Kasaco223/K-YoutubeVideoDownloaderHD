@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import threading
 import os
+import sys
 import yt_dlp
 from PIL import Image, ImageTk
 import requests
@@ -12,7 +13,7 @@ import pytz
 class ModernYouTubeDownloader:
     def __init__(self, root):
         self.root = root
-        self.root.title("YouTube Ultra HD Video Downloader")
+        self.root.title("Ultra HD Video Downloader")
         self.root.geometry("1000x700")
         self.root.configure(bg="#0a0a0a")
         self.root.resizable(False, False)
@@ -22,6 +23,9 @@ class ModernYouTubeDownloader:
         self.url_var = tk.StringVar()
         self.quality_var = tk.StringVar(value="1080p")
         self.downloading = False
+        self.cookies_path = tk.StringVar(value="")
+        self.audio_only = tk.BooleanVar(value=False)
+        self.audio_format = tk.StringVar(value="MP3")
         
         # Configure custom styles
         self.setup_styles()
@@ -115,13 +119,13 @@ class ModernYouTubeDownloader:
         
         # Title with modern typography
         title_label = tk.Label(header_frame, 
-                              text="YouTube Ultra HD", 
+                              text="Ultra HD Video Downloader", 
                               font=("Segoe UI", 32, "bold"),
                               bg="#1a1a1a", fg="#ffffff")
         title_label.pack(pady=(30, 10))
         
         subtitle_label = tk.Label(header_frame, 
-                                 text="Descarga videos en calidad hasta 4K 60fps", 
+                                 text="Descarga videos de YouTube, TikTok, Instagram, etc. hasta 4K 60fps", 
                                  font=("Segoe UI", 16),
                                  bg="#1a1a1a", fg="#888888")
         subtitle_label.pack(pady=(0, 30))
@@ -138,7 +142,7 @@ class ModernYouTubeDownloader:
         url_card.pack(fill=tk.X, pady=(0, 20))
         url_card.columnconfigure(0, weight=1)
         
-        url_label = tk.Label(url_card, text="🔗 URL del Video", 
+        url_label = tk.Label(url_card, text="🔗 URL del Video (YouTube, TikTok, Instagram, ...)", 
                             font=("Segoe UI", 14, "bold"),
                             bg="#1a1a1a", fg="#ffffff")
         url_label.pack(anchor=tk.W, pady=(20, 10), padx=20)
@@ -187,6 +191,27 @@ class ModernYouTubeDownloader:
             
             btn.pack(side=tk.LEFT, padx=(0, 10))
             self.quality_buttons.append(btn)
+
+        # Audio-only options
+        audio_opts_frame = tk.Frame(quality_card, bg="#1a1a1a")
+        audio_opts_frame.pack(fill=tk.X, padx=20, pady=(10, 10))
+
+        audio_check = tk.Checkbutton(
+            audio_opts_frame,
+            text="Solo audio",
+            variable=self.audio_only,
+            onvalue=True, offvalue=False,
+            font=("Segoe UI", 10, "bold"),
+            bg="#1a1a1a", fg="#ffffff",
+            activebackground="#1a1a1a", activeforeground="#ffffff",
+            selectcolor="#2a2a2a",
+        )
+        audio_check.pack(side=tk.LEFT)
+
+        tk.Label(audio_opts_frame, text="Formato:", bg="#1a1a1a", fg="#ffffff", font=("Segoe UI", 10)).pack(side=tk.LEFT, padx=(15, 5))
+        audio_combo = ttk.Combobox(audio_opts_frame, textvariable=self.audio_format, values=["MP3", "OPUS"], state="readonly")
+        audio_combo.current(0)
+        audio_combo.pack(side=tk.LEFT)
         
         # Destination folder card
         dest_card = tk.Frame(content_frame, bg="#1a1a1a", relief="flat", bd=0)
@@ -221,6 +246,40 @@ class ModernYouTubeDownloader:
                               padx=20, pady=8,
                               command=self.browse_folder)
         browse_btn.pack(side=tk.RIGHT, padx=(10, 0))
+
+        # Optional cookies.txt card (useful for Instagram/TikTok private or rate-limited)
+        cookies_card = tk.Frame(content_frame, bg="#1a1a1a", relief="flat", bd=0)
+        cookies_card.pack(fill=tk.X, pady=(0, 20))
+        cookies_card.columnconfigure(0, weight=1)
+
+        cookies_label = tk.Label(cookies_card, text="🍪 Archivo cookies.txt (opcional)", 
+                                 font=("Segoe UI", 14, "bold"),
+                                 bg="#1a1a1a", fg="#ffffff")
+        cookies_label.pack(anchor=tk.W, pady=(20, 10), padx=20)
+
+        cookies_frame = tk.Frame(cookies_card, bg="#1a1a1a")
+        cookies_frame.pack(fill=tk.X, padx=20, pady=(0, 20))
+        cookies_frame.columnconfigure(0, weight=1)
+
+        cookies_entry = tk.Entry(cookies_frame, 
+                                 textvariable=self.cookies_path,
+                                 font=("Segoe UI", 12),
+                                 bg="#2a2a2a", fg="#ffffff",
+                                 insertbackground="#6366f1",
+                                 relief="flat", bd=0,
+                                 highlightthickness=1,
+                                 highlightbackground="#3a3a3a",
+                                 highlightcolor="#6366f1")
+        cookies_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        cookies_browse_btn = tk.Button(cookies_frame, 
+                                       text="Examinar cookies",
+                                       font=("Segoe UI", 10, "bold"),
+                                       bg="#4a4a4a", fg="#ffffff",
+                                       relief="flat", bd=0,
+                                       padx=20, pady=8,
+                                       command=self.browse_cookies_file)
+        cookies_browse_btn.pack(side=tk.RIGHT, padx=(10, 0))
         
         # Download button card
         download_card = tk.Frame(content_frame, bg="#1a1a1a", relief="flat", bd=0)
@@ -382,6 +441,14 @@ class ModernYouTubeDownloader:
         folder = filedialog.askdirectory(initialdir=self.download_path.get())
         if folder:
             self.download_path.set(folder)
+
+    def browse_cookies_file(self):
+        file_path = filedialog.askopenfilename(
+            title="Selecciona cookies.txt",
+            filetypes=[("cookies.txt", "*.txt"), ("Todos los archivos", "*.*")]
+        )
+        if file_path:
+            self.cookies_path.set(file_path)
             
     def log_message(self, message):
         self.log_text.insert(tk.END, f"{message}\n")
@@ -399,7 +466,7 @@ class ModernYouTubeDownloader:
             
         url = self.url_var.get().strip()
         if not url:
-            messagebox.showerror("Error", "Por favor ingresa la URL del video de YouTube")
+            messagebox.showerror("Error", "Por favor ingresa la URL del video")
             return
             
         if not url.startswith(('http://', 'https://')):
@@ -427,25 +494,31 @@ class ModernYouTubeDownloader:
             # Configure yt-dlp options for high quality video
             quality = self.quality_var.get()
             
-            # Handle special cases for high quality formats with fallback to best quality
+            # Selección de formato más flexible (no fuerza MP4/M4A)
+            # Preferimos video+audio adaptativo hasta la altura elegida, con fallback a "best".
+            # Esto evita errores cuando YouTube solo ofrece WebM/Opus o AV1/VP9.
             if quality == "2160p60":
-                format_spec = 'bestvideo[height<=2160][fps<=60][ext=mp4]+bestaudio[ext=m4a]/best[height<=2160][fps<=60]/best'
+                format_spec = "bv*[height<=2160][fps<=60]+ba/b[height<=2160][fps<=60]/b"
             elif quality == "2160p":
-                format_spec = 'bestvideo[height<=2160][ext=mp4]+bestaudio[ext=m4a]/best[height<=2160]/best'
+                format_spec = "bv*[height<=2160]+ba/b[height<=2160]/b"
             elif quality == "1440p":
-                format_spec = 'bestvideo[height<=1440][ext=mp4]+bestaudio[ext=m4a]/best[height<=1440]/best'
+                format_spec = "bv*[height<=1440]+ba/b[height<=1440]/b"
             elif quality == "1080p":
-                format_spec = 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080]/best'
+                format_spec = "bv*[height<=1080]+ba/b[height<=1080]/b"
             elif quality == "720p":
-                format_spec = 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]/best'
+                format_spec = "bv*[height<=720]+ba/b[height<=720]/b"
             elif quality == "480p":
-                format_spec = 'bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480]/best'
+                format_spec = "bv*[height<=480]+ba/b[height<=480]/b"
             else:  # 360p
-                format_spec = 'bestvideo[height<=360][ext=mp4]+bestaudio[ext=m4a]/best[height<=360]/best'
+                format_spec = "bv*[height<=360]+ba/b[height<=360]/b"
             
             # Si la calidad seleccionada no está disponible, usar la mejor calidad posible
-            self.log_message("🎯 Si la calidad seleccionada no está disponible, se descargará la mejor calidad posible")
-            self.log_message("💡 El formato especificado incluye fallbacks automáticos para máxima compatibilidad")
+            if self.audio_only.get():
+                self.log_message("🎧 Modo solo audio activado")
+                self.log_message(f"💡 Formato de salida: {self.audio_format.get().upper()}")
+            else:
+                self.log_message("🎯 Si la calidad seleccionada no está disponible, se descargará la mejor calidad posible")
+                self.log_message("💡 Ahora no se fuerza MP4/M4A. Se aceptan WebM/Opus/AV1/VP9 y se fusiona automáticamente")
             self.log_message(f"🎬 Intentando descargar en {quality} - si no está disponible, se usará la mejor calidad")
             self.log_message("📹 Solo se descargará el video individual (no la playlist completa)")
             
@@ -453,6 +526,12 @@ class ModernYouTubeDownloader:
             colombian_datetime = self.get_colombian_datetime()
             filename = f"K-{colombian_datetime}.%(ext)s"
             
+            # Detectar carpeta donde buscar ffmpeg (junto al EXE si está empaquetado)
+            try:
+                base_dir = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.dirname(os.path.abspath(__file__))
+            except Exception:
+                base_dir = os.getcwd()
+
             ydl_opts = {
                 'format': format_spec,
                 'outtmpl': os.path.join(self.download_path.get(), filename),
@@ -464,9 +543,28 @@ class ModernYouTubeDownloader:
                 'extractaudio': False,
                 'audioformat': 'mp3',
                 'postprocessors': [],
-                'merge_output_format': 'mp4',  # Ensure output is MP4
+                # Usamos MKV para compatibilidad (mezcla VP9/AV1 + Opus sin recodificar)
+                'merge_output_format': 'mkv',
                 'noplaylist': True,  # Solo descargar el video individual, no la playlist
+                'geo_bypass': True,
+                'ffmpeg_location': base_dir,
             }
+
+            # Configurar post-procesado si es solo audio
+            if self.audio_only.get():
+                preferred = 'mp3' if self.audio_format.get().upper() == 'MP3' else 'opus'
+                ydl_opts['postprocessors'] = [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': preferred,
+                    'preferredquality': '0',  # mejor calidad
+                }]
+                # Evitar mezcla de video
+                ydl_opts['merge_output_format'] = None
+
+            # Adjuntar cookies si el usuario proporcionó un archivo
+            cookies_file = self.cookies_path.get().strip()
+            if cookies_file:
+                ydl_opts['cookiefile'] = cookies_file
             
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 # Get video info first
