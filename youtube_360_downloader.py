@@ -6,6 +6,12 @@ import sys
 import yt_dlp
 from datetime import datetime
 import pytz
+import shutil
+import zipfile
+import tempfile
+import platform
+import subprocess
+import requests
 
 class ModernYouTubeDownloader:
     def __init__(self, root):
@@ -36,7 +42,15 @@ class ModernYouTubeDownloader:
             return os.getcwd()
 
     def _find_ffmpeg(self):
-        """Busca ffmpeg/ffprobe en una carpeta local 'bin' o en PATH y devuelve ruta para yt-dlp."""
+        """Busca ffmpeg/ffprobe y asegura su disponibilidad.
+
+        Orden:
+        1) bin local preferente (junto al exe/carpeta base)
+        2) Si no existe, PATH del sistema (shutil.which)
+        3) Si en Windows y no está, descarga FFmpeg portable a un directorio escribible y devuélvelo
+
+        Devuelve: ruta del directorio que contiene ffmpeg/ffprobe o None si confiar en PATH
+        """
         base_dir = self._get_base_dir()
         local_bin = os.path.join(base_dir, 'bin')
         ffmpeg_exe = 'ffmpeg.exe' if os.name == 'nt' else 'ffmpeg'
@@ -48,9 +62,78 @@ class ModernYouTubeDownloader:
             self.log_message(f"🎬 FFmpeg encontrado en carpeta local: {local_bin}")
             return local_bin
 
-        # Si no está en bin, confiar en el PATH del sistema
-        self.log_message("ℹ️ FFmpeg no encontrado en carpeta local. Se intentará usar el del sistema (PATH).")
+        # Si no está en bin, intentar en PATH
+        ffmpeg_in_path = shutil.which(ffmpeg_exe)
+        ffprobe_in_path = shutil.which(ffprobe_exe)
+        if ffmpeg_in_path and ffprobe_in_path:
+            self.log_message("🔎 FFmpeg encontrado en PATH del sistema.")
+            return None  # yt-dlp lo encontrará en PATH
+
+        # En Windows, intentar auto-descargar FFmpeg portable
+        if os.name == 'nt':
+            try:
+                self.log_message("📥 FFmpeg no encontrado. Descargando FFmpeg portable (Windows)...")
+                bin_dir = self._get_writable_bin_dir()
+                os.makedirs(bin_dir, exist_ok=True)
+
+                ffmpeg_zip_url = 'https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip'
+                with tempfile.TemporaryDirectory() as tmpdir:
+                    zip_path = os.path.join(tmpdir, 'ffmpeg.zip')
+                    # Descargar
+                    r = requests.get(ffmpeg_zip_url, timeout=60)
+                    r.raise_for_status()
+                    with open(zip_path, 'wb') as f:
+                        f.write(r.content)
+                    # Extraer y copiar binarios
+                    with zipfile.ZipFile(zip_path, 'r') as zf:
+                        zf.extractall(tmpdir)
+                    # Buscar carpeta ffmpeg-*
+                    found = False
+                    for name in os.listdir(tmpdir):
+                        if name.lower().startswith('ffmpeg-'):
+                            cand_bin = os.path.join(tmpdir, name, 'bin')
+                            src_ffmpeg = os.path.join(cand_bin, 'ffmpeg.exe')
+                            src_ffprobe = os.path.join(cand_bin, 'ffprobe.exe')
+                            if os.path.exists(src_ffmpeg) and os.path.exists(src_ffprobe):
+                                shutil.copy2(src_ffmpeg, os.path.join(bin_dir, 'ffmpeg.exe'))
+                                shutil.copy2(src_ffprobe, os.path.join(bin_dir, 'ffprobe.exe'))
+                                found = True
+                                break
+                    if found and os.path.exists(os.path.join(bin_dir, 'ffmpeg.exe')) and os.path.exists(os.path.join(bin_dir, 'ffprobe.exe')):
+                        self.log_message(f"✅ FFmpeg portable instalado en: {bin_dir}")
+                        return bin_dir
+                    else:
+                        self.log_message("⚠️ No se pudo ubicar ffmpeg.exe/ffprobe.exe en el ZIP descargado.")
+            except Exception as e:
+                self.log_message(f"⚠️ Falló la descarga automática de FFmpeg: {e}")
+
+        # Último recurso: confiar en PATH (puede fallar si no está)
+        self.log_message("ℹ️ FFmpeg no encontrado. Se intentará usar el del sistema (PATH).")
         return None
+
+    def _get_writable_bin_dir(self):
+        """Devuelve una carpeta 'bin' escribible para almacenar FFmpeg portable.
+        Prioriza la carpeta base; si no es escribible, usa AppData Local en Windows.
+        """
+        base_dir = self._get_base_dir()
+        candidate = os.path.join(base_dir, 'bin')
+        try:
+            os.makedirs(candidate, exist_ok=True)
+            test_file = os.path.join(candidate, '.write_test')
+            with open(test_file, 'w') as f:
+                f.write('ok')
+            os.remove(test_file)
+            return candidate
+        except Exception:
+            pass
+
+        if os.name == 'nt':
+            local_appdata = os.environ.get('LOCALAPPDATA') or os.path.expanduser('~')
+            fallback = os.path.join(local_appdata, 'YouTubeUltraHD', 'bin')
+            return fallback
+        else:
+            # Unix-like fallback en HOME
+            return os.path.join(os.path.expanduser('~'), '.local', 'share', 'youtube_ultra_hd', 'bin')
 
     def setup_styles(self):
         """Configura estilos personalizados modernos"""
