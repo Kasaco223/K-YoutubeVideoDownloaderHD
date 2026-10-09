@@ -1,0 +1,43 @@
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'https://rr4---sn-ja5gvjv-hqxz.googlevideo.com/videoplayback?expire=1791604775&ei=x2PJataQE8qEut0PuOzNqQc&ip=181.58.39.154&id=o-AN2ITW_jCWBdSDllj77wrHrO9j0L4nFy33XrCgy_U-wF&itag=299&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&met=1791583175%2C&mh=aP&mm=18%2C29&mn=sn-ja5gvjv-hqxz%2Csn-ojcvb5-52&ms=aub%2Crdu&mv=m&mvi=4&pcm2cms=yes&pl=24&rms=aub%2Caub&initcwndbps=2289375&bui=AWzQHwqJPgs7oz8E9kJ0M_AOeNO9bVBtm-YeK15lE7IsAfVYccLKuV1p-70VmeZU4GiIz6_fkhT6HKvf&spc=I-rgIXK-tj6NhXGhfDyfmylrzgkEtXwllOtNfEACKKZoGADFcFGDD84d8GyS&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&gir=yes&clen=257619653&dur=634.566&lmt=1719195290537273&mt=1791582546&fvip=2&keepalive=yes&fexp=51565116%2C52112905%2C52184231%2C52250513&c=VISIONOS&txp=4532434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRgIhAPMkA0MsU6lpSbVsX1O6W8xddJYP0UEaCIgHWbIN9IDjAiEA8GEpmeIkwH7DaU9dr-71gWKAlnXAwB4ebZhwtstj7_4%3D&lsparams=met%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpcm2cms%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRAIgMk7ci2up_3AM-WmzBF_64DbC2Y4Ec0XoBbXgPI-8dTUCIAXUL_aufxn8QKLOvISecZpthfCdMB5fkyvN3RfobNIj':
+  Metadata:
+    major_brand     : dash
+    minor_version   : 0
+    compatible_brands: iso6avc1mp41
+    creation_time   : 2024-06-23T23:39:54.000000Z
+  Duration: 00:10:34.57, start: 0.000000, bitrate: 3247 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1920x1080 [SAR 1:1 DAR 16:9], 294 kb/s, 60 fps, 60 tbr, 15360 tbn (default)
+    Metadata:
+      creation_time   : 2024-06-23T23:39:54.000000Z
+      handler_name    : ISO Media file produced by Google Inc.
+Input #1, mov,mp4,m4a,3gp,3g2,mj2, from 'https://rr4---sn-ja5gvjv-hqxz.googlevideo.com/videoplayback?expire=1791604775&ei=x2PJataQE8qEut0PuOzNqQc&ip=181.58.39.154&id=o-AN2ITW_jCWBdSDllj77wrHrO9j0L4nFy33XrCgy_U-wF&itag=140&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&met=1791583175%2C&mh=aP&mm=18%2C29&mn=sn-ja5gvjv-hqxz%2Csn-ojcvb5-52&ms=aub%2Crdu&mv=m&mvi=4&pcm2cms=yes&pl=24&rms=aub%2Caub&initcwndbps=2289375&bui=AWzQHwqJPgs7oz8E9kJ0M_AOeNO9bVBtm-YeK15lE7IsAfVYccLKuV1p-70VmeZU4GiIz6_fkhT6HKvf&spc=I-rgIXK-tj6NhXGhfDyfmylrzgkEtXwllOtNfEACKKZoGADFcFGDD84d8GyS&vprv=1&svpuc=1&mime=audio%2Fmp4&rqh=1&gir=yes&clen=10271496&dur=634.624&lmt=1719185020722767&mt=1791582546&fvip=2&keepalive=yes&fexp=51565116%2C52112905%2C52184231%2C52250513&c=VISIONOS&txp=4532434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRQIgXwioszNmbtSjTxzHvt0--qIwk6CTDSYzge99TvwmkbkCIQDgLmkhoUi1Fb4m3i3ySHknSt90sUwmUOPrOmPGQB5nKg%3D%3D&lsparams=met%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpcm2cms%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRAIgMk7ci2up_3AM-WmzBF_64DbC2Y4Ec0XoBbXgPI-8dTUCIAXUL_aufxn8QKLOvISecZpthfCdMB5fkyvN3RfobNIj':
+  Metadata:
+    major_brand     : dash
+    minor_version   : 0
+    compatible_brands: iso6mp41
+    creation_time   : 2024-06-23T23:22:09.000000Z
+    encoder         : Google
+  Duration: 00:10:34.62, start: 0.000000, bitrate: 129 kb/s
+  Stream #1:0[0x1](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      creation_time   : 2024-06-23T23:22:09.000000Z
+      handler_name    : ISO Media file produced by Google Inc.
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #1:0 -> #0:1 (copy)
+Output #0, mp4, to 'file:C:\KD\t\rec_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp4.part':
+  Metadata:
+    major_brand     : dash
+    minor_version   : 0
+    compatible_brands: iso6avc1mp41
+    encoder         : Lavf63.1.102
+  Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 294 kb/s, 60 fps, 60 tbr, 15360 tbn (default)
+    Metadata:
+      creation_time   : 2024-06-23T23:39:54.000000Z
+      handler_name    : ISO Media file produced by Google Inc.
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      creation_time   : 2024-06-23T23:22:09.000000Z
+      handler_name    : ISO Media file produced by Google Inc.
+Press [q] to stop, [?] for help
+frame=   24 fps=0.0 q=-1.0 size=     256KiB time=00:00:00.00 bitrate=268914.9kbits/s speed=0.0152x elapsed=0:00:00.51    frame=   52 fps= 51 q=-1.0 size=     768KiB time=00:00:00.00 bitrate=806646.2kbits/s speed=0.00762x elapsed=0:00:01.02    frame=   83 fps= 54 q=-1.0 size=    1024KiB time=00:00:00.00 bitrate=1075511.8kbits/s speed=0.00503x elapsed=0:00:01.55    frame=  113 fps= 55 q=-1.0 size=    1536KiB time=00:00:00.35 bitrate=35336.4kbits/s speed=0.173x elapsed=0:00:02.05    frame=  142 fps= 55 q=-1.0 size=    2048KiB time=00:00:00.82 bitrate=20448.0kbits/s speed=0.318x elapsed=0:00:02.58    frame=  170 fps= 55 q=-1.0 size=    2304KiB time=00:00:01.28 bitrate=14689.7kbits/s speed=0.416x elapsed=0:00:03.08    frame=  200 fps= 56 q=-1.0 size=    2816KiB time=00:00:01.79 bitrate=12846.6kbits/s speed=0.499x elapsed=0:00:03.59    frame=  232 fps= 56 q=-1.0 size=    3072KiB time=00:00:02.32 bitrate=10801.9kbits/s speed=0.565x elapsed=0:00:04.12    frame=  251 fps= 54 q=-1.0 size=    3584KiB time=00:00:02.65 bitrate=11059.1kbits/s speed=0.572x elapsed=0:00:04.64    frame=  283 fps= 55 q=-1.0 size=    3840KiB time=00:00:03.18 bitrate=9864.6kbits/s speed=0.619x elapsed=0:00:05.15    frame=  292 fps= 52 q=-1.0 size=    3840KiB time=00:00:03.32 bitrate=9451.7kbits/s speed=0.588x elapsed=0:00:05.66    frame=  320 fps= 52 q=-1.0 size=    4608KiB time=00:00:03.79 bitrate=9953.2kbits/s speed=0.614x elapsed=0:00:06.17    [out#0/mp4 @ 00000185d8b80fc0] video:4928KiB audio:63KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.172510%
+frame=  339 fps= 52 q=-1.0 Lsize=    4999KiB time=00:00:04.00 bitrate=10234.3kbits/s speed=0.618x elapsed=0:00:06.47    

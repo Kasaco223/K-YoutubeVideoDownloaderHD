@@ -1,0 +1,14 @@
+Input #0, matroska,webm, from 'https://rr4---sn-ja5gvjv-hqxz.googlevideo.com/videoplayback?expire=1791604800&ei=4GPJava4AsGCut0P2qOdsQ8&ip=181.58.39.154&id=o-AOQlqZN4Ibz2wz3WG0JCRhobYlDWXZQQVxCx4tTjVd7_&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&met=1791583200%2C&mh=aP&mm=31%2C29&mn=sn-ja5gvjv-hqxz%2Csn-ojcvb5-52&ms=au%2Crdu&mv=m&mvi=4&pl=24&rms=au%2Cau&initcwndbps=2247625&bui=AWzQHwrkUbiHzLgVRLD3z7tSKu6pcvDKYZsXnpeqa_ZZxMMZCmR1MNO76tuKZdit7S1XoDYLKuoc9hBJ&spc=I-rgIXKPU-Mls-aomZ-RME4Kuj7eI4ts_BbIwPAQghWLAir9kFVy7xftB0om&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=10202210&dur=634.601&lmt=1719185012384481&mt=1791582818&fvip=2&keepalive=yes&fexp=51565116%2C52112905%2C52184231%2C52250513&c=VISIONOS&txp=4532434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRgIhAPmL9kbgWXbIaLwGkLIG0Yq9VZwYG0CmavcQGfKN7O1lAiEAz2xfFIt6FZzHfcE76ooJkz09rah9v2fmtnl4cwruw5o%3D&lsparams=met%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhAPiXLpqehZvFVpd-AH8O7f3hsG-hodzGij6HTbytLNk4AiEAlCvztClzYOAcmsdTp_6_OKY-X5QM3pgQwL2EZ_M91R0%3D':
+  Metadata:
+    encoder         : google/video-file
+  Duration: 00:10:34.60, start: 0.000000, bitrate: 128 kb/s
+  Stream #0:0(eng): Audio: opus, 48000 Hz, stereo, fltp (default)
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+Output #0, webm, to 'file:C:\KD\t\mp3_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].webm.part':
+  Metadata:
+    encoder         : Lavf63.1.102
+  Stream #0:0(eng): Audio: opus, 48000 Hz, stereo, fltp (default)
+Press [q] to stop, [?] for help
+[out#0/webm @ 00000211ba8675c0] video:0KiB audio:313KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 2.363592%
+size=     321KiB time=00:00:10.01 bitrate= 262.3kbits/s speed= 100x elapsed=0:00:00.09    

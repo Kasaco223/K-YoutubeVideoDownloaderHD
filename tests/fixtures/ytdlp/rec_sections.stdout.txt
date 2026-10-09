@@ -1,0 +1,24 @@
+[youtube] Extracting URL: https://www.youtube.com/watch?v=aqz-KE-bpKQ
+[youtube] aqz-KE-bpKQ: Downloading webpage
+[youtube] aqz-KE-bpKQ: Downloading visionos player API JSON
+[youtube] aqz-KE-bpKQ: Downloading m3u8 information
+[info] aqz-KE-bpKQ: Downloading 1 format(s): 299+140
+[info] aqz-KE-bpKQ: Downloading 1 time ranges: 10.0-14.0
+[info] Downloading video thumbnail 37 ...
+[info] Writing video thumbnail 37 to: C:\KD\t\rec_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].webp
+[download] Destination: C:\KD\t\rec_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp4
+KDL|dl|{"status": "finished", "downloaded_bytes": 5119248, "total_bytes": 5119248, "speed": 694034.1774025697, "elapsed": 7.37607479095459}|{"format_id": "299+140", "vcodec": "avc1.64002A", "acodec": "mp4a.40.2", "height": 1080}
+KDL|pp|{"status": "started", "postprocessor": "VideoRemuxer"}
+[VideoRemuxer] Not remuxing media file "C:\KD\t\rec_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp4"; already is in target format mp4
+KDL|pp|{"status": "finished", "postprocessor": "VideoRemuxer"}
+KDL|pp|{"status": "started", "postprocessor": "Metadata"}
+[Metadata] Adding metadata to "C:\KD\t\rec_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp4"
+KDL|pp|{"status": "finished", "postprocessor": "Metadata"}
+KDL|pp|{"status": "started", "postprocessor": "EmbedThumbnail"}
+[ThumbnailsConvertor] Converting thumbnail "C:\KD\t\rec_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].webp" to png
+[EmbedThumbnail] mutagen: Adding thumbnail to "C:\KD\t\rec_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp4"
+KDL|pp|{"status": "finished", "postprocessor": "EmbedThumbnail"}
+KDL|pp|{"status": "started", "postprocessor": "MoveFiles"}
+[MoveFiles] Moving file "C:\KD\t\rec_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp4" to "C:\KD\out\rec_sections\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp4"
+KDL|pp|{"status": "finished", "postprocessor": "MoveFiles"}
+KDL|file|"C:\\KD\\out\\rec_sections\\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp4"

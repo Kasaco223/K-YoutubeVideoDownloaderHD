@@ -1,0 +1,25 @@
+[youtube] Extracting URL: https://www.youtube.com/watch?v=aqz-KE-bpKQ
+[youtube] aqz-KE-bpKQ: Downloading webpage
+[youtube] aqz-KE-bpKQ: Downloading visionos player API JSON
+[youtube] aqz-KE-bpKQ: Downloading m3u8 information
+[info] aqz-KE-bpKQ: Downloading 1 format(s): 251
+[info] aqz-KE-bpKQ: Downloading 1 time ranges: 10.0-20.0
+[info] Downloading video thumbnail 37 ...
+[info] Writing video thumbnail 37 to: C:\KD\t\mp3_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].webp
+[download] Destination: C:\KD\t\mp3_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].webm
+KDL|dl|{"status": "finished", "downloaded_bytes": 328365, "total_bytes": 328365, "speed": 1106550.56900562, "elapsed": 0.29674649238586426}|{"format_id": "251", "vcodec": "none", "acodec": "opus"}
+KDL|pp|{"status": "started", "postprocessor": "ExtractAudio"}
+[ExtractAudio] Destination: C:\KD\t\mp3_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp3
+KDL|pp|{"status": "finished", "postprocessor": "ExtractAudio"}
+Deleting original file C:\KD\t\mp3_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].webm (pass -k to keep)
+KDL|pp|{"status": "started", "postprocessor": "Metadata"}
+[Metadata] Adding metadata to "C:\KD\t\mp3_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp3"
+KDL|pp|{"status": "finished", "postprocessor": "Metadata"}
+KDL|pp|{"status": "started", "postprocessor": "EmbedThumbnail"}
+[ThumbnailsConvertor] Converting thumbnail "C:\KD\t\mp3_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].webp" to png
+[EmbedThumbnail] ffmpeg: Adding thumbnail to "C:\KD\t\mp3_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp3"
+KDL|pp|{"status": "finished", "postprocessor": "EmbedThumbnail"}
+KDL|pp|{"status": "started", "postprocessor": "MoveFiles"}
+[MoveFiles] Moving file "C:\KD\t\mp3_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp3" to "C:\KD\out\mp3_sections\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp3"
+KDL|pp|{"status": "finished", "postprocessor": "MoveFiles"}
+KDL|file|"C:\\KD\\out\\mp3_sections\\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mp3"
