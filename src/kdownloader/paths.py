@@ -85,7 +85,13 @@ def install_root() -> Path | None:
 
 
 def console_python() -> Path:
-    """Intérprete con consola (python.exe) para lanzar el motor; con CREATE_NO_WINDOW no abre ventana."""
+    """Intérprete con consola (python.exe) para lanzar el motor; con CREATE_NO_WINDOW no abre ventana.
+
+    KD_ENGINE_PYTHON permite usar otro intérprete (p. ej. el runtime embebible) durante el desarrollo.
+    """
+    override = os.environ.get("KD_ENGINE_PYTHON")
+    if override:
+        return Path(override)
     exe = Path(sys.executable)
     if exe.name.lower() == "pythonw.exe":
         candidate = exe.with_name("python.exe")
