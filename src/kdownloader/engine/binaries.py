@@ -74,11 +74,22 @@ class EngineManager:
         self._busy = threading.Lock()
         self._in_use: dict[str, int] = {}
         self._last_emit = 0.0
-        self.manifest: dict[str, Any] = read_json(self.manifest_path, default=None) or {"components": {}, "checks": {}}
+        self.manifest: dict[str, Any] = self._load_manifest()
         self.states = {name: ComponentState(name) for name in COMPONENTS}
         self.refresh()
 
     # ------------------------------------------------------------------ estado
+    def _load_manifest(self) -> dict[str, Any]:
+        """Lee manifest.json tolerando archivos dañados o con otra forma (se tratan como vacíos)."""
+        raw = read_json(self.manifest_path, default=None)
+        if not isinstance(raw, dict):
+            return {"components": {}, "checks": {}}
+        comps = raw.get("components")
+        comps = {k: v for k, v in comps.items() if isinstance(v, dict)} if isinstance(comps, dict) else {}
+        checks = raw.get("checks")
+        checks = {k: v for k, v in checks.items() if isinstance(v, (int, float))} if isinstance(checks, dict) else {}
+        return {"components": comps, "checks": checks}
+
     def _entry(self, name: str) -> dict[str, Any]:
         return self.manifest.setdefault("components", {}).setdefault(name, {})
 
@@ -117,6 +128,10 @@ class EngineManager:
 
     def ready(self) -> bool:
         return all(self.states[n].state == "ready" for n in REQUIRED)
+
+    def busy(self) -> bool:
+        """True mientras se instala o actualiza algún componente."""
+        return self._busy.locked()
 
     def _emit(self, force: bool = False) -> None:
         now = time.monotonic()
@@ -160,20 +175,24 @@ class EngineManager:
             return Path(entry["system"])
         return None
 
-    def acquire(self) -> None:
-        """Marca las versiones actuales como en uso (no se borran mientras corre una descarga)."""
+    def acquire(self) -> tuple[str, ...]:
+        """Marca las versiones actuales como en uso y devuelve cuáles; pasarlas tal cual a release()."""
         with self._lock:
+            taken = []
             for name in COMPONENTS:
                 rel = (self.manifest.get("components", {}).get(name) or {}).get("current")
                 if rel:
                     self._in_use[rel] = self._in_use.get(rel, 0) + 1
+                    taken.append(rel)
+            return tuple(taken)
 
-    def release(self) -> None:
+    def release(self, taken: tuple[str, ...] = ()) -> None:
         with self._lock:
-            for name in COMPONENTS:
-                rel = (self.manifest.get("components", {}).get(name) or {}).get("current")
-                if rel and self._in_use.get(rel):
+            for rel in taken:
+                if self._in_use.get(rel):
                     self._in_use[rel] -= 1
+                    if not self._in_use[rel]:
+                        del self._in_use[rel]
 
     # ------------------------------------------------------------------ instalación
     def ensure(self, channel: str = "nightly", cancel: threading.Event | None = None,
@@ -276,10 +295,13 @@ class EngineManager:
         folder = self.root / name
         if not folder.is_dir():
             return
+        def covers(k: str | None, rel: str) -> bool:
+            return bool(k) and (k == rel or k.startswith(rel + "/"))
+
         for child in folder.iterdir():
             rel = f"{name}/{child.name}"
-            if not any(k and k.startswith(rel) for k in keep) and not any(
-                    k.startswith(rel) and n for k, n in self._in_use.items()):
+            if not any(covers(k, rel) for k in keep) and not any(
+                    covers(k, rel) and n for k, n in self._in_use.items()):
                 shutil.rmtree(child, ignore_errors=True)
 
     def _run_check(self, args: list[str]) -> str:

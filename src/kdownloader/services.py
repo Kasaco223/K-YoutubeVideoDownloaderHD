@@ -28,8 +28,13 @@ def system_language() -> str:
         try:
             import ctypes
 
-            primary = ctypes.windll.kernel32.GetUserDefaultUILanguage() & 0x3FF
-            return "es" if primary == 0x0A else "en"
+            # Español si lo es el idioma de Windows o el formato regional (muchas PCs en Latinoamérica
+            # tienen Windows en inglés con formato regional en español).
+            k32 = ctypes.windll.kernel32
+            spanish = 0x0A
+            if (k32.GetUserDefaultUILanguage() & 0x3FF) == spanish or (k32.GetUserDefaultLCID() & 0x3FF) == spanish:
+                return "es"
+            return "en"
         except OSError:
             pass
     lang = (os.environ.get("LANG") or "es").lower()

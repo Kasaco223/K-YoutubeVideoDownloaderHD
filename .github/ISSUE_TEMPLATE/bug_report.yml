@@ -1,0 +1,100 @@
+name: Reportar un problema
+description: Algo no funciona como debería en K-Downloader.
+title: "[Error] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por avisar. Antes de escribir, revisa el [centro de ayuda](https://kdownloader.vercel.app/ayuda):
+        cada error de la app tiene ahí su código y su solución.
+
+        **Nunca pegues cookies, archivos `cookies.txt`, contraseñas ni datos personales.** Este reporte es público.
+
+        *English is welcome too.*
+
+  - type: input
+    id: version
+    attributes:
+      label: Versión de K-Downloader
+      description: La encuentras en Ajustes → Acerca de.
+      placeholder: "2.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: windows
+    attributes:
+      label: Versión de Windows
+      description: Si no estás seguro, pulsa Win + R, escribe `winver` y pulsa Enter.
+      options:
+        - Windows 11
+        - Windows 10
+        - Otra
+    validations:
+      required: true
+
+  - type: dropdown
+    id: sac
+    attributes:
+      label: Smart App Control
+      description: Configuración → Privacidad y seguridad → Seguridad de Windows → Control de aplicaciones y navegador.
+      options:
+        - No sé
+        - Activado
+        - En evaluación
+        - Desactivado
+    validations:
+      required: false
+
+  - type: input
+    id: link
+    attributes:
+      label: Enlace del video (opcional)
+      description: Solo si es público. No compartas enlaces privados ni de contenido que no se pueda mostrar aquí.
+      placeholder: https://www.youtube.com/watch?v=...
+    validations:
+      required: false
+
+  - type: textarea
+    id: what
+    attributes:
+      label: ¿Qué pasó?
+      description: Qué intentabas hacer, qué esperabas y qué pasó en realidad. Si puedes repetirlo, cuenta los pasos.
+      placeholder: |
+        1. Pegué el enlace de un video.
+        2. Elegí "Video recomendado".
+        3. La descarga se quedó en "Uniendo audio y video" y luego mostró un error.
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Detalles técnicos
+      description: |
+        En la tarjeta del error, pulsa **Ver detalles → Copiar detalles** y pégalo aquí.
+        Antes de enviar, revisa que no haya rutas o nombres que no quieras mostrar.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Registro de la app (opcional)
+      description: |
+        Si te lo pedimos, adjunta el archivo `%LOCALAPPDATA%\K-Downloader\logs\app.log`: arrástralo a este cuadro.
+        Para abrir la carpeta, pulsa Win + R, pega `%LOCALAPPDATA%\K-Downloader\logs` y pulsa Enter.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Antes de enviar
+      options:
+        - label: Revisé el [centro de ayuda](https://kdownloader.vercel.app/ayuda) y las preguntas frecuentes del README.
+          required: true
+        - label: No incluí cookies, contraseñas ni datos personales.
+          required: true

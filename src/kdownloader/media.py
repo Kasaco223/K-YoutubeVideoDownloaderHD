@@ -185,7 +185,7 @@ class MediaService:
         summary = ytdlp.summarize(info)
         is_yt = ytdlp.is_youtube(str(summary.get("url") or clean))
         media: dict[str, Any] = {
-            "token": short_id(), "title": summary["title"], "uploader": summary["uploader"],
+            "token": short_id(), "id": summary.get("id"), "title": summary["title"], "uploader": summary["uploader"],
             "duration": summary.get("duration"), "thumbnail": summary.get("thumbnail"),
             "url": summary.get("url") or clean, "site": site_name(info, clean), "is_youtube": is_yt,
             "is_live": summary.get("is_live", False), "age_limit": summary.get("age_limit", 0),
@@ -208,9 +208,11 @@ class MediaService:
             sims = ytdlp.simulate(self._config(), info, choices)
             duration = summary.get("duration")
             has_video = summary.get("has_video", False)
+            rec = sims.get("recommended") if has_video else None
+            best = sims.get("max") if has_video else None
             media["options"] = [
-                option_from_sim("recommended", sims.get("recommended") if has_video else None, "video", "mp4", duration),
-                option_from_sim("max", sims.get("max") if has_video else None, "video", "mkv", duration),
+                option_from_sim("recommended", rec, "video", "mp4", duration),
+                option_from_sim("max", best, "video", "mkv", duration),
                 option_from_sim("mp3", sims.get("mp3"), "audio", "mp3", duration),
             ]
             media["more"] = estimate_heights(info, summary, max_codec)

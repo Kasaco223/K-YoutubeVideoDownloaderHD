@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>K-Downloader · Descarga tus videos en la mejor calidad</title>
+  <meta name="description" content="Descarga tus videos favoritos de YouTube y más de mil sitios en la mejor calidad, hasta 4K, o solo el audio en MP3. Gratis, sin anuncios y de código abierto. Para Windows 10 y 11.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#101218" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
+  <link rel="canonical" href="https://kdownloader.vercel.app/">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_419">
+  <meta property="og:site_name" content="K-Downloader">
+  <meta property="og:title" content="K-Downloader · Descarga tus videos en la mejor calidad">
+  <meta property="og:description" content="Gratis, sin anuncios y de código abierto. YouTube hasta 4K, solo audio en MP3, listas completas y errores explicados en español.">
+  <meta property="og:url" content="https://kdownloader.vercel.app/">
+  <meta property="og:image" content="https://kdownloader.vercel.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo de K-Downloader con el lema: descarga tus videos favoritos en la mejor calidad">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <script type="module" src="/js/home.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="/" aria-label="K-Downloader, inicio">
+        <img src="/assets/logo.svg" alt="" width="32" height="32">
+        <span>K-Downloader</span>
+      </a>
+      <nav class="site-nav" aria-label="Principal">
+        <a class="nav-optional" href="#funciones">Funciones</a>
+        <a class="nav-optional" href="#instalar">Instalar</a>
+        <a class="nav-optional" href="/ayuda">Ayuda</a>
+        <a href="https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD" rel="noopener">
+          <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-github"/></svg>
+          <span class="nav-github-label">GitHub</span>
+        </a>
+        <a class="btn btn-primary btn-sm" href="/descargar">Descargar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <!-- ============ Hero ============ -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="hero-badge"><span class="hero-badge-dot" aria-hidden="true"></span>Gratis · Sin anuncios · Código abierto</p>
+          <h1 class="hero-title" id="hero-title">
+            <img class="hero-logo" src="/assets/logo.svg" alt="" width="72" height="72">
+            <span class="gradient-text">K-Downloader</span>
+          </h1>
+          <p class="hero-lead"><strong>Descarga tus videos favoritos en la mejor calidad.</strong> Gratis, sin anuncios y de código abierto.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="/descargar" id="cta-download">
+              <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-download"/></svg>
+              Descargar para Windows
+            </a>
+            <a class="hero-link" href="https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/releases" rel="noopener">
+              <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-github"/></svg>
+              Ver en GitHub
+            </a>
+          </div>
+          <p class="hero-meta">
+            <span id="release-label" data-fallback="Windows 10 y 11">Windows 10 y 11</span>
+            <span class="hero-meta-sep" aria-hidden="true"></span>
+            <span>Sin permisos de administrador</span>
+          </p>
+          <p class="hero-note">Se descarga <code>Instalar-K-Downloader.cmd</code>, un archivo pequeño. <a href="#instalar">¿Cómo se instala?</a></p>
+        </div>
+
+        <div class="hero-visual">
+          <div class="mock-wrap">
+            <div class="mock-glow" aria-hidden="true"></div>
+            <div class="mock" role="img" aria-label="Vista previa de K-Downloader: un video pegado con tres opciones de calidad (recomendado MP4 1080p, máxima calidad 4K y solo audio MP3) y una descarga en curso que termina con éxito.">
+              <div class="mock-titlebar">
+                <span class="mock-app"><img src="/assets/logo.svg" alt="" width="16" height="16">K-Downloader</span>
+                <span class="mock-winctl">
+                  <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-minus"/></svg>
+                  <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-square"/></svg>
+                  <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-x"/></svg>
+                </span>
+              </div>
+              <div class="mock-body">
+                <div class="mock-rail">
+                  <span class="mock-rail-item is-active"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-download"/></svg></span>
+                  <span class="mock-rail-item"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-history"/></svg></span>
+                  <span class="mock-rail-item mock-rail-end"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-settings"/></svg></span>
+                </div>
+                <div class="mock-main">
+                  <div class="mock-url">
+                    <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-link"/></svg>
+                    <span class="mock-url-text">https://youtu.be/aqz-KE-bpKQ</span>
+                    <span class="mock-paste"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-paste"/></svg>Pegar</span>
+                  </div>
+
+                  <div class="mock-media">
+                    <div class="mock-thumb thumb-bbb">
+                      <span class="mock-play"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-play"/></svg></span>
+                      <span class="mock-dur">10:35</span>
+                    </div>
+                    <div class="mock-media-info">
+                      <span class="mock-title">Big Buck Bunny 60fps 4K</span>
+                      <span class="mock-sub">Blender · YouTube</span>
+                      <span class="mock-badges"><span>4K</span><span>60 fps</span></span>
+                    </div>
+                  </div>
+
+                  <div class="mock-options">
+                    <span class="mock-opt is-selected">
+                      <span class="mock-opt-name">Recomendado</span>
+                      <span class="mock-opt-q">MP4 · 1080p60</span>
+                      <span class="mock-opt-size">≈ 390 MB</span>
+                    </span>
+                    <span class="mock-opt">
+                      <span class="mock-opt-name">Máxima</span>
+                      <span class="mock-opt-q">MKV · 4K</span>
+                      <span class="mock-opt-size">≈ 1.5 GB</span>
+                    </span>
+                    <span class="mock-opt">
+                      <span class="mock-opt-name">Solo audio</span>
+                      <span class="mock-opt-q">MP3</span>
+                      <span class="mock-opt-size">≈ 19 MB</span>
+                    </span>
+                  </div>
+
+                  <div class="mock-actions">
+                    <span class="mock-save"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-folder"/></svg>Descargas › K-Downloader</span>
+                    <span class="mock-dl"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-download"/></svg>Descargar</span>
+                  </div>
+
+                  <span class="mock-label">Descargas</span>
+
+                  <div class="mock-job mock-job-live">
+                    <div class="mock-thumb thumb-bbb sm"></div>
+                    <div class="mock-job-body">
+                      <span class="mock-job-row">
+                        <span class="mock-job-title">Big Buck Bunny 60fps 4K</span>
+                        <span class="mock-pct"></span>
+                        <span class="mock-done-check"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-check"/></svg></span>
+                      </span>
+                      <span class="mock-bar"><span class="mock-bar-fill"></span></span>
+                      <span class="mock-job-row mock-job-meta">
+                        <span class="mock-stages">
+                          <span class="mock-stage s1">Paso 1 de 2 · Video 1080p</span>
+                          <span class="mock-stage s2">Paso 2 de 2 · Audio</span>
+                          <span class="mock-stage s3">Uniendo audio y video</span>
+                          <span class="mock-stage s4">Listo · MP4 1080p · 392 MB</span>
+                        </span>
+                        <span class="mock-speed">12.4 MB/s · quedan ~1 min</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="mock-job mock-job-done">
+                    <div class="mock-thumb thumb-sintel sm"></div>
+                    <div class="mock-job-body">
+                      <span class="mock-job-row">
+                        <span class="mock-job-title">Sintel · Blender Open Movie</span>
+                        <span class="mock-ok"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-circle-check"/></svg></span>
+                      </span>
+                      <span class="mock-job-row mock-job-meta">
+                        <span>Listo · MP3 · 27 MB</span>
+                        <span class="mock-open"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-folder"/></svg>Mostrar en carpeta</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Funciones ============ -->
+    <section class="section" id="funciones" aria-labelledby="funciones-title">
+      <div class="container">
+        <div class="section-head center">
+          <p class="eyebrow">Funciones</p>
+          <h2 class="section-title" id="funciones-title">Todo lo que necesitas, nada que te estorbe</h2>
+          <p class="section-lead">Pega un enlace, elige la calidad y listo. K-Downloader se encarga de lo difícil.</p>
+        </div>
+
+        <ul class="features">
+          <li class="feature feature-wide">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-monitor-play"/></svg></span>
+            <div>
+              <h3>YouTube hasta 4K</h3>
+              <p>MP4 en 1080p que se reproduce en cualquier lado, o la máxima calidad disponible, hasta 4K a 60 fps. Antes de descargar ves la calidad real y el tamaño de cada opción.</p>
+              <p class="quality-ladder" aria-label="Calidades disponibles">
+                <span>360p</span><span>720p</span><span>1080p</span><span>1440p</span><span class="is-top">4K</span>
+              </p>
+            </div>
+          </li>
+          <li class="feature">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-headphones"/></svg></span>
+            <h3>Solo audio en MP3</h3>
+            <p>Guarda solo el sonido, con portada y datos del artista. También en M4A.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-list-video"/></svg></span>
+            <h3>Listas completas</h3>
+            <p>Descarga una lista de reproducción entera o elige solo los videos que quieras.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-refresh"/></svg></span>
+            <h3>Se actualiza sola</h3>
+            <p>YouTube cambia seguido. La app pone al día su motor de descarga en segundo plano, sin reinstalar nada.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-message-text"/></svg></span>
+            <h3>Errores explicados en español</h3>
+            <p>Si algo falla, te dice qué pasó en palabras simples y qué puedes hacer. Cuando puede, lo arregla sola.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-shield-check"/></svg></span>
+            <h3>Sin anuncios ni rastreo</h3>
+            <p>Sin publicidad, sin cuentas y sin enviar tus datos a nadie. Tus descargas se quedan en tu PC.</p>
+          </li>
+          <li class="feature feature-wide feature-code">
+            <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-code"/></svg></span>
+            <div>
+              <h3>Código abierto</h3>
+              <p>Licencia MIT. Puedes revisar cada línea, proponer mejoras o reportar problemas en GitHub.</p>
+              <p class="quality-ladder" aria-label="Hecho con">
+                <span>Python</span><span>yt-dlp</span><span>FFmpeg</span><span>WebView2</span>
+              </p>
+              <a class="feature-link" href="https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD" rel="noopener">
+                Ver el código <svg class="icon icon-sm" aria-hidden="true"><use href="/assets/icons.svg#i-arrow-right"/></svg>
+              </a>
+            </div>
+          </li>
+        </ul>
+
+        <p class="sites-note">
+          <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-globe"/></svg>
+          <span>También funciona con TikTok, Instagram, X, Facebook, Vimeo, SoundCloud y más de mil sitios.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ Cómo funciona ============ -->
+    <section class="section section-alt" id="como-funciona" aria-labelledby="como-title">
+      <div class="container">
+        <div class="section-head center">
+          <p class="eyebrow">Cómo funciona</p>
+          <h2 class="section-title" id="como-title">Tres pasos y listo</h2>
+        </div>
+        <ol class="steps">
+          <li class="step">
+            <span class="step-num" aria-hidden="true">1</span>
+            <span class="step-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-link"/></svg></span>
+            <h3>Copia el enlace</h3>
+            <p>Desde la barra de direcciones o el botón Compartir de YouTube, TikTok, Instagram y más.</p>
+          </li>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">2</span>
+            <span class="step-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-paste"/></svg></span>
+            <h3>Pégalo en K-Downloader</h3>
+            <p>Pulsa <strong>Pegar</strong> o usa <kbd>Ctrl</kbd> + <kbd>V</kbd> en cualquier parte. La app te muestra la calidad real y el tamaño de cada opción.</p>
+          </li>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">3</span>
+            <span class="step-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-download"/></svg></span>
+            <h3>Elige y descarga</h3>
+            <p>Recomendado, máxima calidad o solo audio. El archivo queda en tu carpeta <strong>Descargas › K-Downloader</strong>.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ Instalar ============ -->
+    <section class="section" id="instalar" aria-labelledby="instalar-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Instalación</p>
+          <h2 class="section-title" id="instalar-title">Instalar en 1 minuto</h2>
+          <p class="section-lead">La descarga es un archivo pequeño, <code>Instalar-K-Downloader.cmd</code>, que instala la app solo para tu usuario. No necesitas permisos de administrador.</p>
+        </div>
+
+        <div class="install-grid">
+          <ol class="install-steps">
+            <li class="install-step">
+              <div class="install-text">
+                <h3>Descarga el instalador</h3>
+                <p>Pulsa <strong>Descargar para Windows</strong>. Se baja <code>Instalar-K-Downloader.cmd</code>, un archivo de texto de pocos KB.</p>
+              </div>
+              <div class="illus illus-file" aria-hidden="true">
+                <span class="illus-file-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-file-code"/></svg></span>
+                <span class="illus-file-name">Instalar-K-Downloader.cmd</span>
+                <span class="illus-file-size">Archivo de comandos · pocos KB</span>
+              </div>
+            </li>
+            <li class="install-step">
+              <div class="install-text">
+                <h3>Si el navegador avisa, elige «Conservar»</h3>
+                <p>Los navegadores advierten sobre cualquier archivo <code>.cmd</code>. Abre el aviso de la descarga y elige <strong>Conservar</strong> (<span lang="en">Keep</span>). En Edge quizá tengas que pulsar <strong>Mostrar más › Conservar de todos modos</strong>.</p>
+              </div>
+              <div class="illus illus-browser" aria-hidden="true">
+                <span class="illus-browser-row">
+                  <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-alert"/></svg>
+                  <span><strong>Instalar-K-Downloader.cmd</strong><br>Este tipo de archivo puede dañar tu equipo.</span>
+                </span>
+                <span class="illus-buttons">
+                  <span class="illus-btn">Eliminar</span>
+                  <span class="illus-btn is-primary">Conservar</span>
+                </span>
+              </div>
+            </li>
+            <li class="install-step">
+              <div class="install-text">
+                <h3>Ábrelo y confirma</h3>
+                <p>Si aparece <strong>«Windows protegió tu PC»</strong>, pulsa <strong>Más información</strong> y luego <strong>Ejecutar de todas formas</strong>. Windows lo muestra con cualquier programa nuevo que todavía no conoce.</p>
+              </div>
+              <div class="illus illus-smartscreen" aria-hidden="true">
+                <span class="illus-ss-title">Windows protegió tu PC</span>
+                <span class="illus-ss-text">SmartScreen de Microsoft Defender impidió que se iniciara una aplicación no reconocida.</span>
+                <span class="illus-ss-link">Más información</span>
+                <span class="illus-ss-btn">Ejecutar de todas formas</span>
+              </div>
+            </li>
+            <li class="install-step">
+              <div class="install-text">
+                <h3>¡Listo!</h3>
+                <p>El instalador baja la app desde GitHub, comprueba su huella SHA-256 y la abre. La encontrarás en el menú Inicio.</p>
+              </div>
+              <ul class="install-facts">
+                <li><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-user"/></svg>Solo para tu usuario</li>
+                <li><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-lock"/></svg>Sin permisos de administrador</li>
+                <li><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-trash"/></svg>Se desinstala desde Configuración › Aplicaciones</li>
+              </ul>
+            </li>
+          </ol>
+
+          <aside class="why-cmd" aria-labelledby="why-cmd-title">
+            <span class="why-cmd-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-shield-check"/></svg></span>
+            <h3 id="why-cmd-title">¿Por qué un <code>.cmd</code> y no un <code>.exe</code>?</h3>
+            <p>Windows 11 incluye el <strong>Control inteligente de aplicaciones</strong>, que bloquea cualquier programa nuevo sin firma digital. Esa firma cuesta cientos de dólares al año, algo que un proyecto gratuito no puede pagar.</p>
+            <p>Por eso K-Downloader no trae un <code>.exe</code> propio: funciona sobre <strong>Python oficial</strong>, firmado por la Python Software Foundation, y así corre incluso con esa protección activada.</p>
+            <p>El instalador es un archivo de texto: puedes abrirlo con el Bloc de notas y ver exactamente qué hace.</p>
+            <a class="why-cmd-link" href="/ayuda#control-inteligente">Más detalles en la ayuda <svg class="icon icon-sm" aria-hidden="true"><use href="/assets/icons.svg#i-arrow-right"/></svg></a>
+          </aside>
+        </div>
+
+        <p class="requirements">
+          <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-info"/></svg>
+          <span><strong>Requisitos:</strong> Windows 10 u 11 de 64 bits y conexión a internet. En el primer uso, la app prepara sus componentes (el motor yt-dlp y el conversor FFmpeg) desde sus fuentes oficiales.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ Abrir en la app ============ -->
+    <section class="section section-alt" id="abrir" aria-labelledby="abrir-title">
+      <div class="container">
+        <div class="section-head center">
+          <p class="eyebrow">Atajos</p>
+          <h2 class="section-title" id="abrir-title">Del navegador a la app en un clic</h2>
+          <p class="section-lead">Si ya tienes K-Downloader, puedes mandarle videos sin copiar y pegar.</p>
+        </div>
+
+        <div class="shortcut-grid">
+          <article class="shortcut card" aria-labelledby="marcador-title">
+            <h3 id="marcador-title"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-bookmark"/></svg>Botón para tu barra de favoritos</h3>
+            <p class="muted">Arrástralo a tu barra de favoritos. Cuando estés viendo un video, haz clic en él y se abrirá en K-Downloader.</p>
+            <div class="bookmarklet-zone">
+              <a class="bookmarklet" id="bookmarklet" href="javascript:location.href='kdownloader://download?url='+encodeURIComponent(location.href)" title="Arrástrame a tu barra de favoritos" aria-describedby="bookmarklet-help">
+                <svg class="icon bookmarklet-grip" aria-hidden="true"><use href="/assets/icons.svg#i-grip"/></svg>
+                <img src="/assets/logo.svg" alt="" width="20" height="20">
+                Descargar con K-Downloader
+              </a>
+              <span class="bookmarklet-arrow" aria-hidden="true">Arrástrame</span>
+            </div>
+            <p class="bookmarklet-hint" id="bookmarklet-hint" role="status"></p>
+            <ol class="mini-steps" id="bookmarklet-help">
+              <li>Muestra la barra de favoritos con <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>.</li>
+              <li>Arrastra el botón de arriba hasta la barra.</li>
+              <li>En la página de un video, haz clic en el favorito y elige <strong class="nowrap">Abrir K-Downloader</strong> cuando el navegador pregunte.</li>
+            </ol>
+            <p class="small muted">Funciona en Chrome, Edge, Firefox y Brave en computadora.</p>
+          </article>
+
+          <article class="shortcut card" aria-labelledby="ya-tengo-title">
+            <h3 id="ya-tengo-title"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-zap"/></svg>¿Ya tienes la app?</h3>
+            <p class="muted">Pega un enlace y ábrelo directo en K-Downloader. La app siempre te muestra una vista previa antes de descargar.</p>
+            <form class="open-form" id="open-form" novalidate>
+              <label class="sr-only" for="open-url">Enlace del video</label>
+              <div class="open-field">
+                <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-link"/></svg>
+                <input id="open-url" name="url" type="url" inputmode="url" autocomplete="off" spellcheck="false"
+                       placeholder="https://www.youtube.com/watch?v=…" aria-describedby="open-status">
+              </div>
+              <button class="btn btn-primary" type="submit">
+                Abrir en K-Downloader
+                <svg class="icon icon-sm" aria-hidden="true"><use href="/assets/icons.svg#i-arrow-right"/></svg>
+              </button>
+            </form>
+            <div class="open-status" id="open-status" role="status" aria-live="polite"></div>
+            <p class="example-line">¿No tienes un enlace a mano? <button type="button" class="link-button" id="open-example">Prueba con un video libre</button></p>
+            <ul class="open-notes">
+              <li><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-lock"/></svg><span>El enlace no pasa por ningún servidor: va directo de tu navegador a la app.</span></li>
+              <li><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-list-video"/></svg><span>Acepta videos, Shorts y listas de YouTube, y enlaces de más de mil sitios.</span></li>
+              <li><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-shield-check"/></svg><span>La app nunca descarga nada sin que tú lo confirmes.</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Preguntas ============ -->
+    <section class="section" id="preguntas" aria-labelledby="faq-title">
+      <div class="container faq-layout">
+        <div class="section-head">
+          <p class="eyebrow">Preguntas frecuentes</p>
+          <h2 class="section-title" id="faq-title">Lo que más nos preguntan</h2>
+          <p class="section-lead">¿No encuentras tu duda? Revisa el <a href="/ayuda">centro de ayuda</a> o <a href="https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/issues" rel="noopener">pregunta en GitHub</a>.</p>
+        </div>
+
+        <div class="faq">
+          <details class="faq-item">
+            <summary>¿Es gratis?<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-chevron-down"/></svg></summary>
+            <div class="faq-body">
+              <p>Sí, totalmente. No tiene anuncios, ni cuentas, ni versión «pro», ni límites de descargas. Es un proyecto de código abierto con licencia MIT.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Es seguro?<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-chevron-down"/></svg></summary>
+            <div class="faq-body">
+              <p>Todo el código es público y puedes revisarlo en GitHub. El instalador es un archivo de texto que puedes leer antes de abrirlo, y verifica la huella SHA-256 de todo lo que descarga. Los componentes (yt-dlp, FFmpeg y Deno) se bajan de sus fuentes oficiales y también se verifican.</p>
+              <p>La app no tiene anuncios ni rastreo, y no envía tus datos a nadie. Si Windows muestra un aviso es porque el programa no tiene una firma digital de pago, no porque haya detectado algo. <a href="/ayuda#smartscreen">Más sobre los avisos de Windows</a>.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Por qué no hay versión web?<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-chevron-down"/></svg></summary>
+            <div class="faq-body">
+              <p>Porque YouTube bloquea los servidores en la nube, y los enlaces de descarga solo funcionan desde la conexión que los pidió. Por eso la descarga tiene que hacerse en tu PC.</p>
+              <p>De paso, es más privado: tus videos no pasan por servidores de nadie más.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿En qué sitios funciona?<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-chevron-down"/></svg></summary>
+            <div class="faq-body">
+              <p>YouTube (videos, Shorts, listas y YouTube Music) y más de mil sitios: TikTok, Instagram, X, Facebook, Vimeo, SoundCloud, Twitch y muchos más.</p>
+              <p>Algunos sitios piden iniciar sesión o limitan las descargas. Si eso pasa, la app te lo explica.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Qué hago si dice «403» o que el sitio bloqueó la descarga?<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-chevron-down"/></svg></summary>
+            <div class="faq-body">
+              <p>Nada: la app actualiza su motor sola y vuelve a intentarlo. Suele pasar cuando YouTube cambia algo.</p>
+              <p>Si sigue fallando, es posible que la corrección tarde unos días en salir. <a href="/ayuda#http_403">Más sobre este error</a>.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Es legal?<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-chevron-down"/></svg></summary>
+            <div class="faq-body">
+              <p>Depende de lo que descargues y de las leyes de tu país. Descargar tu propio contenido, videos de dominio público o con licencia Creative Commons, o con permiso del autor, es un uso responsable.</p>
+              <p>Respeta los términos de cada plataforma y los derechos de los creadores. <a href="/uso-responsable">Lee la guía de uso responsable</a>.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Funciona en Mac, Linux o el celular?<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-chevron-down"/></svg></summary>
+            <div class="faq-body">
+              <p>Por ahora solo en Windows 10 y 11 de 64 bits.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Cómo la desinstalo?<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-chevron-down"/></svg></summary>
+            <div class="faq-body">
+              <p>Ve a <strong>Configuración › Aplicaciones › Aplicaciones instaladas</strong>, busca K-Downloader y elige <strong>Desinstalar</strong>. Tus videos descargados no se borran.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Llamado final ============ -->
+    <section class="final-cta" aria-labelledby="final-title">
+      <div class="container">
+        <div class="final-card">
+          <img src="/assets/logo.svg" alt="" width="56" height="56">
+          <h2 id="final-title">Tus videos, en la mejor calidad</h2>
+          <p>Gratis, sin anuncios y de código abierto. Para Windows 10 y 11.</p>
+          <a class="btn btn-primary btn-lg" href="/descargar">
+            <svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-download"/></svg>
+            Descargar para Windows
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/">
+            <img src="/assets/logo.svg" alt="" width="32" height="32">
+            <span>K-Downloader</span>
+          </a>
+          <p>Descarga tus videos favoritos en la mejor calidad. Gratis, sin anuncios y de código abierto.</p>
+        </div>
+        <nav class="footer-col" aria-labelledby="footer-producto">
+          <h2 id="footer-producto">Producto</h2>
+          <ul>
+            <li><a href="/descargar">Descargar para Windows</a></li>
+            <li><a href="/#instalar">Cómo instalar</a></li>
+            <li><a href="/ayuda">Centro de ayuda</a></li>
+            <li><a href="https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/releases" rel="noopener">Versiones y novedades</a></li>
+          </ul>
+        </nav>
+        <nav class="footer-col" aria-labelledby="footer-proyecto">
+          <h2 id="footer-proyecto">Proyecto</h2>
+          <ul>
+            <li><a href="https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD" rel="noopener">Código en GitHub</a></li>
+            <li><a href="https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/issues" rel="noopener">Reportar un problema</a></li>
+            <li><a href="/uso-responsable">Uso responsable</a></li>
+            <li><a href="https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/blob/master/LICENSE" rel="noopener">Licencia MIT</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-legal">
+        <p>© 2026 Kasaco223 · Código abierto con licencia MIT.</p>
+        <p>No afiliado a YouTube ni a Google. YouTube es una marca de Google LLC. Íconos de <a href="/assets/icons-LICENSE.txt">Lucide</a> (ISC).</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

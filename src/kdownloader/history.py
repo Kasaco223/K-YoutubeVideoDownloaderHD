@@ -31,7 +31,8 @@ class HistoryItem:
         d = asdict(self)
         path = Path(self.file_path) if self.file_path else None
         d.pop("file_path")
-        d.pop("url")
+        if not str(self.url).startswith(("https://", "http://")):
+            d["url"] = None
         d["file_name"] = path.name if path else None
         d["file_exists"] = bool(path and path.exists())
         return d

@@ -6,6 +6,7 @@ descarga para usar el instalador nuevo.
 
 from __future__ import annotations
 
+import http.client
 import json
 import re
 import shutil
@@ -22,11 +23,16 @@ from .engine import fetch
 from .util import log, read_json, write_json_atomic
 
 CHECK_EVERY = 24 * 3600
-_VER_RE = re.compile(r"^\d+\.\d+\.\d+$")
+_VER_RE = re.compile(r"^(\d+)\.(\d+)\.(\d+)(?:-rc\.(\d+))?$")
 
 
 def _ver(v: str) -> tuple[int, ...]:
-    return tuple(int(x) for x in v.split("."))
+    """'2.1.0' > '2.1.0-rc.2' > '2.1.0-rc.1' > '2.0.9'. Versiones raras valen (0,0,0)."""
+    m = _VER_RE.match(str(v).strip())
+    if not m:
+        return (0, 0, 0, 0)
+    major, minor, patch, rc = m.groups()
+    return int(major), int(minor), int(patch), int(rc) if rc else 10**6
 
 
 def runtime_id(root: Path | None) -> str | None:
@@ -49,7 +55,7 @@ class SelfUpdater:
             return self._view(cached) if cached else None
         try:
             data = json.loads(fetch.get_text(LATEST_JSON_URL, timeout=15, limit=64_000))
-        except (OSError, ValueError) as exc:
+        except (OSError, ValueError, http.client.HTTPException) as exc:
             log.info("No se pudo consultar actualizaciones: %s", exc)
             return None
         if not self._valid(data):

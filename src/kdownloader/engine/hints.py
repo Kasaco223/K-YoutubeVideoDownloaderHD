@@ -5,6 +5,7 @@ Lista blanca estricta: nunca se aceptan URLs ni argumentos arbitrarios.
 
 from __future__ import annotations
 
+import http.client
 import json
 import re
 import time
@@ -58,8 +59,13 @@ class HintsStore:
     def __init__(self, cache_path: Path, url: str):
         self.cache_path = cache_path
         self.url = url
-        cached = read_json(cache_path, default={}) or {}
-        self.fetched_at = float(cached.get("fetched_at") or 0)
+        cached = read_json(cache_path, default={})
+        if not isinstance(cached, dict):
+            cached = {}
+        try:
+            self.fetched_at = float(cached.get("fetched_at") or 0)
+        except (TypeError, ValueError):
+            self.fetched_at = 0.0
         self.hints = validate(cached.get("data"))
 
     def refresh(self, force: bool = False) -> Hints:
@@ -67,7 +73,7 @@ class HintsStore:
             return self.hints
         try:
             data = json.loads(get_text(self.url, timeout=15, limit=64_000))
-        except (OSError, ValueError) as exc:
+        except (OSError, ValueError, http.client.HTTPException) as exc:
             log.info("No se pudieron leer las pistas del motor: %s", exc)
             return self.hints
         self.hints = validate(data)

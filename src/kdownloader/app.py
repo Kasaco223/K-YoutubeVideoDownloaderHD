@@ -38,6 +38,7 @@ def _bring_to_front(window) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
+    winintegration.suppress_error_dialogs()
     debug = "--debug" in argv or os.environ.get("KD_DEBUG") == "1"
     setup_logging(paths.logs_dir(), debug)
     log.info("K-Downloader %s (Python %s) desde %s", __version__, sys.version.split()[0], sys.executable)
@@ -52,6 +53,13 @@ def main(argv: list[str] | None = None) -> int:
         else:
             guard.forward(argv)
             return 0
+
+    import mimetypes
+
+    # Algunos Windows tienen el registro roto y sirven .js como text/plain: los módulos ES no cargarían.
+    for ext, mime in ((".js", "text/javascript"), (".mjs", "text/javascript"), (".json", "application/json"),
+                      (".svg", "image/svg+xml"), (".css", "text/css")):
+        mimetypes.add_type(mime, ext)
 
     import webview  # import tardío: la segunda instancia no necesita cargar WebView2
 
@@ -97,9 +105,13 @@ def main(argv: list[str] | None = None) -> int:
 
     webview.settings["OPEN_EXTERNAL_LINKS_IN_BROWSER"] = True
     webview.settings["ALLOW_DOWNLOADS"] = False
+    webview.settings["SHOW_DEFAULT_MENUS"] = debug  # sin el menú "Atrás/Recargar/Inspeccionar" en producción
+    port = os.environ.get("KD_REMOTE_DEBUG_PORT")
+    if port and port.isdigit():  # solo para pruebas e2e (Playwright/CDP)
+        webview.settings["REMOTE_DEBUGGING_PORT"] = int(port)
     try:
         webview.start(services.start_background, gui="edgechromium", debug=debug, private_mode=True,
-                      icon=_icon_path())
+                      http_server=True, icon=_icon_path())
     finally:
         services.shutdown()
         guard.close()
@@ -110,6 +122,7 @@ def main(argv: list[str] | None = None) -> int:
 def selftest() -> int:
     """Comprobación rápida para el instalador y la CI: dependencias, UI y motor importables."""
     problems: list[str] = []
+    winintegration.suppress_error_dialogs()
     try:
         import webview  # noqa: F401
     except Exception as exc:  # noqa: BLE001

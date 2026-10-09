@@ -197,7 +197,7 @@ def is_degraded(info: dict[str, Any]) -> bool:
         return False
     ids = {str(f.get("format_id")) for f in video}
     max_h = max(min(int(f.get("height") or 0), int(f.get("width") or 10**6)) for f in video)
-    return ids <= {"18"} or max_h <= 360 and (info.get("duration") or 0) > 0 and "18" in ids
+    return ids <= {"18"} or (max_h <= 360 and (info.get("duration") or 0) > 0 and "18" in ids)
 
 
 @dataclass
@@ -227,17 +227,29 @@ class DownloadRun:
             *choice_args, *(extra or []), "--", url,
         ]
         self.on_event = on_event
+        self.home = home
         self.files: list[str] = []
         self.tail: deque[str] = deque(maxlen=400)
         self._proc: ManagedProcess | None = None
         self._lock = threading.Lock()
+
+    def _inside_home(self, path: str) -> bool:
+        try:
+            Path(path).resolve().relative_to(self.home.resolve())
+            return True
+        except (OSError, ValueError):
+            return False
 
     def _line(self, line: str) -> None:
         ev = parse_line(line)
         if ev is None:
             self.tail.append(line)
             return
-        if ev.kind == "file" and ev.path:
+        if ev.kind == "file":
+            # Defensa extra: solo se acepta un archivo final dentro de la carpeta de destino.
+            if not ev.path or not self._inside_home(ev.path):
+                log.warning("Ruta de archivo fuera de la carpeta de destino ignorada")
+                return
             self.files.append(ev.path)
         self.on_event(ev)
 

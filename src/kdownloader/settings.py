@@ -86,16 +86,18 @@ class SettingsStore:
         self._settings = self._load()
 
     def _load(self) -> Settings:
-        raw = read_json(self.path, default={}) or {}
+        raw = read_json(self.path, default={})
+        if not isinstance(raw, dict):
+            raw = {}
         base = Settings()
-        if not raw.get("download_dir"):
-            base.download_dir = default_download_dir()
         for f in fields(Settings):
             if f.name in raw and f.name not in self.READ_ONLY:
                 try:
                     setattr(base, f.name, _coerce(f.name, raw[f.name], getattr(base, f.name)))
                 except ValueError as exc:
                     log.warning("Ajuste ignorado: %s", exc)
+        if not base.download_dir:
+            base.download_dir = default_download_dir()
         base.version = SCHEMA_VERSION
         return base
 

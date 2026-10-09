@@ -40,6 +40,19 @@ ES_CONTINUOUS = 0x80000000
 ES_SYSTEM_REQUIRED = 0x00000001
 
 
+def suppress_error_dialogs() -> None:
+    """Evita los diálogos del sistema ("Bad Image", "falta un archivo") si Windows bloquea un módulo.
+
+    Los procesos hijos (yt-dlp, FFmpeg, Deno) heredan este modo: un componente bloqueado por Smart App
+    Control se convierte en un error que la app explica, en vez de una ventana que se repite.
+    """
+    if IS_WINDOWS:
+        try:
+            ctypes.windll.kernel32.SetErrorMode(0x0001 | 0x0002 | 0x8000)
+        except OSError:
+            pass
+
+
 def set_app_id() -> None:
     if IS_WINDOWS:
         try:
@@ -77,7 +90,7 @@ def read_clipboard_text(max_len: int = 4096) -> str | None:
 
 def open_path(path: Path) -> None:
     if IS_WINDOWS:
-        os.startfile(str(path))  # noqa: S606 - abre con la app asociada del usuario
+        os.startfile(str(path))
     elif sys.platform == "darwin":
         subprocess.Popen(["open", str(path)])
     else:

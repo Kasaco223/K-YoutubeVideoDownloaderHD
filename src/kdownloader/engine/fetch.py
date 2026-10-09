@@ -33,7 +33,7 @@ def _request(url: str, method: str = "GET") -> urllib.request.Request:
 
 
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
-    def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: ARG002
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
         return None
 
 

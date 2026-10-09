@@ -36,11 +36,15 @@ def _decode(text: str) -> tuple[Any, str]:
 
 
 def parse_line(line: str) -> KdlEvent | None:
-    """Devuelve el evento de una línea, o None si la línea no es del protocolo o está dañada."""
-    start = line.find("KDL|")
-    if start < 0:
+    """Devuelve el evento de una línea, o None si la línea no es del protocolo o está dañada.
+
+    Solo se acepta `KDL|` al inicio de la línea (tras el último `\\r` de las barras de progreso):
+    yt-dlp repite la URL del usuario en su salida, y una URL con "KDL|file|…" no debe inyectar eventos.
+    """
+    line = line.rstrip("\r\n").rsplit("\r", 1)[-1].lstrip()
+    if not line.startswith("KDL|"):
         return None
-    rest = line[start + 4:]
+    rest = line[4:]
     kind, sep, payload = rest.partition("|")
     if not sep:
         return None

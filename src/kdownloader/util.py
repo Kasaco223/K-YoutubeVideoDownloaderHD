@@ -28,7 +28,8 @@ def short_id() -> str:
 
 def read_json(path: Path, default: Any = None) -> Any:
     try:
-        with open(path, encoding="utf-8") as f:
+        # utf-8-sig: acepta archivos guardados con BOM (Notepad, PowerShell Set-Content -Encoding utf8).
+        with open(path, encoding="utf-8-sig") as f:
             return json.load(f)
     except FileNotFoundError:
         return default

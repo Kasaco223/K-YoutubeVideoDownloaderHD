@@ -371,6 +371,8 @@ class DownloadManager:
 
                 threading.Thread(target=ensure, daemon=True, name="kd-ensure").start()
             return
+        if self.engine.busy():
+            return  # "Actualizar y reintentar": los reintentos esperan a que termine la actualización
         limit = 1 if self._quiet() else self.settings.get().max_concurrent
         with self._lock:
             running = {jid for jid, t in self._workers.items() if t.is_alive()}
@@ -498,7 +500,7 @@ class DownloadManager:
         run = DownloadRun(self._config(), job.url, choice_args, out_args, Path(job.dest_dir), temp,
                           on_event=lambda ev: self._on_event(job, ev), use_cookies=job.use_cookies,
                           extra=QUIET_ARGS if self._quiet() else None)
-        self.engine.acquire()
+        taken = self.engine.acquire()
         try:
             with self._lock:
                 if job.id in self._canceled:
@@ -509,7 +511,7 @@ class DownloadManager:
                 run.start()
             result = run.wait()
         finally:
-            self.engine.release()
+            self.engine.release(taken)
         canceled = job.id in self._canceled or result.canceled
         if canceled:
             with self._lock:
@@ -528,18 +530,24 @@ class DownloadManager:
             if result.already_downloaded and "already_downloaded" not in job.notes:
                 job.notes.append("already_downloaded")
                 if not job.file_path:
-                    job.file_path = _path_from_already_line(result.lines)
-            job.state, job.progress, job.finished_at = "done", 1.0, time.time()
-            job.speed = job.eta = None
-            job.postprocessor = None
-            job.auto = None
-            self._emit_job(job)
+                    found = _path_from_already_line(result.lines)
+                    if found and _inside(found, job.dest_dir):
+                        job.file_path = found
         size = 0
         if job.file_path:
             try:
                 size = Path(job.file_path).stat().st_size
             except OSError:
                 size = 0
+        with self._lock:
+            job.state, job.progress, job.finished_at = "done", 1.0, time.time()
+            job.speed = job.eta = None
+            job.postprocessor = None
+            job.auto = None
+            if size:
+                job.downloaded = job.total = size  # en "listo" la UI muestra el tamaño final del archivo
+            self._emit_job(job)
+        if job.file_path:
             self.history.add(HistoryItem(
                 id=job.id, url=job.url, title=job.title or Path(job.file_path).stem, uploader=job.uploader,
                 thumbnail=job.thumbnail, site=job.site, option=job.option, container=job.container,
@@ -604,6 +612,14 @@ class DownloadManager:
                 job.reset_progress()
             self._emit_job(job)
         self._wake.set()
+
+
+def _inside(path: str, folder: str) -> bool:
+    try:
+        Path(path).resolve().relative_to(Path(folder).resolve())
+        return True
+    except (OSError, ValueError):
+        return False
 
 
 def _path_from_already_line(lines: list[str]) -> str | None:
