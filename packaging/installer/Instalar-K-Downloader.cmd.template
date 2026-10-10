@@ -24,6 +24,9 @@ for %%A in (%*) do (
 )
 set "KD_HIDE="
 if "%KD_MODE%"=="ui" set "KD_HIDE=-WindowStyle Hidden"
+rem  Abierto desde PowerShell 7, PSModulePath trae sus modulos y Windows PowerShell 5.1 no encuentra
+rem  los suyos (Get-FileHash, etc.). Vacio, 5.1 usa su ruta por defecto.
+set "PSModulePath="
 "%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoLogo -NoProfile %KD_HIDE% -Command "$f=[IO.File]::ReadAllText($env:KD_SELF);$m='#__KD_INSTALLER'+'_PS__';$i=$f.IndexOf($m);if($i -lt 0){exit 1};. ([ScriptBlock]::Create($f.Substring($i)))"
 set "KD_RC=%ERRORLEVEL%"
 if "%KD_RC%"=="3" if "%KD_MODE%"=="ui" goto kd_console
