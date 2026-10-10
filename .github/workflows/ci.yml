@@ -167,6 +167,17 @@ jobs:
         shell: pwsh
         run: ./packaging/build.ps1 -SkipTests
 
+      # La misma prueba que hace release.yml antes de crear el Release: así un fallo aparece en el PR, no al subir el tag.
+      - name: Prueba de instalación (smoke test)
+        shell: pwsh
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP 'kd'
+          $bundle = (Get-ChildItem dist -Filter 'kd-bundle-*.zip' | Select-Object -First 1).FullName
+          & ".\dist\Instalar-K-Downloader.cmd" --local $bundle --root $root --no-registry --quiet
+          if ($LASTEXITCODE -ne 0) { throw "El instalador terminó con código $LASTEXITCODE" }
+          & (Join-Path $root 'runtime\python.exe') (Join-Path $root 'launch.pyw') --selftest
+          if ($LASTEXITCODE -ne 0) { throw "--selftest terminó con código $LASTEXITCODE" }
+
       - name: Subir dist/
         uses: actions/upload-artifact@v7
         with:
