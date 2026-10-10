@@ -152,7 +152,9 @@ El proyecto `kdownloader` de Vercel (equipo **K**, `k23`) está conectado a este
 
 - **Root Directory:** `web`.
 - **Rama de producción:** `master`.
-- **Ignored Build Step:** `git diff HEAD^ HEAD --quiet -- .` (Vercel solo reconstruye si cambió `web/`).
+- **Ignored Build Step:** `git diff --quiet HEAD^ HEAD -- . 2>/dev/null || exit 1`.
+  - Vercel se salta el build si no cambió `web/`.
+  - Si no puede comparar (por ejemplo, porque `.vercelignore` dejó fuera la carpeta `.git`), construye igual: Vercel trata como error cualquier código de salida distinto de 0 o 1.
 
 Por eso **cada merge a `master` que toque `web/` se despliega solo**. Las demás ramas generan previews.
 
