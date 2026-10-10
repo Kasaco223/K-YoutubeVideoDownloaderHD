@@ -1,0 +1,353 @@
+[
+  {
+    "code": "drm",
+    "es": {
+      "title": "Contenido protegido (DRM)",
+      "message": "Este video tiene protección anticopia y no se puede descargar.",
+      "help": "Algunos videos (películas, series o música de tiendas) usan DRM. K-Downloader no evade protecciones."
+    },
+    "en": {
+      "title": "Protected content (DRM)",
+      "message": "This video is copy-protected and can't be downloaded.",
+      "help": "Some videos (movies, shows, store music) use DRM. K-Downloader does not bypass protections."
+    }
+  },
+  {
+    "code": "members_only",
+    "es": {
+      "title": "Exclusivo para miembros",
+      "message": "Solo lo pueden ver los miembros del canal.",
+      "help": "Si eres miembro, puedes usar un archivo cookies.txt de tu cuenta en Ajustes › Avanzado (con el riesgo que eso implica para la cuenta)."
+    },
+    "en": {
+      "title": "Members only",
+      "message": "Only channel members can watch this video.",
+      "help": "If you are a member, you can use a cookies.txt file from your account in Settings › Advanced (this carries some risk for the account)."
+    }
+  },
+  {
+    "code": "payment",
+    "es": {
+      "title": "Contenido de pago",
+      "message": "Este video requiere una compra o suscripción.",
+      "help": "El contenido de pago no se puede descargar."
+    },
+    "en": {
+      "title": "Paid content",
+      "message": "This video requires a purchase or subscription.",
+      "help": "Paid content can't be downloaded."
+    }
+  },
+  {
+    "code": "age_restricted",
+    "es": {
+      "title": "Video para mayores de 18",
+      "message": "YouTube solo lo muestra a cuentas verificadas.",
+      "help": "Hoy YouTube solo entrega estos videos en baja calidad sin una sesión iniciada. Puedes intentarlo con un cookies.txt en Ajustes › Avanzado, aunque usar tu cuenta tiene riesgos."
+    },
+    "en": {
+      "title": "Age-restricted video",
+      "message": "YouTube only shows it to verified accounts.",
+      "help": "Right now YouTube only serves these videos in low quality without a signed-in session. You can try a cookies.txt in Settings › Advanced, though using your account carries risks."
+    }
+  },
+  {
+    "code": "private",
+    "es": {
+      "title": "Video privado",
+      "message": "Solo pueden verlo las cuentas invitadas por su autor.",
+      "help": "Si tu cuenta tiene acceso, puedes usar un cookies.txt en Ajustes › Avanzado."
+    },
+    "en": {
+      "title": "Private video",
+      "message": "Only accounts invited by the author can watch it.",
+      "help": "If your account has access, you can use a cookies.txt in Settings › Advanced."
+    }
+  },
+  {
+    "code": "bot_check",
+    "es": {
+      "title": "YouTube pide comprobar que no eres un robot",
+      "message": "Hubo muchas descargas seguidas desde tu conexión, o estás usando una VPN o red compartida.",
+      "help": "Espera unos minutos y vuelve a intentarlo. Si usas VPN, desactívala. La app activará el modo tranquilo para ir más despacio."
+    },
+    "en": {
+      "title": "YouTube wants to check you're not a robot",
+      "message": "There were many downloads in a row from your connection, or you're on a VPN or shared network.",
+      "help": "Wait a few minutes and try again. If you use a VPN, turn it off. The app will switch to quiet mode to slow down."
+    }
+  },
+  {
+    "code": "rate_limited",
+    "es": {
+      "title": "Demasiadas descargas seguidas",
+      "message": "El sitio pausó tu sesión por un rato.",
+      "help": "YouTube puede limitar una sesión hasta por una hora. La app activa el modo tranquilo; espera y vuelve a intentarlo."
+    },
+    "en": {
+      "title": "Too many downloads in a row",
+      "message": "The site paused your session for a while.",
+      "help": "YouTube may limit a session for up to an hour. The app turns on quiet mode; wait and try again."
+    }
+  },
+  {
+    "code": "login_required",
+    "es": {
+      "title": "El sitio pide iniciar sesión",
+      "message": "Este contenido solo se ve con una cuenta.",
+      "help": "Puedes usar un archivo cookies.txt de tu cuenta en Ajustes › Avanzado. Usar tu cuenta en descargadores tiene riesgos."
+    },
+    "en": {
+      "title": "The site asks you to sign in",
+      "message": "This content is only available with an account.",
+      "help": "You can use a cookies.txt file from your account in Settings › Advanced. Using your account with downloaders carries risks."
+    }
+  },
+  {
+    "code": "geo_blocked",
+    "es": {
+      "title": "No disponible en tu país",
+      "message": "Su autor lo limitó a ciertos países.",
+      "help": "El autor decidió en qué países se puede ver este video."
+    },
+    "en": {
+      "title": "Not available in your country",
+      "message": "The author limited it to certain countries.",
+      "help": "The author chose which countries can watch this video."
+    }
+  },
+  {
+    "code": "upcoming",
+    "es": {
+      "title": "Todavía no empieza",
+      "message": "Es un directo o un estreno programado.",
+      "help": "Vuelve a intentarlo cuando el video ya esté publicado."
+    },
+    "en": {
+      "title": "Not started yet",
+      "message": "It's a scheduled live stream or premiere.",
+      "help": "Try again once the video is published."
+    }
+  },
+  {
+    "code": "not_live",
+    "es": {
+      "title": "El canal no está en vivo",
+      "message": "No hay ninguna transmisión en curso.",
+      "help": "Pega el enlace de un video publicado o espera a que empiece la transmisión."
+    },
+    "en": {
+      "title": "The channel isn't live",
+      "message": "There's no stream right now.",
+      "help": "Paste the link of a published video or wait for the stream to start."
+    }
+  },
+  {
+    "code": "removed",
+    "es": {
+      "title": "El video ya no existe",
+      "message": "Su autor lo eliminó o el canal fue cerrado.",
+      "help": "Este video ya no está disponible en el sitio."
+    },
+    "en": {
+      "title": "The video no longer exists",
+      "message": "The author removed it or the channel was closed.",
+      "help": "This video is no longer available on the site."
+    }
+  },
+  {
+    "code": "copyright",
+    "es": {
+      "title": "Bloqueado por derechos de autor",
+      "message": "No está disponible por un reclamo de derechos de autor.",
+      "help": "El dueño de los derechos bloqueó este video."
+    },
+    "en": {
+      "title": "Blocked for copyright",
+      "message": "It's unavailable due to a copyright claim.",
+      "help": "The rights holder blocked this video."
+    }
+  },
+  {
+    "code": "format_unavailable",
+    "es": {
+      "title": "Esa calidad no está disponible",
+      "message": "Descargamos la mejor calidad que hay.",
+      "help": "El video no tiene la calidad elegida. La app baja automáticamente la mejor disponible y te lo indica."
+    },
+    "en": {
+      "title": "That quality isn't available",
+      "message": "We downloaded the best quality available.",
+      "help": "The video doesn't have the selected quality. The app automatically downloads the best available and lets you know."
+    }
+  },
+  {
+    "code": "http_403",
+    "es": {
+      "title": "El sitio bloqueó la descarga",
+      "message": "Suele pasar cuando YouTube cambia algo. Actualizamos el motor y lo intentamos de nuevo.",
+      "help": "La app actualiza su motor (yt-dlp) y reintenta sola. Si sigue fallando, es posible que YouTube haya cambiado algo y la corrección tarde unos días."
+    },
+    "en": {
+      "title": "The site blocked the download",
+      "message": "This usually happens when YouTube changes something. We update the engine and try again.",
+      "help": "The app updates its engine (yt-dlp) and retries automatically. If it keeps failing, YouTube may have changed something and the fix may take a few days."
+    }
+  },
+  {
+    "code": "engine_outdated",
+    "es": {
+      "title": "El motor necesita actualizarse",
+      "message": "El sitio cambió y el motor quedó atrás. Lo actualizamos y reintentamos.",
+      "help": "La app actualiza el motor y vuelve a intentarlo. Si no hay versión nueva todavía, prueba más tarde."
+    },
+    "en": {
+      "title": "The engine needs an update",
+      "message": "The site changed and the engine fell behind. We update it and retry.",
+      "help": "The app updates the engine and tries again. If there's no new version yet, try later."
+    }
+  },
+  {
+    "code": "unavailable",
+    "es": {
+      "title": "Video no disponible",
+      "message": "El sitio dice que este video no está disponible.",
+      "help": "Ábrelo en el navegador para ver el motivo. Puede haber sido eliminado o restringido."
+    },
+    "en": {
+      "title": "Video unavailable",
+      "message": "The site says this video isn't available.",
+      "help": "Open it in your browser to see why. It may have been removed or restricted."
+    }
+  },
+  {
+    "code": "ffmpeg_missing",
+    "es": {
+      "title": "Falta el conversor (FFmpeg)",
+      "message": "Sin él no se pueden unir audio y video.",
+      "help": "Ve a Ajustes › Componentes y pulsa Reparar."
+    },
+    "en": {
+      "title": "The converter (FFmpeg) is missing",
+      "message": "Without it audio and video can't be merged.",
+      "help": "Go to Settings › Components and press Repair."
+    }
+  },
+  {
+    "code": "blocked_by_windows",
+    "es": {
+      "title": "Windows bloqueó un componente",
+      "message": "El control de aplicaciones de Windows no dejó ejecutar un componente del motor.",
+      "help": "Ve a Ajustes › Componentes y pulsa Reparar para bajar una versión reconocida por Windows."
+    },
+    "en": {
+      "title": "Windows blocked a component",
+      "message": "Windows app control didn't allow an engine component to run.",
+      "help": "Go to Settings › Components and press Repair to download a version Windows recognizes."
+    }
+  },
+  {
+    "code": "antivirus",
+    "es": {
+      "title": "El antivirus bloqueó un componente",
+      "message": "Tu antivirus puso en cuarentena un archivo del motor.",
+      "help": "Suele ser un falso positivo. Ve a Ajustes › Componentes y pulsa Reparar; si vuelve a pasar, agrega una excepción para la carpeta de K-Downloader."
+    },
+    "en": {
+      "title": "Your antivirus blocked a component",
+      "message": "Your antivirus quarantined an engine file.",
+      "help": "This is usually a false positive. Go to Settings › Components and press Repair; if it happens again, add an exception for the K-Downloader folder."
+    }
+  },
+  {
+    "code": "merge_failed",
+    "es": {
+      "title": "No pudimos terminar el archivo",
+      "message": "Falló la unión de audio y video.",
+      "help": "Vuelve a intentarlo. Si sigue fallando, elige la opción Máxima calidad (MKV)."
+    },
+    "en": {
+      "title": "We couldn't finish the file",
+      "message": "Merging audio and video failed.",
+      "help": "Try again. If it keeps failing, choose the Maximum quality option (MKV)."
+    }
+  },
+  {
+    "code": "disk_full",
+    "es": {
+      "title": "Tu disco está lleno",
+      "message": "No queda espacio para guardar el archivo.",
+      "help": "Libera espacio o elige otra carpeta de descargas en Ajustes."
+    },
+    "en": {
+      "title": "Your disk is full",
+      "message": "There's no space left to save the file.",
+      "help": "Free up space or choose another download folder in Settings."
+    }
+  },
+  {
+    "code": "permission",
+    "es": {
+      "title": "No pudimos guardar el archivo",
+      "message": "La carpeta está protegida o el archivo está abierto en otro programa.",
+      "help": "Cierra el reproductor si tiene el archivo abierto, o elige otra carpeta. La protección contra ransomware de Windows puede bloquear Documentos y Videos."
+    },
+    "en": {
+      "title": "We couldn't save the file",
+      "message": "The folder is protected or the file is open in another program.",
+      "help": "Close the player if it has the file open, or choose another folder. Windows ransomware protection can block Documents and Videos."
+    }
+  },
+  {
+    "code": "ssl",
+    "es": {
+      "title": "No se pudo verificar la conexión segura",
+      "message": "Revisa la fecha y hora de tu PC o tu antivirus.",
+      "help": "Una fecha incorrecta o un antivirus que inspecciona conexiones puede causar esto."
+    },
+    "en": {
+      "title": "Couldn't verify the secure connection",
+      "message": "Check your PC's date and time or your antivirus.",
+      "help": "A wrong date or an antivirus that inspects connections can cause this."
+    }
+  },
+  {
+    "code": "network",
+    "es": {
+      "title": "Problema de conexión",
+      "message": "No pudimos comunicarnos con el sitio.",
+      "help": "Revisa tu conexión a internet y vuelve a intentarlo."
+    },
+    "en": {
+      "title": "Connection problem",
+      "message": "We couldn't reach the site.",
+      "help": "Check your internet connection and try again."
+    }
+  },
+  {
+    "code": "unsupported_url",
+    "es": {
+      "title": "Ese enlace no es compatible",
+      "message": "Cópialo desde la barra de direcciones o el botón Compartir.",
+      "help": "K-Downloader funciona con YouTube, TikTok, Instagram, X, Facebook, Vimeo y más de mil sitios."
+    },
+    "en": {
+      "title": "That link isn't supported",
+      "message": "Copy it from the address bar or the Share button.",
+      "help": "K-Downloader works with YouTube, TikTok, Instagram, X, Facebook, Vimeo and more than a thousand sites."
+    }
+  },
+  {
+    "code": "unknown",
+    "es": {
+      "title": "Algo salió mal",
+      "message": "No pudimos completar la descarga.",
+      "help": "Vuelve a intentarlo. Si sigue fallando, copia los detalles técnicos y repórtalo en GitHub."
+    },
+    "en": {
+      "title": "Something went wrong",
+      "message": "We couldn't complete the download.",
+      "help": "Try again. If it keeps failing, copy the technical details and report it on GitHub."
+    }
+  }
+]

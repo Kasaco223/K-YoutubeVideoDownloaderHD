@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="color-scheme" content="dark light">
+  <title>K-Downloader</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <div id="app" class="app" data-booting="true">
+    <nav class="rail" id="rail" aria-label="K-Downloader"></nav>
+    <main class="main" id="main" tabindex="-1">
+      <div class="banners" id="banners"></div>
+      <div class="views" id="views"></div>
+    </main>
+  </div>
+  <div class="boot" id="boot" aria-hidden="true">
+    <img class="boot-logo" src="assets/logo.svg" alt="" width="56" height="56">
+  </div>
+  <div class="drop-overlay" id="drop-overlay" aria-hidden="true"></div>
+  <div class="toasts" id="toasts"></div>
+  <div class="sr-only" id="live" aria-live="polite" aria-atomic="true"></div>
+  <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
+</body>
+</html>

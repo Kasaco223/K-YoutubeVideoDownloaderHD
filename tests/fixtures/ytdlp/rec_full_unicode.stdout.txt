@@ -1,0 +1,3 @@
+[youtube] Extracting URL: https://www.youtube.com/watch?v=BaW_jenozKc
+[youtube] BaW_jenozKc: Downloading webpage
+[youtube] BaW_jenozKc: Downloading visionos player API JSON

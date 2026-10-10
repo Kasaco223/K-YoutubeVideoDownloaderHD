@@ -1,0 +1,45 @@
+# Dependencias del runtime de K-Downloader (Python embeddable 3.13, cp313 win_amd64).
+#
+# build.ps1 las instala con:
+#   pip install --target runtime\Lib\site-packages --platform win_amd64 --python-version 3.13
+#               --implementation cp --only-binary=:all: --no-deps --require-hashes
+# Por eso cada línea fija la versión exacta y el SHA-256 del archivo que se usa, y la lista
+# incluye todas las dependencias transitivas (no se resuelve nada en el momento del build).
+# Las líneas marcadas con "# sdist" no tienen wheel: build.ps1 verifica el hash del sdist,
+# lo convierte en wheel con "pip wheel --no-deps" y lo instala aparte.
+#
+# pycryptodomex NO se incluye: con Smart App Control activo, Windows bloquea sus .pyd sin firma
+# (diálogo "Bad Image" 0xc0e90002 en cada ejecución de yt-dlp). yt-dlp usa su AES en Python puro.
+#
+# Para regenerar los hashes: pip download -r <lista sin hashes> --platform win_amd64
+#   --python-version 3.13 --implementation cp --only-binary=:all: y sha256 de cada archivo.
+
+# Ventana (pywebview + WebView2 vía pythonnet)
+pywebview==6.2.1 --hash=sha256:9d07275f53894ab4d5e2e0e996227193e7187dec276d9b624dccbce029216b46
+pythonnet==3.1.0 --hash=sha256:7bdd4de03df3547a48122a3989265c8b31d5be0d19dadffa009eec7df8085e0b
+clr_loader==0.3.1 --hash=sha256:cbad189de20d202a7d621956b0fc38049e13c9bf7ca2923441eff725cd121aa1
+cffi==2.1.1 --hash=sha256:1aa5645c30469b09530c4ebca77ebf8f17618293c58f8549cb1a543a50236e7d
+pycparser==3.11 --hash=sha256:51d5a8ba2be0bbe440b99d2112604c95bbbc3c2748a64260186c541e1729cd80
+proxy_tools==0.1.0 --hash=sha256:ccb3751f529c047e2d8a58440d86b205303cf0fe8146f784d1cbcd94f0a28010  # sdist
+bottle==0.13.4 --hash=sha256:045684fbd2764eac9cdeb824861d1551d113e8b683d8d26e296898d3dd99a12e
+typing_extensions==4.16.0 --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8
+
+# Integración con Windows: accesos directos con AppUserModelID y notificaciones
+comtypes==1.4.17 --hash=sha256:4e0a221dde2c589b82977bed802efd71cd5eb67a380347b732e02735e597f586
+windows-toasts==1.3.1 --hash=sha256:fb1ab71cc3b7c239508dce0acb651a2a5b7dcaee98921dc4e7355ea0a5355998
+winrt-runtime==3.2.1 --hash=sha256:3c1fdcaeedeb2920dc3b9039db64089a6093cad2be56a3e64acc938849245a6d
+winrt-Windows.Data.Xml.Dom==3.2.1 --hash=sha256:b51b67c0bf88995827151d4e8ff0edcb2120406d4aedcb9574854b904b92a11f
+winrt-Windows.Foundation==3.2.1 --hash=sha256:6e98617c1e46665c7a56ce3f5d28e252798416d1ebfee3201267a644a4e3c479
+winrt-Windows.Foundation.Collections==3.2.1 --hash=sha256:5e12a6e75036ee90484c33e204b85fb6785fcc9e7c8066ad65097301f48cdd10
+winrt-Windows.UI.Notifications==3.2.1 --hash=sha256:9f8d109c8c6634dac258a32d7f3d939aa50605bd7a6a43137a3ffc2ab4a8f667
+
+# Extras de yt-dlp (impersonación, compresión, websockets, metadatos, cifrado, certificados)
+curl_cffi==0.16.0 --hash=sha256:e22a8212d830108e977ff394237f637238e265f5f65037d6c1ee71ea8cc03bcb
+brotli==1.2.0 --hash=sha256:b63daa43d82f0cdabf98dee215b375b4058cce72871fd07934f179885aad16e8
+websockets==17.2 --hash=sha256:27c7a59b5352a8f741b422820adfe89dfe47c8f2d84fb32111e76111edaa0e83
+mutagen==1.48.1 --hash=sha256:4f077fe87d3fc7fba259aa63d8c026b18382ca6a42ef37c61e16f1b1b5b82fe7
+certifi==2026.7.22 --hash=sha256:62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775
+requests==2.34.2 --hash=sha256:2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0
+urllib3==2.8.0 --hash=sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3
+charset_normalizer==3.5.2 --hash=sha256:78456a747de8dc58360ffa581f30a002baf5aa28cb262536545e91f113ed7639
+idna==3.20 --hash=sha256:ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c

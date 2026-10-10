@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kdownloader.vercel.app/sitemap.xml

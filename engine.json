@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "min_ytdlp": {
+    "nightly": "2026.09.27.232945",
+    "stable": "2026.08.19"
+  },
+  "youtube_player_client": null,
+  "notice": {
+    "es": null,
+    "en": null
+  }
+}

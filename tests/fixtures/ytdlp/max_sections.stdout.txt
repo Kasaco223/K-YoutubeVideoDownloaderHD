@@ -1,0 +1,20 @@
+[youtube] Extracting URL: https://www.youtube.com/watch?v=aqz-KE-bpKQ
+[youtube] aqz-KE-bpKQ: Downloading webpage
+[youtube] aqz-KE-bpKQ: Downloading visionos player API JSON
+[youtube] aqz-KE-bpKQ: Downloading m3u8 information
+[info] aqz-KE-bpKQ: Downloading 1 format(s): 315+251
+[info] aqz-KE-bpKQ: Downloading 1 time ranges: 10.0-14.0
+[info] Downloading video thumbnail 37 ...
+[info] Writing video thumbnail 37 to: C:\KD\t\max_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].webp
+[download] Destination: C:\KD\t\max_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mkv
+KDL|dl|{"status": "finished", "downloaded_bytes": 20537117, "total_bytes": 20537117, "speed": 2603782.0663580457, "elapsed": 7.887417793273926}|{"format_id": "315+251", "vcodec": "vp9", "acodec": "opus", "height": 2160}
+KDL|pp|{"status": "started", "postprocessor": "Metadata"}
+[Metadata] Adding metadata to "C:\KD\t\max_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mkv"
+KDL|pp|{"status": "finished", "postprocessor": "Metadata"}
+KDL|pp|{"status": "started", "postprocessor": "EmbedThumbnail"}
+[EmbedThumbnail] ffmpeg: Adding thumbnail to "C:\KD\t\max_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mkv"
+KDL|pp|{"status": "finished", "postprocessor": "EmbedThumbnail"}
+KDL|pp|{"status": "started", "postprocessor": "MoveFiles"}
+[MoveFiles] Moving file "C:\KD\t\max_sect\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mkv" to "C:\KD\out\max_sections\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mkv"
+KDL|pp|{"status": "finished", "postprocessor": "MoveFiles"}
+KDL|file|"C:\\KD\\out\\max_sections\\Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film [aqz-KE-bpKQ].mkv"

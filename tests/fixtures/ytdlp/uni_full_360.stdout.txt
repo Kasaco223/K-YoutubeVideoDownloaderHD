@@ -1,0 +1,48 @@
+[youtube] Extracting URL: https://www.youtube.com/watch?v=IKLKB49EqS8
+[youtube] IKLKB49EqS8: Downloading webpage
+[youtube] IKLKB49EqS8: Downloading visionos player API JSON
+[youtube] IKLKB49EqS8: Downloading tv downgraded player API JSON
+[youtube] IKLKB49EqS8: Downloading web embedded client config
+[youtube] IKLKB49EqS8: Downloading player 5203c085-main
+[youtube] IKLKB49EqS8: Downloading web embedded player API JSON
+[youtube] [jsc:deno] Solving JS challenges using deno
+[youtube] IKLKB49EqS8: Downloading m3u8 information
+[info] IKLKB49EqS8: Downloading 1 format(s): 134+140
+[info] Downloading video thumbnail 46 ...
+[info] Writing video thumbnail 46 to: C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].webp
+[download] Sleeping 2.00 seconds as required by the site...
+[download] Destination: C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].f134.mp4
+KDL|dl|{"status": "downloading", "downloaded_bytes": 1024, "total_bytes": 7640800, "speed": 330840.1861038361, "eta": 23, "elapsed": 0.36399388313293457}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 3072, "total_bytes": 7640800, "speed": 796544.3798219585, "eta": 9, "elapsed": 0.36475539207458496}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 7168, "total_bytes": 7640800, "speed": 1632003.6408641841, "eta": 4, "elapsed": 0.36529088020324707}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 15360, "total_bytes": 7640800, "speed": 3083840.382940022, "eta": 2, "elapsed": 0.36587953567504883}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 31744, "total_bytes": 7640800, "speed": 3283533.1617549136, "eta": 2, "elapsed": 0.37056636810302734}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 261120, "total_bytes": 7640800, "speed": 1120045.8365854258, "eta": 6, "elapsed": 0.5940320491790771}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 2096128, "total_bytes": 7640800, "speed": 2399458.432333827, "eta": 2, "elapsed": 1.2344825267791748}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 4193280, "total_bytes": 7640800, "speed": 2415622.4602528205, "eta": 1, "elapsed": 2.09679913520813}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 6625277, "total_bytes": 7640800, "speed": 2499893.9191658176, "eta": 0, "elapsed": 3.011121988296509}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 7640800, "total_bytes": 7640800, "speed": 2591128.8319518976, "eta": 0, "elapsed": 3.3097293376922607}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+KDL|dl|{"status": "finished", "downloaded_bytes": 7640800, "total_bytes": 7640800, "speed": 2307789.932388355, "elapsed": 3.31087327003479}|{"format_id": "134", "vcodec": "avc1.4D401E", "acodec": "none", "height": 360}
+[download] Destination: C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].f140.m4a
+KDL|dl|{"status": "downloading", "downloaded_bytes": 1024, "total_bytes": 2437853, "speed": 106871.88454264955, "eta": 22, "elapsed": 0.17966508865356445}|{"format_id": "140", "vcodec": "none", "acodec": "mp4a.40.2"}
+KDL|dl|{"status": "downloading", "downloaded_bytes": 1047552, "total_bytes": 2437853, "speed": 3163710.422623321, "eta": 0, "elapsed": 0.5011985301971436}|{"format_id": "140", "vcodec": "none", "acodec": "mp4a.40.2"}
+KDL|dl|{"status": "finished", "downloaded_bytes": 2437853, "total_bytes": 2437853, "speed": 2588094.1174788736, "elapsed": 0.9419491291046143}|{"format_id": "140", "vcodec": "none", "acodec": "mp4a.40.2"}
+KDL|pp|{"status": "started", "postprocessor": "Merger"}
+[Merger] Merging formats into "C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].mp4"
+KDL|pp|{"status": "finished", "postprocessor": "Merger"}
+Deleting original file C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].f140.m4a (pass -k to keep)
+Deleting original file C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].f134.mp4 (pass -k to keep)
+KDL|pp|{"status": "started", "postprocessor": "VideoRemuxer"}
+[VideoRemuxer] Not remuxing media file "C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].mp4"; already is in target format mp4
+KDL|pp|{"status": "finished", "postprocessor": "VideoRemuxer"}
+KDL|pp|{"status": "started", "postprocessor": "Metadata"}
+[Metadata] Adding metadata to "C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].mp4"
+KDL|pp|{"status": "finished", "postprocessor": "Metadata"}
+KDL|pp|{"status": "started", "postprocessor": "EmbedThumbnail"}
+[ThumbnailsConvertor] Converting thumbnail "C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].webp" to png
+[EmbedThumbnail] mutagen: Adding thumbnail to "C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].mp4"
+KDL|pp|{"status": "finished", "postprocessor": "EmbedThumbnail"}
+KDL|pp|{"status": "started", "postprocessor": "MoveFiles"}
+[MoveFiles] Moving file "C:\KD\t\uni_full\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].mp4" to "C:\KD\out\uni_full_360\Soy el �and�  La Granja de Zen�n 6 [IKLKB49EqS8].mp4"
+KDL|pp|{"status": "finished", "postprocessor": "MoveFiles"}
+KDL|file|"C:\\KD\\out\\uni_full_360\\Soy el \u00d1and\u00fa \uff5c La Granja de Zen\u00f3n 6 [IKLKB49EqS8].mp4"

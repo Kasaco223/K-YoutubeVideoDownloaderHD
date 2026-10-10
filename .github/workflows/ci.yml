@@ -1,0 +1,176 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Pruebas (Python ${{ matrix.python }})
+    runs-on: windows-2025
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.11 = entorno de desarrollo; 3.13 = el mismo minor que el runtime embebible que se distribuye.
+        python: ["3.11", "3.13"]
+    env:
+      PYTHONUTF8: "1"
+      KD_NO_SYSTEM_TOOLS: "1"
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Instalar Python ${{ matrix.python }}
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Ruff
+        run: ruff check src tests
+
+      - name: Pytest
+        run: pytest -q
+
+      - name: Validar engine.json
+        shell: python
+        run: |
+          import json
+          import sys
+
+          from kdownloader.engine.hints import validate
+
+          with open("engine.json", encoding="utf-8") as f:
+              raw = json.load(f)
+          if not isinstance(raw, dict):
+              print("::error file=engine.json::engine.json debe ser un objeto JSON")
+              sys.exit(1)
+          hints = validate(raw)
+          problems = []
+          if raw.get("schema") != 1:
+              problems.append("schema debe ser 1 (con otro valor la app ignora todo el archivo)")
+          extra = set(raw) - {"schema", "min_ytdlp", "youtube_player_client", "notice"}
+          if extra:
+              problems.append(f"campos desconocidos (la app los ignora): {sorted(extra)}")
+          mins = raw.get("min_ytdlp")
+          if not isinstance(mins, dict):
+              problems.append("min_ytdlp debe ser un objeto con nightly y stable")
+              mins = {}
+          for channel, value in mins.items():
+              if channel not in ("nightly", "stable"):
+                  problems.append(f"min_ytdlp.{channel} no existe (solo nightly y stable)")
+              elif value is not None and hints.min_ytdlp.get(channel) != value:
+                  problems.append(f"min_ytdlp.{channel} no es una versión válida: {value!r}")
+          client = raw.get("youtube_player_client")
+          if client is not None and hints.youtube_player_client != client:
+              problems.append(f"youtube_player_client no es válido: {client!r}")
+          notice = raw.get("notice")
+          if not isinstance(notice, dict):
+              problems.append("notice debe ser un objeto con es y en")
+              notice = {}
+          for lang, text in notice.items():
+              if lang not in ("es", "en"):
+                  problems.append(f"notice.{lang} no existe (solo es y en)")
+              elif text is not None and not isinstance(text, str):
+                  problems.append(f"notice.{lang} debe ser texto o null")
+              elif text and len(text.strip()) > 280:
+                  problems.append(f"notice.{lang} pasa de 280 caracteres (la app lo corta)")
+          if bool(notice.get("es")) != bool(notice.get("en")):
+              problems.append("notice: escribe el aviso en los dos idiomas (es y en) o en ninguno")
+          if problems:
+              for problem in problems:
+                  print(f"::error file=engine.json::{problem}")
+              sys.exit(1)
+          print("engine.json OK:", json.dumps(hints.to_dict(), ensure_ascii=False))
+
+      - name: Comprobar web/data/errors.json
+        if: matrix.python == '3.11' && hashFiles('scripts/export_web_data.py') != ''
+        run: python scripts/export_web_data.py --check
+
+  ui:
+    name: Sintaxis JavaScript
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: node --check (UI de la app y web)
+        shell: bash
+        run: |
+          set -u
+          node --version
+          mapfile -t files < <(find src/kdownloader/ui web -type f -name '*.js' 2>/dev/null | sort)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No hay archivos .js para revisar."
+            exit 0
+          fi
+          failed=0
+          for f in "${files[@]}"; do
+            # `node --check archivo.js` no detecta errores en archivos con sintaxis de módulo (import/export),
+            # así que se revisa por stdin como módulo y, si no, como script clásico.
+            if node --input-type=module --check < "$f" 2>/dev/null \
+              || node --input-type=commonjs --check < "$f" 2>/dev/null; then
+              echo "ok    $f"
+            else
+              echo "::error file=$f::Error de sintaxis en $f"
+              node --input-type=module --check < "$f" || true
+              failed=1
+            fi
+          done
+          exit "$failed"
+
+  build:
+    name: Build del bundle
+    needs: test
+    runs-on: windows-2025
+    timeout-minutes: 30
+    env:
+      PYTHONUTF8: "1"
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Instalar Python 3.11
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: packaging/build.ps1
+        shell: pwsh
+        run: ./packaging/build.ps1 -SkipTests
+
+      - name: Subir dist/
+        uses: actions/upload-artifact@v7
+        with:
+          name: k-downloader-${{ github.sha }}
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 14
