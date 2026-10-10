@@ -148,12 +148,20 @@ En una PC con Windows 11, idealmente con Smart App Control activo:
 
 > **Cuenta de Vercel:** la web vive en una cuenta **separada y dedicada a este proyecto** (proyecto `kdownloader`). No la publiques desde una cuenta que aloje otros sitios o dominios importantes: una denuncia contra un descargador podría suspender la cuenta completa.
 
+El proyecto `kdownloader` de Vercel (equipo **K**, `k23`) está conectado a este repo:
+
+- **Root Directory:** `web`.
+- **Rama de producción:** `master`.
+- **Ignored Build Step:** `git diff HEAD^ HEAD --quiet -- .` (Vercel solo reconstruye si cambió `web/`).
+
+Por eso **cada merge a `master` que toque `web/` se despliega solo**. Las demás ramas generan previews.
+
+Despliegue manual con la CLI, siempre **desde la raíz del repo**: `.vercelignore` hace que solo se suba `web/`.
+
 ```powershell
-cd web
-vercel whoami        # Debe mostrar la cuenta del proyecto. Si es otra: vercel logout
-vercel login         # solo si hace falta, con la cuenta personal
-vercel               # despliegue de prueba (preview): revisa la URL que imprime
-vercel --prod        # producción, cuando el preview esté bien
+vercel whoami                       # Debe mostrar la cuenta del proyecto. Si es otra: vercel logout / vercel login
+vercel deploy --scope k23           # preview: revisa la URL que imprime
+vercel deploy --prod --scope k23    # producción: https://kdownloader.vercel.app
 ```
 
 Después del deploy, comprueba:

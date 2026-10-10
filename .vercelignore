@@ -1,0 +1,5 @@
+# Vercel solo publica el sitio estático de web/ (Root Directory = web).
+/*
+!/web
+/web/.vercel
+/web/.env*
