@@ -127,6 +127,20 @@
             <p class="guide-tip"><svg class="icon icon-sm" aria-hidden="true"><use href="/assets/icons.svg#i-info"/></svg><span>¿Quieres revisarlo antes? Haz clic derecho sobre el archivo › <strong>Abrir con › Bloc de notas</strong>: es texto que puedes leer.</span></p>
           </article>
 
+          <article class="guide-card" id="desbloquear" aria-labelledby="desbloquear-title">
+            <span class="guide-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-lock"/></svg></span>
+            <h3 id="desbloquear-title">Windows no deja abrir el instalador</h3>
+            <p>Si al abrirlo no pasa nada, o Windows dice que una directiva o el <strong>Control inteligente de aplicaciones</strong> bloqueó el archivo, es porque Windows marca los <code>.cmd</code> descargados de internet. Por eso tampoco se abre desde el panel de descargas del navegador. Quítale la marca:</p>
+            <ol class="guide-list">
+              <li>Abre tu carpeta <strong>Descargas</strong>.</li>
+              <li>Clic derecho en <code>Instalar-K-Downloader.cmd</code> › <strong>Propiedades</strong>.</li>
+              <li>Abajo, en <strong>Seguridad</strong>, marca <strong>Desbloquear</strong> y pulsa <strong>Aceptar</strong>.</li>
+              <li>Ábrelo con doble clic.</li>
+            </ol>
+            <p><strong>Otra opción:</strong> clic derecho › <strong>Ejecutar como administrador</strong> y acepta el aviso de Windows. K-Downloader se instala igual en tu usuario y se abre sin permisos de administrador.</p>
+            <p class="guide-tip"><svg class="icon icon-sm" aria-hidden="true"><use href="/assets/icons.svg#i-info"/></svg><span>Si tu cuenta no es de administrador, Windows te pedirá la contraseña de otra cuenta y la app se instalaría para esa cuenta. En ese caso usa <strong>Desbloquear</strong>: el instalador te avisará si pasa.</span></p>
+          </article>
+
           <article class="guide-card" id="smartscreen" aria-labelledby="smartscreen-title">
             <span class="guide-icon"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-shield-check"/></svg></span>
             <h3 id="smartscreen-title">«Windows protegió tu PC»</h3>
@@ -144,6 +158,7 @@
             <h3 id="control-inteligente-title">Control inteligente de aplicaciones</h3>
             <p>Windows 11 puede tener activado el <strong>Control inteligente de aplicaciones</strong> (<span lang="en">Smart App Control</span>). Cuando está activado, bloquea cualquier programa nuevo sin firma digital o sin buena reputación, y no da la opción de ejecutarlo igual.</p>
             <p>Por eso K-Downloader no trae un <code>.exe</code> propio: funciona sobre <strong>Python oficial</strong>, firmado por la Python Software Foundation, y usa componentes que Windows reconoce, como FFmpeg de gyan.dev y Deno. No necesitas desactivar esa protección.</p>
+            <p>Lo único que frena es abrir el instalador recién descargado: <a href="#desbloquear">desbloquéalo una vez</a> y listo.</p>
             <p>Si aun así Windows bloquea un componente, la app te lo explica y puedes pulsar <strong>Reparar</strong> en Ajustes › Componentes. <a href="#blocked_by_windows">Ver el mensaje «Windows bloqueó un componente»</a>.</p>
           </article>
 

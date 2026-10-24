@@ -426,7 +426,7 @@
       "unsupported_url": { "title": "The link isn't supported", "text": "How to copy the right link." }
     },
     "windows_title": "Windows says the app isn't safe",
-    "windows_1": "K-Downloader is free software and doesn't have its own digital signature yet. So when you download the installer, your browser or SmartScreen may show a warning. If you got it from the official website, choose “More info” and then “Run anyway”.",
+    "windows_1": "K-Downloader is free software and doesn't have its own digital signature yet. So when you download the installer, your browser or SmartScreen may show a warning. If you got it from the official website, choose “More info” and then “Run anyway”. If Windows won't open it, right-click the file › Properties › check “Unblock”.",
     "windows_2": "With Smart App Control on, Windows blocks new unsigned programs. That's why K-Downloader runs on the official (signed) Python and downloads FFmpeg and Deno from their official sources.",
     "windows_3": "If Windows blocks a component, go to Settings › Components and press Repair.",
     "components_btn": "See components",

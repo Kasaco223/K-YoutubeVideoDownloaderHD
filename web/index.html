@@ -320,7 +320,22 @@
             </li>
             <li class="install-step">
               <div class="install-text">
-                <h3>Ábrelo y confirma</h3>
+                <h3>Desbloquéalo</h3>
+                <p>Windows no deja abrir los archivos <code>.cmd</code> que vienen de internet, y por eso no se abre desde el navegador. Ve a tu carpeta <strong>Descargas</strong>, haz clic derecho en <code>Instalar-K-Downloader.cmd</code> › <strong>Propiedades</strong>, marca <strong>Desbloquear</strong> y pulsa <strong>Aceptar</strong>.</p>
+                <p class="install-alt"><strong>Otra opción:</strong> clic derecho › <strong>Ejecutar como administrador</strong> y acepta el aviso de Windows. También funciona, pero si tu cuenta no es de administrador, mejor usa «Desbloquear».</p>
+              </div>
+              <div class="illus illus-props" aria-hidden="true">
+                <span class="illus-props-title">Propiedades: Instalar-K-Downloader.cmd</span>
+                <span class="illus-props-text"><strong>Seguridad:</strong> Este archivo proviene de otro equipo y podría bloquearse para ayudar a proteger el equipo.</span>
+                <span class="illus-props-check"><span class="illus-checkbox"><svg class="icon icon-sm" aria-hidden="true"><use href="/assets/icons.svg#i-check"/></svg></span>Desbloquear</span>
+                <span class="illus-buttons">
+                  <span class="illus-btn is-primary">Aceptar</span>
+                </span>
+              </div>
+            </li>
+            <li class="install-step">
+              <div class="install-text">
+                <h3>Ábrelo con doble clic</h3>
                 <p>Si aparece <strong>«Windows protegió tu PC»</strong>, pulsa <strong>Más información</strong> y luego <strong>Ejecutar de todas formas</strong>. Windows lo muestra con cualquier programa nuevo que todavía no conoce.</p>
               </div>
               <div class="illus illus-smartscreen" aria-hidden="true">
@@ -348,6 +363,7 @@
             <h3 id="why-cmd-title">¿Por qué un <code>.cmd</code> y no un <code>.exe</code>?</h3>
             <p>Windows 11 incluye el <strong>Control inteligente de aplicaciones</strong>, que bloquea cualquier programa nuevo sin firma digital. Esa firma cuesta cientos de dólares al año, algo que un proyecto gratuito no puede pagar.</p>
             <p>Por eso K-Downloader no trae un <code>.exe</code> propio: funciona sobre <strong>Python oficial</strong>, firmado por la Python Software Foundation, y así corre incluso con esa protección activada.</p>
+            <p>Lo único que esa protección frena es abrir el instalador recién descargado. Para eso es el paso de <strong>Desbloquear</strong>, que se hace una sola vez.</p>
             <p>El instalador es un archivo de texto: puedes abrirlo con el Bloc de notas y ver exactamente qué hace.</p>
             <a class="why-cmd-link" href="/ayuda#control-inteligente">Más detalles en la ayuda <svg class="icon icon-sm" aria-hidden="true"><use href="/assets/icons.svg#i-arrow-right"/></svg></a>
           </aside>
@@ -438,6 +454,13 @@
             <div class="faq-body">
               <p>Todo el código es público y puedes revisarlo en GitHub. El instalador es un archivo de texto que puedes leer antes de abrirlo, y verifica la huella SHA-256 de todo lo que descarga. Los componentes (yt-dlp, FFmpeg y Deno) se bajan de sus fuentes oficiales y también se verifican.</p>
               <p>La app no tiene anuncios ni rastreo, y no envía tus datos a nadie. Si Windows muestra un aviso es porque el programa no tiene una firma digital de pago, no porque haya detectado algo. <a href="/ayuda#smartscreen">Más sobre los avisos de Windows</a>.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>El instalador no abre. ¿Tengo que ejecutarlo como administrador?<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#i-chevron-down"/></svg></summary>
+            <div class="faq-body">
+              <p>No hace falta. Si al abrirlo no pasa nada, Windows lo bloqueó por venir de internet: ve a <strong>Descargas</strong>, clic derecho › <strong>Propiedades</strong>, marca <strong>Desbloquear</strong> y ábrelo con doble clic.</p>
+              <p>Ejecutarlo como administrador también funciona: la app se instala en tu usuario y se abre normal. <a href="/ayuda#desbloquear">Paso a paso</a>.</p>
             </div>
           </details>
           <details class="faq-item">

@@ -135,6 +135,8 @@ Pulsa **Publish release**.
 En una PC con Windows 11, idealmente con Smart App Control activo:
 
 - [ ] <https://kdownloader.vercel.app/descargar> baja `Instalar-K-Downloader.cmd` de la versión nueva.
+- [ ] Con Smart App Control activo, el `.cmd` recién descargado **no** abre (ni desde el navegador ni con doble clic). Tras **Propiedades → Desbloquear**, el doble clic instala y abre la app.
+- [ ] Con **Ejecutar como administrador** también instala, y la app se abre **sin** permisos elevados (en el Administrador de tareas, columna *Elevado* = No).
 - [ ] El instalador termina y abre la app.
   - Anota los avisos del navegador y de SmartScreen: deben coincidir con lo que dice el README.
 - [ ] El primer uso prepara los componentes y descarga un video de prueba.
