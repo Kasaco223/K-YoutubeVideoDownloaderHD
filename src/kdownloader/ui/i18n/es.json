@@ -426,7 +426,7 @@
       "unsupported_url": { "title": "El enlace no es compatible", "text": "Cómo copiar el enlace correcto." }
     },
     "windows_title": "Windows dice que la app no es segura",
-    "windows_1": "K-Downloader es software libre y todavía no tiene firma digital propia. Por eso, al bajar el instalador, tu navegador o SmartScreen pueden mostrar una advertencia. Si lo bajaste desde la web oficial, elige «Más información» y luego «Ejecutar de todas formas».",
+    "windows_1": "K-Downloader es software libre y todavía no tiene firma digital propia. Por eso, al bajar el instalador, tu navegador o SmartScreen pueden mostrar una advertencia. Si lo bajaste desde la web oficial, elige «Más información» y luego «Ejecutar de todas formas». Si Windows no lo deja abrir, haz clic derecho en el archivo › Propiedades › marca «Desbloquear».",
     "windows_2": "Con Smart App Control activo, Windows bloquea los programas nuevos sin firma. Por eso K-Downloader funciona sobre el Python oficial (firmado) y baja FFmpeg y Deno de sus fuentes oficiales.",
     "windows_3": "Si Windows bloquea un componente, ve a Ajustes › Componentes y pulsa Reparar.",
     "components_btn": "Ver componentes",

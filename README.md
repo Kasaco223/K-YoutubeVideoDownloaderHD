@@ -108,13 +108,16 @@ Es la versión 2.0 de este proyecto (antes "YouTube Ultra HD Video Downloader"),
 1. Descarga **`Instalar-K-Downloader.cmd`** desde <https://kdownloader.vercel.app/descargar> (o desde [Releases](https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/releases/latest)).
 2. **Si el navegador avisa** que el archivo "no se descarga habitualmente" o "puede dañar tu equipo", elige **Conservar** (*Keep*).
    - En Edge: menú **…** de la descarga → **Conservar** → **Mostrar más** → **Conservar de todos modos**.
-3. **Ábrelo con doble clic.** Si aparece *"Windows protegió tu PC"* (SmartScreen), pulsa **Más información** → **Ejecutar de todas formas**.
+3. **Desbloquéalo.** Windows no deja abrir los `.cmd` descargados de internet, y por eso no se abre desde el navegador.
+   - Ve a tu carpeta **Descargas**, haz clic derecho en el archivo → **Propiedades** → marca **Desbloquear** → **Aceptar**.
+   - **Otra opción:** clic derecho → **Ejecutar como administrador**. También funciona: se instala en tu usuario y abre la app sin permisos de administrador. Si tu cuenta no es de administrador, usa **Desbloquear**, porque Windows te pediría otra cuenta y la app se instalaría para esa cuenta (el instalador lo detecta y te avisa).
+4. **Ábrelo con doble clic.** Si aparece *"Windows protegió tu PC"* (SmartScreen), pulsa **Más información** → **Ejecutar de todas formas**.
    - Pasa con todo programa nuevo que todavía no tiene firma digital. Lee [por qué no hay un .exe](#por-qué-no-hay-un-exe).
-4. **El instalador:**
+5. **El instalador:**
    - baja `kd-bundle-<versión>.zip` (unos 25 MB) desde GitHub Releases;
    - comprueba su SHA-256 y lo instala **solo para tu usuario** en `%LOCALAPPDATA%\Programs\K-Downloader`, sin pedir permisos de administrador;
    - crea el acceso directo en el menú Inicio y abre la app.
-5. **En el primer uso**, acepta el aviso de uso responsable y espera a que la app prepare sus componentes.
+6. **En el primer uso**, acepta el aviso de uso responsable y espera a que la app prepare sus componentes.
 
 > **¿Es seguro el instalador?** Es un archivo de texto: puedes abrirlo con el Bloc de notas antes de ejecutarlo.
 >
@@ -137,7 +140,7 @@ Por eso K-Downloader **no genera ningún ejecutable propio**:
 - FFmpeg (de gyan.dev) y Deno (firmado) ya tienen reputación en Windows.
 - El instalador es un script `.cmd` que puedes leer.
 
-El resultado funciona incluso con Smart App Control activado. Si algún día el proyecto obtiene firma de código (ver la [política de firma](#política-de-firma-de-código)), podría ofrecer un `.exe` firmado.
+El resultado funciona incluso con Smart App Control activado. Lo único que Smart App Control frena es abrir el `.cmd` recién descargado, porque viene de internet; por eso existe el paso de **Desbloquear**. Si algún día el proyecto obtiene firma de código (ver la [política de firma](#política-de-firma-de-código)), podría ofrecer un `.exe` firmado.
 
 ## Preguntas frecuentes y solución de problemas
 
@@ -410,8 +413,10 @@ It is powered by [yt-dlp](https://github.com/yt-dlp/yt-dlp) and keeps it up to d
 
 1. Download **`Instalar-K-Downloader.cmd`** from <https://kdownloader.vercel.app/descargar>.
 2. If your browser warns that the file is uncommon or may be harmful, choose **Keep**.
-3. Double-click it. If SmartScreen shows *"Windows protected your PC"*, click **More info → Run anyway**.
-4. **What the installer does:**
+3. **Unblock it.** Windows won't open `.cmd` files downloaded from the internet, so it won't start from the browser. In your **Downloads** folder, right-click it → **Properties** → check **Unblock** → **OK**.
+   - **Alternative:** right-click → **Run as administrator**. It still installs for your user and opens the app without admin rights. If your account is not an administrator, use **Unblock** instead: Windows would ask for another account and the app would be installed for that account (the installer detects this and tells you).
+4. Double-click it. If SmartScreen shows *"Windows protected your PC"*, click **More info → Run anyway**.
+5. **What the installer does:**
    - downloads `kd-bundle-<version>.zip` (about 25 MB) from GitHub Releases;
    - verifies its SHA-256;
    - installs **for your user only** in `%LOCALAPPDATA%\Programs\K-Downloader` (no admin rights needed);
@@ -429,7 +434,7 @@ It is powered by [yt-dlp](https://github.com/yt-dlp/yt-dlp) and keeps it up to d
 - the app runs on Python's official signed `pythonw.exe`;
 - yt-dlp is a Python zipapp;
 - FFmpeg and Deno already have reputation;
-- the installer is a readable `.cmd` script.
+- the installer is a readable `.cmd` script. Smart App Control only blocks opening it right after download, because it comes from the internet; that is what the **Unblock** step is for.
 
 ### FAQ
 

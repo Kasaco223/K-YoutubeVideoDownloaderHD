@@ -286,8 +286,48 @@ function Confirm-Kd([string]$Message) {
     return $r -eq [System.Windows.Forms.DialogResult]::Yes
 }
 
+function Test-KdElevated {
+    try {
+        $p = New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())
+        return $p.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    } catch {
+        return $false
+    }
+}
+
+function Get-KdShellUsers {
+    # Cuentas duenas de explorer.exe en esta sesion: la persona que esta frente a la PC.
+    $session = [Diagnostics.Process]::GetCurrentProcess().SessionId
+    $users = @()
+    try {
+        foreach ($p in @(Get-CimInstance Win32_Process -Filter "Name = 'explorer.exe'" -ErrorAction Stop)) {
+            if ($p.SessionId -ne $session) { continue }
+            $o = Invoke-CimMethod -InputObject $p -MethodName GetOwner -ErrorAction Stop
+            if ($o.ReturnValue -eq 0 -and $o.User) { $users += ($o.Domain + '\' + $o.User) }
+        }
+    } catch {
+        Write-Log ('No se pudo saber quien usa la sesion: ' + $_.Exception.Message)
+    }
+    return $users
+}
+
 function Start-KdApp {
     $pyw = Join-Path $St.Root 'runtime\pythonw.exe'
+    if (Test-KdElevated) {
+        # Con "Ejecutar como administrador" la app no debe quedar elevada: no recibiria enlaces arrastrados y
+        # una segunda ventana normal no podria hablarle. explorer.exe abre el acceso directo con los permisos
+        # normales de la sesion.
+        $dir = $Opt.ShortcutDir
+        if (-not $dir) { $dir = [Environment]::GetFolderPath('Programs') }
+        $lnk = Join-Path $dir 'K-Downloader.lnk'
+        if (Test-Path -LiteralPath $lnk -PathType Leaf) {
+            Write-Log ('Instalador como administrador: abriendo ' + $lnk + ' con explorer.exe')
+            Start-Process -FilePath (Join-Path $env:SystemRoot 'explorer.exe') -ArgumentList (Quote $lnk)
+        } else {
+            Write-Log 'Instalador como administrador y sin acceso directo: no se abre la app para no dejarla elevada'
+        }
+        return
+    }
     Write-Log ('Abriendo ' + $pyw)
     Start-Process -FilePath $pyw -ArgumentList (Quote (Join-Path $St.Root 'launch.pyw')) -WorkingDirectory $St.Root
 }
@@ -301,6 +341,16 @@ function Invoke-StepCheck {
     if ($v.Major -lt 10) { throw (New-KdError (S 'K-Downloader necesita Windows 10 u 11.') ('Windows ' + $v)) }
     if (-not [Environment]::Is64BitOperatingSystem) { throw (New-KdError (S 'K-Downloader necesita Windows de 64 bits.') '') }
     if ($KD.Version.Contains('{' + '{')) { throw (New-KdError (S 'Este instalador es una plantilla sin procesar; usa el que se publica en cada versi~on.') '') }
+    if ((Test-KdElevated) -and -not $Opt.ExplicitRoot) {
+        # "Ejecutar como administrador" desde una cuenta sin permisos pide otra cuenta, y entonces se
+        # instalaria en el perfil de esa otra cuenta, no en el de quien esta usando la PC.
+        $me = [Security.Principal.WindowsIdentity]::GetCurrent().Name
+        $shell = @(Get-KdShellUsers)
+        Write-Log ('Instalador como administrador: ' + $me + ' | sesion: ' + ($shell -join ', '))
+        if ($shell.Count -gt 0 -and -not ($shell | Where-Object { $_ -ieq $me })) {
+            throw (New-KdError ((S 'Lo abriste como administrador con otra cuenta (') + $me + (S '), as~i que K-Downloader se instalar~ia para esa cuenta y no para la tuya.')) (S 'Ci~erralo y haz esto: clic derecho en el archivo > Propiedades > marca Desbloquear > Aceptar. Luego ~abrelo con doble clic, sin "Ejecutar como administrador".'))
+        }
+    }
     $sys32 = Join-Path $env:SystemRoot 'System32'
     $St.Curl = Join-Path $sys32 'curl.exe'
     $St.Tar = Join-Path $sys32 'tar.exe'
