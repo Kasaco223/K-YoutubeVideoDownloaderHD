@@ -126,6 +126,7 @@ En **GitHub → Releases**, abre el borrador `K-Downloader 2.0.1` y revisa:
 
 Pulsa **Publish release**.
 
+- El workflow **Marcar como última versión** (`.github/workflows/release-latest.yml`) lo marca como **Latest** si es la versión más alta: GitHub no siempre lo hace solo al publicar un borrador. Comprueba en **Releases** que diga **Latest**; si no, *Edit* → **Set as the latest release** → *Update release*.
 - Desde ese momento, `https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/releases/latest/download/latest.json` sirve la versión nueva.
 - Las apps instaladas la detectan en menos de 24 horas.
 - Las *pre-releases* **no** cuentan como *latest*: ni la web ni la autoactualización las ofrecen. Sirven para probar con el enlace directo del Release.

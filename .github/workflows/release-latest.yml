@@ -1,0 +1,41 @@
+name: Marcar como última versión
+
+# Al publicar un Release, GitHub no siempre lo marca como "Latest" (pasó con v2.0.1).
+# De "Latest" dependen el botón de la web (/descargar → releases/latest) y la autoactualización
+# (releases/latest/download/latest.json), así que se marca aquí: solo si no es pre-release y si es
+# la versión más alta publicada (un arreglo para una versión vieja no debe quitarle el lugar a la nueva).
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  latest:
+    name: Marcar como Latest
+    if: ${{ !github.event.release.prerelease }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Marcar el Release como Latest si es la versión más alta
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          highest=$(gh release list --exclude-drafts --exclude-pre-releases --limit 100 --json tagName --jq '.[].tagName' \
+            | sed 's/^v//' | sort -V | tail -n 1)
+          if [ "v${highest}" != "${TAG}" ]; then
+            echo "::notice::${TAG} no es la versión más alta publicada (v${highest}): no se marca como Latest."
+            exit 0
+          fi
+          gh release edit "${TAG}" --latest
+          latest=$(gh api "repos/${GH_REPO}/releases/latest" --jq .tag_name)
+          if [ "${latest}" != "${TAG}" ]; then
+            echo "::error::GitHub sigue marcando ${latest} como Latest en vez de ${TAG}."
+            exit 1
+          fi
+          echo "${TAG} es la última versión (Latest)." >> "$GITHUB_STEP_SUMMARY"
