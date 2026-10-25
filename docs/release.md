@@ -126,7 +126,10 @@ En **GitHub → Releases**, abre el borrador `K-Downloader 2.0.1` y revisa:
 
 Pulsa **Publish release**.
 
-- El workflow **Marcar como última versión** (`.github/workflows/release-latest.yml`) lo marca como **Latest** si es la versión más alta: GitHub no siempre lo hace solo al publicar un borrador. Comprueba en **Releases** que diga **Latest**; si no, *Edit* → **Set as the latest release** → *Update release*.
+- El workflow **Mantener Latest en la app de Windows** (`.github/workflows/release-latest.yml`, con la lógica en `.github/scripts/latest-guard.sh`) deja como **Latest** la versión de Windows `vX.Y.Z` más alta. GitHub no siempre lo hace solo al publicar un borrador.
+  - Corre al publicar, editar o borrar un Release, y además **cada hora**.
+  - Los Releases de Android (`android-*`) son siempre *pre-release* y nunca pueden ser Latest. Si alguno se publica como versión normal, el guardián lo pasa a *pre-release*.
+  - Comprueba en **Releases** que la versión de Windows diga **Latest**. Si no: *Edit* → **Set as the latest release** → *Update release*, o Actions → **Mantener Latest en la app de Windows** → **Run workflow**.
 - Desde ese momento, `https://github.com/Kasaco223/K-YoutubeVideoDownloaderHD/releases/latest/download/latest.json` sirve la versión nueva.
 - Las apps instaladas la detectan en menos de 24 horas.
 - Las *pre-releases* **no** cuentan como *latest*: ni la web ni la autoactualización las ofrecen. Sirven para probar con el enlace directo del Release.

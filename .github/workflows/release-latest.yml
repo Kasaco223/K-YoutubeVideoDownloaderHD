@@ -1,41 +1,42 @@
-name: Marcar como última versión
+name: Mantener Latest en la app de Windows
 
-# Al publicar un Release, GitHub no siempre lo marca como "Latest" (pasó con v2.0.1).
-# De "Latest" dependen el botón de la web (/descargar → releases/latest) y la autoactualización
-# (releases/latest/download/latest.json), así que se marca aquí: solo si no es pre-release y si es
-# la versión más alta publicada (un arreglo para una versión vieja no debe quitarle el lugar a la nueva).
+# "Latest" debe ser SIEMPRE la versión estable más alta de la app de Windows (vX.Y.Z): de eso dependen
+# /descargar, /instalar y la autoactualización (releases/latest/download/latest.json). Los Releases de
+# Android (android-*) son siempre pre-release y nunca deben ser Latest.
+# - Los eventos de Release corren este archivo tal como está en el commit del tag: los tags viejos (hasta
+#   v2.0.1) traen la versión anterior. Por eso el cron horario (que usa master) es la red de seguridad.
+# - La lógica está en .github/scripts/latest-guard.sh y se toma SIEMPRE de master (probada en workflows-lint.yml).
+# Guías: docs/release.md y docs/release-android.md
 
 on:
   release:
-    types: [published]
+    types: [published, unpublished, edited, deleted, released, prereleased]
+  schedule:
+    - cron: "17 * * * *" # cada hora; GitHub lo pausa tras 60 días sin actividad en el repo
+  workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: release-latest
+  cancel-in-progress: false
+
 jobs:
   latest:
-    name: Marcar como Latest
-    if: ${{ !github.event.release.prerelease }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    name: Latest = Windows vX.Y.Z más alta
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
-      - name: Marcar el Release como Latest si es la versión más alta
+      - name: Traer el script desde master
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch || 'master' }} # el evento schedule no trae repository
+          sparse-checkout: .github/scripts
+          persist-credentials: false
+
+      - name: Revisar y corregir Latest
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: ${{ github.event.release.tag_name }}
-        run: |
-          set -euo pipefail
-          highest=$(gh release list --exclude-drafts --exclude-pre-releases --limit 100 --json tagName --jq '.[].tagName' \
-            | sed 's/^v//' | sort -V | tail -n 1)
-          if [ "v${highest}" != "${TAG}" ]; then
-            echo "::notice::${TAG} no es la versión más alta publicada (v${highest}): no se marca como Latest."
-            exit 0
-          fi
-          gh release edit "${TAG}" --latest
-          latest=$(gh api "repos/${GH_REPO}/releases/latest" --jq .tag_name)
-          if [ "${latest}" != "${TAG}" ]; then
-            echo "::error::GitHub sigue marcando ${latest} como Latest en vez de ${TAG}."
-            exit 1
-          fi
-          echo "${TAG} es la última versión (Latest)." >> "$GITHUB_STEP_SUMMARY"
+        run: bash .github/scripts/latest-guard.sh

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# curl simulado: responde OK sin red.
+echo "[curl $*]" >> "$MOCK_STATE/calls"
+exit 0
