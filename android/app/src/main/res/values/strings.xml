@@ -4,6 +4,10 @@
 <!-- English: the default resources (res/resources.properties: unqualifiedResLocale=en-US). The Spanish text in
      values-es/ is the source: write it there first. Sentence case, friendly and short. -->
 <resources>
+    <!-- Name in the launcher and in the Share and text-selection menus. The debug and qa builds override it
+         (src/debug/res, src/qa/res) so they are never mistaken for the published app. -->
+    <string name="launcher_label">K-Downloader</string>
+
     <!-- Common -->
     <string name="common_close">Close</string>
     <string name="common_back">Back</string>
@@ -12,15 +16,15 @@
 
     <!-- Home (test build) -->
     <string name="home_test_build_title">Test build</string>
-    <string name="home_test_build_body">This build can\'t download videos yet. It\'s here to check that K-Downloader installs and opens correctly on your phone. Downloads arrive in a later version.</string>
+    <string name="home_test_build_body">This build can\'t download videos yet. It\'s here to check that K-Downloader installs and opens correctly on your phone. Downloads are coming in a later version.</string>
     <string name="home_try_share_title">Try sharing a link</string>
-    <string name="home_try_share_body">In YouTube or another app, tap Share and pick K-Downloader. We\'ll show you the link we received.</string>
+    <string name="home_try_share_body">In YouTube or another app, tap Share and pick K-Downloader. We\'ll show you the link we get.</string>
     <string name="home_about">About and diagnostics</string>
     <string name="link_received_title">We received this link</string>
-    <string name="link_not_yet">This test build can\'t download yet: downloads arrive in a later version.</string>
+    <string name="link_not_yet">This test build can\'t download yet: downloads are coming in a later version.</string>
 
     <!-- Share sheet -->
-    <string name="quick_pane_title">K-Downloader: link received</string>
+    <string name="quick_pane_title">Share with K-Downloader</string>
     <string name="quick_no_link_title">We couldn\'t find a link</string>
     <string name="quick_no_link_body">Share the video with the Share button in YouTube or another app. If you shared some text, make sure it includes the link.</string>
     <plurals name="quick_more_links">

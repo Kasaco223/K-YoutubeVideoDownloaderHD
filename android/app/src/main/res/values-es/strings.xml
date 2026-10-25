@@ -5,6 +5,10 @@
      (inglés, los recursos por defecto). Reglas: "video" (nunca "vídeo"), nada de "usted", "toca" (no "pulsa"
      ni "clic") y "celular" (como en la web). -->
 <resources>
+    <!-- Nombre en el launcher y en los menús «Compartir» y de selección de texto. Los builds debug y qa lo
+         reemplazan (src/debug/res, src/qa/res) para no confundirlos con la app publicada. -->
+    <string name="launcher_label">K-Downloader</string>
+
     <!-- Comunes -->
     <string name="common_close">Cerrar</string>
     <string name="common_back">Atrás</string>
@@ -13,15 +17,15 @@
 
     <!-- Inicio (versión de prueba) -->
     <string name="home_test_build_title">Versión de prueba</string>
-    <string name="home_test_build_body">Esta versión todavía no descarga videos. Sirve para comprobar que K-Downloader se instala y abre bien en tu celular. Las descargas llegan en una próxima versión.</string>
+    <string name="home_test_build_body">Esta versión todavía no descarga videos. Sirve para comprobar que K-Downloader se instala y se abre bien en tu celular. Las descargas llegarán en una próxima versión.</string>
     <string name="home_try_share_title">Prueba compartir un enlace</string>
-    <string name="home_try_share_body">En YouTube u otra app, toca Compartir y elige K-Downloader. Te mostramos el enlace que recibimos.</string>
+    <string name="home_try_share_body">En YouTube u otra app, toca Compartir y elige K-Downloader. Te mostraremos el enlace que recibamos.</string>
     <string name="home_about">Acerca de y diagnóstico</string>
     <string name="link_received_title">Recibimos este enlace</string>
-    <string name="link_not_yet">Esta versión de prueba todavía no descarga: las descargas llegan en una próxima versión.</string>
+    <string name="link_not_yet">Esta versión de prueba todavía no descarga: las descargas llegarán en una próxima versión.</string>
 
     <!-- Hoja al compartir -->
-    <string name="quick_pane_title">K-Downloader: enlace recibido</string>
+    <string name="quick_pane_title">Compartir con K-Downloader</string>
     <string name="quick_no_link_title">No encontramos un enlace</string>
     <string name="quick_no_link_body">Comparte el video con el botón Compartir de YouTube o de otra app. Si compartiste un texto, revisa que incluya el enlace.</string>
     <plurals name="quick_more_links">

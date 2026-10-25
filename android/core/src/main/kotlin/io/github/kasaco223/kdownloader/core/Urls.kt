@@ -21,6 +21,11 @@ import java.util.Locale
  * Diferencias a propósito con Windows (diseño de Android): [extract] y [normalize] solo aceptan http(s) con un
  * host que tenga un punto y de hasta [MAX_LENGTH] caracteres, lo mismo que el motor aceptaría después. Los
  * hosts IPv6 (`[::1]`) se rechazan: el navegador los escribe sin puntos, así que Windows también los descarta.
+ *
+ * Los hosts internacionales se convierten con `java.net.IDN` (IDNA2003) y el navegador usa UTS #46 (IDNA2008).
+ * Donde los dos darían otro dominio, o el navegador rechazaría el enlace, aquí se rechaza: hosts con ß, ẞ, ς,
+ * ZWNJ o ZWJ (tal cual o escritos con %XX) y etiquetas `xn--` cuyo Punycode no es válido. Así nunca se muestra
+ * ni se descarga de un dominio distinto del que se compartió.
  */
 object Urls {
     /** Largo máximo de un enlace, igual que `media.validate_url`. */
@@ -38,11 +43,19 @@ object Urls {
     /** `URL_RE` de actions.js: `/https?:\/\/[^\s<>"'`]+/gi`. */
     private val URL_IN_TEXT = Regex("https?://[^$JS_SPACE<>\"'`]+", RegexOption.IGNORE_CASE)
 
-    /** Puntuación que cierra una frase, no el enlace: `/[),.;:!?\]}>]+$/` (\z: fin real del texto). */
-    private val TRAILING_PUNCTUATION = Regex("""[),.;:!?\]}>]+\z""")
+    /**
+     * Puntuación que cierra una frase, no el enlace (`/[),.;:!?\]}>]+$/` de actions.js). Se quita con trimEnd, en
+     * tiempo lineal: esa regex con replace tarda O(n²) ante una tira larga de `)` seguida de otra letra, y
+     * cualquier app puede compartir un texto así.
+     */
+    private const val TRAILING_PUNCTUATION = "),.;:!?]}>"
 
-    /** Dominio escrito a mano sin esquema, como `youtu.be/xyz`: `/^[\w-]+(\.[\w-]+)+\/\S*$/`. */
-    private val BARE_DOMAIN = Regex("[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)+/[^$JS_SPACE]*")
+    /**
+     * Dominio escrito a mano sin esquema, como `youtu.be/xyz`: `/^[\w-]+(\.[\w-]+)+\/\S*$/`. Cuantificadores
+     * posesivos (mismo resultado, porque las clases no incluyen `.` ni `/`): con `(…)+` normal, java.util.regex
+     * recurre una vez por etiqueta y un texto como `a.a.a.…` (unas 2000 etiquetas) termina en StackOverflowError.
+     */
+    private val BARE_DOMAIN = Regex("[A-Za-z0-9_-]++(?:\\.[A-Za-z0-9_-]++)++/[^$JS_SPACE]*+")
 
     private val VIDEO_PATH = Regex("^/(shorts|live|embed)/([A-Za-z0-9_-]{6,})")
 
@@ -54,7 +67,7 @@ object Urls {
         if (text.isNullOrEmpty()) return emptyList()
         val found = LinkedHashSet<String>()
         for (match in URL_IN_TEXT.findAll(text)) {
-            val candidate = match.value.replace(TRAILING_PUNCTUATION, "")
+            val candidate = match.value.trimEnd { it in TRAILING_PUNCTUATION }
             normalize(candidate)?.let(found::add)
         }
         return found.toList()
@@ -231,6 +244,9 @@ private data class WebUrl(
     companion object {
         private const val FORBIDDEN_IN_HOST = "#%/:<>?@[\\]^|"
 
+        /** Donde IDNA2003 (java.net.IDN) y el navegador (UTS #46) no coinciden: ß, ẞ, ς, ZWNJ y ZWJ. */
+        private const val IDNA_DEVIATIONS = "\u00DF\u1E9E\u03C2\u200C\u200D"
+
         fun parse(input: String): WebUrl? {
             // Quita los controles C0 y el espacio de los bordes (como el navegador: no cualquier espacio Unicode,
             // por eso la lambda) y los tab/saltos de línea de en medio.
@@ -289,6 +305,7 @@ private data class WebUrl(
         private fun parseHost(raw: String): String? {
             if (raw.isEmpty()) return null
             val decoded = Percent.decodeStrict(raw) ?: return null
+            if (decoded.any { it in IDNA_DEVIATIONS }) return null
             val ascii = if (decoded.all { it.code < 0x80 }) {
                 decoded
             } else {
@@ -300,8 +317,16 @@ private data class WebUrl(
             }.lowercase(Locale.ROOT)
             if (ascii.isEmpty()) return null
             if (ascii.any { it <= ' ' || it == '\u007F' || it in FORBIDDEN_IN_HOST }) return null
+            if (ascii.split('.').any(::isInvalidAceLabel)) return null
             return if (Ipv4.endsInNumber(ascii)) Ipv4.parse(ascii) else ascii
         }
+
+        /**
+         * Una etiqueta `xn--` con Punycode inválido, o que no vuelve a dar lo mismo: IDN.toUnicode la devuelve sin
+         * cambios. El navegador rechaza esos hosts, e IDN.toASCII deja pasar las etiquetas que ya son ASCII.
+         */
+        private fun isInvalidAceLabel(label: String): Boolean =
+            label.startsWith("xn--") && IDN.toUnicode(label, IDN.ALLOW_UNASSIGNED) == label
 
         /** Ruta: \ cuenta como /, se resuelven . y .., y se codifica lo que el estándar codifica. */
         private fun parsePath(raw: String): String {

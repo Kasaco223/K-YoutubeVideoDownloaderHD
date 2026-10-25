@@ -79,6 +79,41 @@ class UrlsTest {
     }
 
     @Test
+    fun hostsWhereIdna2003AndTheBrowserDisagreeAreRejected() {
+        // El navegador da xn--fa-hia.de y xn--a-xmb.gr; java.net.IDN daría fass.de y xn--a-zmb.gr (otro dominio).
+        assertEquals(emptyList<String>(), Urls.extract("https://fa\u00DF.de/x"))
+        assertEquals(emptyList<String>(), Urls.extract("https://fa%C3%9F.de/x"))
+        assertEquals(emptyList<String>(), Urls.extract("https://\u03C2a.gr/"))
+        // ZWJ y ZWNJ: el navegador rechaza el enlace; java.net.IDN los borraría (google.com, ab.com).
+        assertEquals(emptyList<String>(), Urls.extract("https://goo\u200Dgle.com/"))
+        assertEquals(emptyList<String>(), Urls.extract("https://a\u200Cb.com/"))
+        // Punycode inválido: el navegador lo rechaza.
+        assertEquals(emptyList<String>(), Urls.extract("https://xn--a.com/"))
+        assertNull(Urls.normalize("https://XN--A.com/"))
+        // Los hosts internacionales normales siguen igual que en el navegador.
+        assertEquals(listOf("https://xn--bcher-kva.de/"), Urls.extract("https://B\u00DCCHER.de/"))
+        assertEquals(listOf("https://xn--bcher-kva.de/"), Urls.extract("https://xn--bcher-kva.de/"))
+        assertEquals(listOf("https://xn--bcher-kva.de/"), Urls.extract("https://XN--BCHER-KVA.de"))
+        assertEquals(listOf("https://example.xn--55qx5d/"), Urls.extract("https://example.\u516C\u53F8/"))
+    }
+
+    @Test(timeout = 5_000)
+    fun longPunctuationRunsTakeLinearTime() {
+        // Con la regex anterior, 40 000 «)» tardaban unos 7 s en la JVM (O(n²)); en un celular, minutos.
+        val started = System.nanoTime()
+        // Más largo que MAX_LENGTH: ningún enlace, pero la respuesta llega enseguida.
+        assertEquals(emptyList<String>(), Urls.extract("https://a.bc/" + ")".repeat(500_000) + "x"))
+        assertEquals(listOf("https://a.bc/"), Urls.extract("https://a.bc/" + ")".repeat(500_000)))
+        // Dominio escrito a mano con muchísimas etiquetas: sin StackOverflowError (más largo que MAX_LENGTH).
+        assertEquals(emptyList<String>(), Urls.coerce("a.".repeat(250_000)))
+        assertEquals(emptyList<String>(), Urls.coerce("a.".repeat(100_000) + "a/x"))
+        assertEquals(emptyList<String>(), Urls.coerce("a".repeat(500_000) + ".b"))
+        assertEquals(listOf("https://a.a.a.a/x"), Urls.coerce("a.a.a.a/x"))
+        val elapsedMs = (System.nanoTime() - started) / 1_000_000
+        assertTrue("tardó $elapsedMs ms", elapsedMs < 2_000)
+    }
+
+    @Test
     fun extractKeepsTheOrderAndDropsRepeats() {
         val text = "https://b.com/2 https://a.com/1 https://B.com/2 https://a.com:443/1"
         assertEquals(listOf("https://b.com/2", "https://a.com/1"), Urls.extract(text))
