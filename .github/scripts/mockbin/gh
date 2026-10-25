@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# gh simulado para test-latest-guard.sh.
+# Estado: $MOCK_STATE/releases (líneas "tag draft prerelease created") y $MOCK_STATE/latest.
+# Fallos: $MOCK_STATE/fail con líneas "<op> <n|always>" (los primeros n intentos de <op> fallan).
+#   ops: list-android, list-published, edit-latest, edit-prerelease, api-latest
+set -uo pipefail
+R="$MOCK_STATE/releases"; L="$MOCK_STATE/latest"
+echo "[gh $*]" >> "$MOCK_STATE/calls"
+
+maybe_fail() {  # maybe_fail <op>: sale con error si toca fallar
+  local op="$1" rule count=0 f="$MOCK_STATE/count-$1"
+  rule=$(awk -v o="$op" '$1==o {print $2}' "$MOCK_STATE/fail" 2>/dev/null | head -n 1)
+  [ -n "$rule" ] || return 0
+  [ -f "$f" ] && count=$(cat "$f")
+  count=$((count + 1)); echo "$count" > "$f"
+  if [ "$rule" = always ] || [ "$count" -le "$rule" ]; then
+    echo "HTTP 502: Bad Gateway (simulado, $op intento $count)" >&2
+    exit 1
+  fi
+}
+recompute_latest() {  # GitHub elige solo: la más reciente (created) que no sea borrador ni pre-release
+  awk '$2=="false" && $3=="false" {print $4, $1}' "$R" | sort -n | tail -n 1 | awk '{print $2}' > "$L"
+}
+
+case "$1 $2" in
+  "release list")
+    if [[ "$*" == *"--exclude-pre-releases"* ]]; then
+      maybe_fail list-published
+      awk '$2=="false" && $3=="false" {print $1}' "$R"
+    else
+      maybe_fail list-android
+      awk '$2=="false" && $3=="false" && $1 ~ /^android-/ {print $1}' "$R"
+    fi ;;
+  "api repos/"*)
+    maybe_fail api-latest
+    t=$(cat "$L" 2>/dev/null || true)
+    [ -n "$t" ] || { echo "gh: Not Found (HTTP 404)" >&2; exit 1; }
+    echo "$t" ;;
+  "release edit")
+    tag="$3"; shift 3
+    for a in "$@"; do
+      case "$a" in
+        --latest|--latest=true)
+          maybe_fail edit-latest
+          if grep -q "^$tag false false " "$R"; then echo "$tag" > "$L"
+          else echo "HTTP 422: Drafts and prereleases cannot be set as latest" >&2; exit 1; fi ;;
+        --prerelease|--prerelease=true)
+          maybe_fail edit-prerelease
+          awk -v t="$tag" '$1==t {$3="true"} {print}' "$R" > "$R.tmp" && mv "$R.tmp" "$R"
+          [ "$(cat "$L" 2>/dev/null)" = "$tag" ] && recompute_latest ;;
+      esac
+    done ;;
+  *) echo "gh simulado: no soportado: $*" >&2; exit 2 ;;
+esac
+exit 0

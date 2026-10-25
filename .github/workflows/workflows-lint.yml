@@ -1,0 +1,58 @@
+name: Workflows y scripts
+
+# Revisa TODOS los workflows (también release-latest.yml, que ningún otro CI cubre) y los scripts de
+# publicación: actionlint (con shellcheck en los run:), shellcheck y las pruebas sin red del guardián de Latest.
+# Los pasos de los scripts de Android (android/scripts/) se activan solos cuando esos archivos existan.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - ".github/**"
+      - "android/scripts/**"
+  pull_request:
+    paths:
+      - ".github/**"
+      - "android/scripts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: actionlint, shellcheck y pruebas de scripts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: actionlint 1.7.12 (verificado por SHA-256)
+        run: |
+          set -euo pipefail
+          v=1.7.12
+          sha=8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+          curl -fsSLo "$RUNNER_TEMP/al.tgz" "https://github.com/rhysd/actionlint/releases/download/v${v}/actionlint_${v}_linux_amd64.tar.gz"
+          echo "${sha}  $RUNNER_TEMP/al.tgz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/al.tgz" -C "$RUNNER_TEMP" actionlint
+          "$RUNNER_TEMP/actionlint" -color   # usa el shellcheck del runner para los run: de bash
+
+      - name: shellcheck de los scripts
+        run: |
+          shopt -s nullglob
+          files=(.github/scripts/*.sh .github/scripts/mockbin/* android/scripts/*.sh)
+          shellcheck -S warning "${files[@]}"
+
+      - name: Guardián de Latest (19 casos, con fallos de la API simulados)
+        run: bash .github/scripts/test-latest-guard.sh
+
+      - name: promote.py (sin red)
+        if: hashFiles('android/scripts/promote.py') != ''
+        run: python3 -I -X utf8 android/scripts/tests/test_promote_channels.py android/scripts/promote.py web/vercel.json
+
+      - name: sources_mirror.py (sin red)
+        if: hashFiles('android/scripts/sources_mirror.py') != ''
+        run: python3 -I -X utf8 android/scripts/tests/test_sources_mirror.py android/scripts/sources_mirror.py
