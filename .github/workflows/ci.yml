@@ -1,8 +1,27 @@
 name: CI
 
+# Los cambios solo de Android (android/, sus workflows y datos) no corren esta CI: tienen la suya
+# (android-ci.yml). Los filtros de rutas no se aplican a los tags, así que los tags v*.*.* siempre corren;
+# los android-v* no.
 on:
   push:
+    branches: ["**"]
+    tags: ["v*.*.*"]
+    paths-ignore:
+      - "android/**"
+      - ".github/workflows/android-*.yml"
+      - ".github/workflows/workflows-lint.yml"
+      - ".github/scripts/**"
+      - "docs/release-android.md"
+      - "web/data/android*.json"
   pull_request:
+    paths-ignore:
+      - "android/**"
+      - ".github/workflows/android-*.yml"
+      - ".github/workflows/workflows-lint.yml"
+      - ".github/scripts/**"
+      - "docs/release-android.md"
+      - "web/data/android*.json"
 
 permissions:
   contents: read

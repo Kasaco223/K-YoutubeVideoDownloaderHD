@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- qa build (R8, debug key): its own name in the launcher and the Share menu. -->
+<resources>
+    <string name="launcher_label">K-Downloader QA</string>
+</resources>

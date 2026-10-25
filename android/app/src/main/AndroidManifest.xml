@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Esta versión no pide ningún permiso. Nunca: android:extractNativeLibs (lo decide el build), SMS,
+     accesibilidad ni lectura de notificaciones. El localeConfig lo genera el build (generateLocaleConfig). -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:name=".KdlApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/launcher_label"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.KDL"
+        tools:targetApi="33">
+
+        <!-- Launcher y deep link kdownloader://download?url=… (la web y la app de Windows lo usan). -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="download"
+                    android:scheme="kdownloader" />
+            </intent-filter>
+        </activity>
+
+        <!-- «Compartir» con texto y selección de texto: hoja translúcida en su propia tarea, fuera de Recientes.
+             Usa la etiqueta de la app (launcher_label: «K-Downloader», o «K-Downloader (prueba)» / «K-Downloader QA»
+             en los builds de prueba) en el menú «Compartir» y en el de selección de texto. -->
+        <activity
+            android:name=".share.QuickDownloadActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:theme="@style/Theme.KDL.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

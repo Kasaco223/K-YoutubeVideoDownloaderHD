@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# docker compose -f android/tools/docker/compose.yaml run --rm kdl :app:assembleGithubDebug -Pkdl.devAbi=arm64-v8a
+# Los APK quedan en android/build/docker-out/apk/ (git los ignora). Guía: android/README.md › Compilar con Docker.
+name: kdl-android
+services:
+  kdl:
+    build:
+      context: .
+      args:
+        # "yes" solo después de leer y aceptar la licencia del SDK de Android (android/README.md).
+        ACCEPT_ANDROID_SDK_LICENSE: ${KDL_ACCEPT_ANDROID_SDK_LICENSE:-}
+    image: kdl-android-build:2026.10
+    environment:
+      # Vacío: kdl-build.sh lo lee del repo montado. "Acerca de" enlaza al código de ese commit.
+      KDL_SOURCE_COMMIT: ${KDL_SOURCE_COMMIT:-}
+    volumes:
+      - type: bind # el repo, solo lectura (kdl-build.sh copia lo necesario a /work)
+        source: ../../..
+        target: /src
+        read_only: true
+      - type: bind # salida: android/build/docker-out
+        source: ../../build/docker-out
+        target: /out
+        bind:
+          create_host_path: true
+      - kdl-work:/work # copia de trabajo en el disco de Linux: compilar sobre C:\ es muy lento
+      - kdl-gradle:/gradle # caché de Gradle (dependencias, wrapper, build cache)
+      # Docker la llena con el SDK de la imagen la primera vez y guarda lo que AGP baje después.
+      # Tras cambiar el Dockerfile: docker volume rm kdl-android_kdl-sdk
+      - kdl-sdk:/opt/android-sdk
+volumes:
+  kdl-work:
+  kdl-gradle:
+  kdl-sdk:

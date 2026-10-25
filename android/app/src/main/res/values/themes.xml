@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<resources>
+    <!-- Tema de las actividades (AppCompat DayNight: sigue el tema del sistema). La interfaz es Compose
+         (ui/theme/KdTheme.kt); aquí solo va lo que dibuja el sistema antes de Compose. -->
+    <style name="Theme.KDL" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/kd_window_background</item>
+    </style>
+
+    <!-- Hoja al compartir: ventana transparente; la hoja dibuja su propio fondo oscurecido. -->
+    <style name="Theme.KDL.Translucent">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+</resources>

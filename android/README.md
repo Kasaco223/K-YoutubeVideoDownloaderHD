@@ -1,0 +1,200 @@
+<!-- SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+
+# K-Downloader para Android: guía para desarrollar
+
+Esta carpeta tiene la app de Android. Hoy es una **versión de prueba**: se instala, recibe enlaces al
+compartir y muestra la información legal y el diagnóstico del celular, pero **todavía no descarga**. El motor
+de descargas llega en los próximos PR.
+
+## Licencia
+
+- Todo el código propio de `android/` es **GPL-3.0-or-later** ([LICENSE](LICENSE), el texto oficial sin
+  cambios). El APK completo se distribuye bajo la GPL v3. Las dependencias conservan su licencia: hoy todas
+  las de la app son Apache-2.0 (AndroidX, Kotlin, corrutinas).
+- El resto del repositorio (la app de Windows, la web) sigue con la licencia MIT de la raíz. No copies
+  código GPL fuera de `android/`.
+- Cada archivo propio de `android/` lleva este encabezado (en el formato de comentario de su lenguaje):
+
+  ```text
+  SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader
+  SPDX-License-Identifier: GPL-3.0-or-later
+  ```
+
+  No lo llevan `LICENSE`, los binarios, los avisos de terceros (`.txt`) ni el wrapper de Gradle (`gradlew`,
+  `gradlew.bat` y `gradle/wrapper/`, que son archivos de Gradle con licencia Apache-2.0). CI comprueba las
+  dos líneas.
+
+## Estructura
+
+```text
+android/
+  settings.gradle.kts, build.gradle.kts, gradle.properties
+  version.properties          VERSION_NAME: la única fuente de la versión
+  gradle/libs.versions.toml   catálogo de versiones
+  gradle/wrapper/, gradlew    Gradle 9.8.2 (distribución fijada por SHA-256)
+  buildSrc/                   tareas propias del build (KdTasks.kt)
+  core/                       Kotlin puro, sin android.*: lógica que se prueba en la JVM (hoy: Urls)
+  app/                        la app (Compose, Material 3)
+    debug.keystore            llave de debug, pública a propósito
+    src/main/                 código, recursos y manifiesto
+    src/test/                 pruebas en la JVM
+    src/androidTest/          pruebas instrumentadas (emulador o celular)
+  scripts/                    scripts de CI (repo, emulador, páginas de 16 KB)
+  tools/docker/               imagen para compilar en Docker
+```
+
+Paquetes de la app (`io.github.kasaco223.kdownloader`): `share/` (la hoja que aparece al compartir),
+`ui/` (pantallas y tema), `platform/` (diagnóstico, acciones del sistema), `contracts/` (contratos con
+el resto de la app).
+
+## Compilar con Docker
+
+En esta PC (Windows con Smart App Control) **Gradle no corre directamente en Windows**: AGP descarga un
+`aapt2.exe` sin firmar y Gradle usa DLL nativas sin firmar, que Windows bloquea. Por eso se compila en un
+contenedor Linux de Docker Desktop.
+
+### La licencia del SDK de Android
+
+La imagen instala el SDK de Android (cmdline-tools, la plataforma 37 y build-tools 36.0.0), que Google
+distribuye con el **Android Software Development Kit License Agreement**. Instalarlo implica aceptar esa
+licencia, y esa decisión es tuya: la imagen **no se construye** si no la aceptas de forma explícita.
+
+1. Lee la licencia: <https://developer.android.com/studio/terms>.
+2. Si estás de acuerdo, indícalo en la terminal donde construyes la imagen:
+
+   ```powershell
+   $env:KDL_ACCEPT_ANDROID_SDK_LICENSE = "yes"
+   ```
+
+Sin esa variable, `docker compose build` se detiene antes de descargar nada del SDK.
+
+**En GitHub Actions** la CI de Android también usa el SDK de Android, bajo esa misma licencia de Google, en
+los runners de GitHub:
+
+- El job **build** usa el SDK que ya trae la imagen del runner (con las licencias aceptadas en la imagen).
+  Su paso de `sdkmanager` no acepta ninguna: si un paquete pidiera una licencia nueva, el paso falla.
+- Los jobs **emulator** usan la acción `reactivecircus/android-emulator-runner`, que corre
+  `yes | sdkmanager --licenses` (acepta **todas** las licencias que conoce `sdkmanager`, no solo la del SDK)
+  y descarga el emulador, `platforms;android-36`, build-tools y las imágenes del sistema. Si eso no te
+  parece bien, hay que reemplazar la acción por un script propio (`avdmanager` y `emulator`); igual seguiría
+  usando el SDK.
+
+Abrir un PR que toque `android/` dispara esos jobs.
+
+### Comandos
+
+Desde la raíz del repositorio, en PowerShell:
+
+```powershell
+# Primera vez (construye la imagen: 5 a 10 minutos)
+docker compose -f android/tools/docker/compose.yaml build
+
+# APK debug para tu celular (un solo APK, arm64)
+docker compose -f android/tools/docker/compose.yaml run --rm kdl :app:assembleGithubDebug -Pkdl.devAbi=arm64-v8a
+
+# Pruebas en la JVM y lint
+docker compose -f android/tools/docker/compose.yaml run --rm kdl :core:test :app:testGithubDebugUnitTest :app:lintGithubDebug
+```
+
+- Los APK quedan en `android/build/docker-out/apk/` y los reportes en `android/build/docker-out/reports/`
+  (git ignora esa carpeta).
+- El repo se monta **solo lectura**; `kdl-build.sh` copia `android/` a un volumen de Linux (compilar
+  sobre `C:\` es muy lento) y conserva los `build/` entre corridas.
+- **Contenedor tibio** (compilaciones de 1 a 3 minutos):
+
+  ```powershell
+  docker compose -f android/tools/docker/compose.yaml run -d --name kdl-dev --entrypoint sleep kdl infinity
+  docker exec kdl-dev kdl-build :app:assembleGithubDebug -Pkdl.devAbi=arm64-v8a
+  ```
+
+- Después de cambiar el `Dockerfile`, borra el volumen del SDK para que se vuelva a llenar:
+  `docker volume rm kdl-android_kdl-sdk`.
+- Para instalar en el celular: `adb install -r <apk>` (adb está firmado por Google) o copia el APK al
+  celular y ábrelo.
+
+## Variantes, versiones y firma
+
+| | |
+| --- | --- |
+| Sabor | `github` (Releases de GitHub). `foss` (F-Droid) queda reservado. |
+| Tipos de build | `debug` (`.debug`), `qa` (como release, con R8, firmado con la llave de debug; `.qa`) y `release` (sin firmar: se firma aparte). |
+| SDK | minSdk 26 (Android 8), targetSdk 36, compileSdk 37 (`platforms;android-37.0`). |
+| ABI | Un APK por ABI: `arm64-v8a`, `armeabi-v7a` y `x86_64`. Sin APK universal. `-Pkdl.devAbi=<abi>` arma un solo APK. |
+| Versión | `version.properties` → `VERSION_NAME`: `X.Y.Z` o `X.Y.Z-rc.N` (X, Y y Z de 0 a 99; N de 1 a 98). |
+| versionCode | `(X·1 000 000 + Y·10 000 + Z·100 + (rc ? N : 99))·10 + ABI`, con armeabi-v7a = 1, arm64-v8a = 3 y x86_64 = 4 (0 = sin dividir). 1.0.0-rc.1 → 10000011/3/4; 1.0.0 → 10000991/3/4. |
+
+- **Llave de debug**: `app/debug.keystore` (PKCS12, alias `androiddebugkey`, contraseña `android`; SHA-256
+  del certificado `58:7B:24:36:BD:EB:76:82:A9:8B:10:B0:C3:3D:34:69:91:5D:36:58:36:67:0F:A6:E9:99:37:C2:71:A4:8D:C7`).
+  Es pública para que los APK de prueba se instalen uno sobre otro. Los paquetes `.debug` y `.qa` nunca
+  pueden actualizar la app publicada. CI fija el archivo por SHA-256 y falla si aparece cualquier otra llave
+  en git.
+- **Como la llave es pública, cualquiera puede firmar un APK que actualice una instalación `.debug`** (también
+  los PR de forks, cuyos artefactos aparecen en la misma lista de Actions). Instala solo APK de corridas de
+  `master` o de tus propias ramas.
+- En el celular, el build debug se llama **«K-Downloader (prueba)»** («K-Downloader (test)» en inglés) y el
+  qa **«K-Downloader QA»**, en el launcher y en «Compartir», para no confundirlos con la app publicada
+  (`src/debug/res`, `src/qa/res`).
+- **«Acerca de» → «Código fuente»** enlaza al árbol del commit con el que se compiló (`KDL_SOURCE_COMMIT`);
+  una versión publicada enlaza a su tag `android-v<versión>`.
+
+## Idiomas
+
+- `values/` es el **inglés** (recursos por defecto, `res/resources.properties`: `unqualifiedResLocale=en-US`)
+  y `values-es/` el **español**, que es el texto fuente: se escribe primero en español y después en inglés.
+- Español neutro latinoamericano con tuteo: "video" (nunca "vídeo"), "toca", "celular".
+- El build genera el `localeConfig`, así que en Android 13+ el idioma de la app se puede elegir en la
+  configuración del celular.
+
+## Pruebas
+
+| Dónde | Qué | Comando |
+| --- | --- | --- |
+| `core/src/test` | `Urls` contra los resultados del código de Windows (`actions.js`, `media.validate_url`, `ytdlp.is_youtube`, con todos los casos de `tests/test_ytdlp.py`) | `:core:test` |
+| `app/src/test` | Lógica sin Android: versionCode por ABI, diagnóstico, enlace al código, texto de la licencia, enlaces compartidos | `:app:testGithubDebugUnitTest` |
+| `app/src/androidTest` | En el emulador: abrir la app, «Acerca de» y «Diagnóstico», la licencia, el deep link y la hoja de «Compartir» | `:app:connectedGithubDebugAndroidTest` |
+
+- El runner es `io.github.kasaco223.kdownloader.testing.KdlTestRunner`.
+- Las pruebas que necesitan internet de verdad llevan `@NetworkTest` (mismo paquete) y CI no las corre:
+  desde un centro de datos YouTube pide comprobar que no eres un robot.
+
+## Integración continua
+
+`.github/workflows/android-ci.yml` corre en los PR y en `master` cuando cambia `android/` (o el catálogo de
+errores, `tests/fixtures/` o `engine.json`, que la app usará), y los lunes.
+
+1. **build** (ubuntu-24.04):
+   - En un PR compila el commit de la rama (no el merge temporal con `master`), el mismo que enlaza
+     «Acerca de» › «Código fuente».
+   - `scripts/ci_repo_checks.sh`: scripts ejecutables y con LF, encabezados SPDX, ninguna llave de firma
+     salvo la de debug (fijada por SHA-256), `LICENSE` sin cambios y wrapper de Gradle fijado por SHA-256.
+   - Instala `platforms;android-37.0` y `build-tools;36.0.0`; `setup-gradle` valida el wrapper.
+   - `:core:test`, `:app:testGithubDebugUnitTest`, `:app:lintGithubDebug` (lint también revisa `:core`
+     con el minSdk de la app) y los APK debug, qa y de pruebas.
+   - `scripts/check_elf_alignment.py`: toda biblioteca nativa de 64 bits debe cargar con páginas de 16 KB.
+     Hoy el APK solo trae la de Compose, `libandroidx.graphics.path.so` (androidx.graphics:graphics-path,
+     Apache-2.0), ya alineada a 16 KB. No hay código nativo propio, así que no hace falta el NDK
+     (`keepDebugSymbols` deja los `.so` sin tocar).
+   - Hasta que lleguen el motor y el espejo de fuentes, el build falla si un APK trae cualquier otra
+     biblioteca nativa.
+   - Artefactos: reportes (14 días) y `android-apk-<sha>` (7 días) con los tres APK debug (el `arm64-v8a`
+     es el del celular), el qa x86_64 y el de pruebas. El APK de pruebas es solo para el emulador e incluye
+     JUnit 4.13.2 (EPL-1.0) y Hamcrest 1.3 (BSD-3-Clause); su aviso
+     (`app/src/androidTest/THIRD-PARTY-NOTICES.txt`) va en el mismo artefacto.
+2. **emulator**: API 26 (`default`), API 36 (`google_apis`) y API 36 con páginas de 16 KB
+   (`google_apis_ps16k`, informativo por ahora). No recompila: instala los APK del build y corre
+   `scripts/ci_emulator.sh`, que ejecuta las pruebas instrumentadas, abre el build qa (R8) para ver que no
+   se cierre y, cuando el APK traiga el motor, corre su autoprueba.
+
+- Subir una rama no dispara la CI de Android: corre al abrir el PR (o en `master`).
+- Las acciones de terceros (`gradle/actions/setup-gradle` y `reactivecircus/android-emulator-runner`) van
+  fijadas por SHA de commit, con la versión en un comentario.
+- La CI de Windows (`ci.yml`) ignora los cambios que solo tocan Android.
+
+## Pendiente
+
+- `gradle/verification-metadata.xml` (SHA-256 de cada dependencia): se genera en Docker con la licencia
+  del SDK aceptada, con `kdl-build --write-verification-metadata sha256 help :app:assembleGithubRelease
+  :app:assembleGithubQa :app:assembleGithubDebugAndroidTest :app:lintGithubDebug :core:test`.
+- El motor (youtubedl-android), los avisos de terceros, el espejo de fuentes, la libwebp propia para
+  páginas de 16 KB, el pipeline de releases y el actualizador llegan en sus propios PR.
