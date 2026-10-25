@@ -35,15 +35,17 @@ tests/.tmp/
 *.log
 
 # Android (android/): los build/ ya están cubiertos arriba
-android/.gradle/
-android/.kotlin/
+android/**/.gradle/
+android/**/.kotlin/
 android/local.properties
 android/captures/
 android/**/*.iml
+android/app/release/
 
 # Llaves de firma: nunca en git. La de debug de android/app es pública a propósito.
 *.jks
 *.p12
 *.pfx
+*.pk8
 *.keystore
 !android/app/debug.keystore

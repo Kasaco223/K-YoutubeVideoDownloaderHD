@@ -4,7 +4,8 @@
 
 Mira los .so de lib/<abi>/ del APK (o jni/<abi>/ de un AAR) y también los ELF que van DENTRO de los
 paquetes zip del motor (lib*.zip.so de youtubedl-android), que las herramientas de Google no revisan.
-Un APK sin bibliotecas nativas (como las primeras versiones de prueba) pasa sin más.
+Un APK sin bibliotecas nativas pasa sin más. Las versiones de prueba sin motor solo traen la de Compose
+(libandroidx.graphics.path.so, de androidx.graphics:graphics-path), que ya está alineada a 16 KB.
 
     python3 android/scripts/check_elf_alignment.py [--fail-on-pending] [--as-one] ARCHIVO...
 

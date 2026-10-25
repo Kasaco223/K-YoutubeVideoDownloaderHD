@@ -7,8 +7,9 @@
 # corridas (compilaciones incrementales).
 set -euo pipefail
 
+# Sin anclar .gradle/ y .kotlin/: también los de buildSrc/ se conservan (rsync no borra lo excluido).
 rsync -a --delete \
-  --exclude=/build/ --exclude='/*/build/' --exclude=/.gradle/ --exclude=/.kotlin/ --exclude=/local.properties \
+  --exclude=/build/ --exclude='/*/build/' --exclude=.gradle/ --exclude=.kotlin/ --exclude=/local.properties \
   /src/android/ /work/android/
 
 # Datos compartidos con la app de Windows que leerán las pruebas de :core (catálogo de errores, engine.json,

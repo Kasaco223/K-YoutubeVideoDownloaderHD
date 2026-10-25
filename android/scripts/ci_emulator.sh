@@ -50,7 +50,8 @@ if [ "$only_selftest" != "--only-selftest" ]; then
       -e notAnnotation io.github.kasaco223.kdownloader.testing.NetworkTest \
       io.github.kasaco223.kdownloader.debug.test/io.github.kasaco223.kdownloader.testing.KdlTestRunner \
       | tr -d '\r' > "$out/instrumentation.txt"
-    if grep -qE '^OK \([0-9]+ tests?\)' "$out/instrumentation.txt" \
+    # "OK (0 tests)" no cuenta: un runner o un filtro mal puesto no puede pasar en verde sin correr nada.
+    if grep -qE '^OK \([1-9][0-9]* tests?\)' "$out/instrumentation.txt" \
       && ! grep -qE 'FAILURES!!!|INSTRUMENTATION_FAILED|INSTRUMENTATION_ABORTED|Process crashed' "$out/instrumentation.txt"; then
       grep -E '^OK \(' "$out/instrumentation.txt"
     else
@@ -84,8 +85,14 @@ else
     status=1
   fi
 
-  # 2) Autoprueba del motor: solo cuando el APK ya trae el motor.
-  if unzip -Z1 "$qa" | grep -qE '^lib/[^/]+/libpython\.so$'; then
+  # 2) Autoprueba del motor: solo cuando el APK ya trae el motor. La lista se guarda antes de buscar en ella:
+  #    con pipefail, `unzip | grep -q` puede dar falso (unzip muere por SIGPIPE) y saltarse la autoprueba.
+  if ! qa_files=$(unzip -Z1 "$qa"); then
+    echo "::error::No se pudo leer el contenido de $qa"
+    qa_files=""
+    status=1
+  fi
+  if grep -qE '^lib/[^/]+/libpython\.so$' <<< "$qa_files"; then
     adb shell am force-stop "$pkg" || true
     adb logcat -c || true
     adb shell am start -W -n "$activity" --ez kdl.selftest true > /dev/null || status=1

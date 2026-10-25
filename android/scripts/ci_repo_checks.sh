@@ -39,17 +39,29 @@ while IFS= read -r f; do
     *.kt | *.kts | *.java | *.sh | *.py | *.xml | *.properties | *.toml | *.yaml | *.yml | *.pro | *.md | */Dockerfile) ;;
     *) continue ;;
   esac
-  if ! head -n 12 "$f" | grep -qE 'SPDX-License-Identifier: GPL-3\.0-(or-later|only)'; then
+  header=$(head -n 12 "$f")
+  if ! grep -qE 'SPDX-License-Identifier: GPL-3\.0-(or-later|only)' <<< "$header"; then
     err "$f" "Falta el encabezado SPDX-License-Identifier: GPL-3.0-or-later (android/README.md › Licencia)"
+  fi
+  if ! grep -q 'SPDX-FileCopyrightText: ' <<< "$header"; then
+    err "$f" "Falta la línea SPDX-FileCopyrightText (android/README.md › Licencia)"
   fi
 done < <(git ls-files -- android)
 
-# 3) Ninguna llave de firma en git, salvo la de debug (pública a propósito).
+# 3) Ninguna llave de firma en git, salvo la de debug (pública a propósito). Esa se fija por SHA-256: una
+#    llave real guardada con ese nombre también falla (CI firmaría con ella los APK debug y qa).
+debug_keystore=android/app/debug.keystore
+debug_keystore_sha=44370b800f58b5d0265c54c49a80ed98f547b10774d8fe366d835d13e497d2dc
 while IFS= read -r f; do
   [ -n "$f" ] || continue
-  [ "$f" = "android/app/debug.keystore" ] && continue
+  if [ "$f" = "$debug_keystore" ]; then
+    if [ "$(sha256sum "$f" | cut -d' ' -f1)" != "$debug_keystore_sha" ]; then
+      err "$f" "No es la llave de debug pública (android/README.md › Variantes, versiones y firma)"
+    fi
+    continue
+  fi
   err "$f" "Hay una llave de firma en el repositorio: sácala de git y reemplázala por una nueva"
-done < <(git ls-files -- '*.jks' '*.p12' '*.pfx' '*.keystore')
+done < <(git ls-files -- '*.jks' '*.p12' '*.pfx' '*.keystore' '*.pk8')
 
 # 4) android/LICENSE es el texto de la GPL-3.0 sin cambios (https://www.gnu.org/licenses/gpl-3.0.txt).
 gpl_sha=3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986
