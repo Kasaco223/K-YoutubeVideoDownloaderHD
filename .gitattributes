@@ -6,8 +6,22 @@
 *.ps1  text eol=crlf
 *.template text eol=crlf
 
+# Android: gradlew corre en Linux y macOS (siempre LF); gradlew.bat sigue la regla *.bat de arriba.
+/android/gradlew text eol=lf
+
 # Binarios
 *.ico  binary
 *.png  binary
 *.woff2 binary
 *.zip  binary
+*.jar  binary
+*.keystore binary
+*.p12  binary
+*.apk  binary
+*.aab  binary
+*.so   binary
+*.webp binary
+*.mp4  binary
+*.m4a  binary
+*.mp3  binary
+*.webm binary

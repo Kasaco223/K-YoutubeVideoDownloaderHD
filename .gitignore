@@ -33,3 +33,17 @@ web/.vercel/
 # Artefactos locales de pruebas
 tests/.tmp/
 *.log
+
+# Android (android/): los build/ ya están cubiertos arriba
+android/.gradle/
+android/.kotlin/
+android/local.properties
+android/captures/
+android/**/*.iml
+
+# Llaves de firma: nunca en git. La de debug de android/app es pública a propósito.
+*.jks
+*.p12
+*.pfx
+*.keystore
+!android/app/debug.keystore

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<resources>
+    <!-- Fondo de la ventana (y de la pantalla de inicio del sistema) en tema claro: el color bg de
+         tokens.css (app de Windows). -->
+    <color name="kd_window_background">#FFF6F7FB</color>
+</resources>

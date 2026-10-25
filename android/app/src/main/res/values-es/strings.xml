@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Español neutro latinoamericano, tuteo. Es la fuente del texto: se escribe primero aquí y luego en values/
+     (inglés, los recursos por defecto). Reglas: "video" (nunca "vídeo"), nada de "usted", "toca" (no "pulsa"
+     ni "clic") y "celular" (como en la web). -->
+<resources>
+    <!-- Comunes -->
+    <string name="common_close">Cerrar</string>
+    <string name="common_back">Atrás</string>
+    <string name="common_dismiss">Ocultar</string>
+    <string name="common_no_browser">No encontramos una app para abrir el enlace.</string>
+
+    <!-- Inicio (versión de prueba) -->
+    <string name="home_test_build_title">Versión de prueba</string>
+    <string name="home_test_build_body">Esta versión todavía no descarga videos. Sirve para comprobar que K-Downloader se instala y abre bien en tu celular. Las descargas llegan en una próxima versión.</string>
+    <string name="home_try_share_title">Prueba compartir un enlace</string>
+    <string name="home_try_share_body">En YouTube u otra app, toca Compartir y elige K-Downloader. Te mostramos el enlace que recibimos.</string>
+    <string name="home_about">Acerca de y diagnóstico</string>
+    <string name="link_received_title">Recibimos este enlace</string>
+    <string name="link_not_yet">Esta versión de prueba todavía no descarga: las descargas llegan en una próxima versión.</string>
+
+    <!-- Hoja al compartir -->
+    <string name="quick_pane_title">K-Downloader: enlace recibido</string>
+    <string name="quick_no_link_title">No encontramos un enlace</string>
+    <string name="quick_no_link_body">Comparte el video con el botón Compartir de YouTube o de otra app. Si compartiste un texto, revisa que incluya el enlace.</string>
+    <plurals name="quick_more_links">
+        <item quantity="one">Encontramos 1 enlace.</item>
+        <item quantity="many">Encontramos %d enlaces; te mostramos el primero.</item>
+        <item quantity="other">Encontramos %d enlaces; te mostramos el primero.</item>
+    </plurals>
+    <string name="quick_open_app">Abrir K-Downloader</string>
+
+    <!-- Acerca de (avisos legales de la GPL-3.0, §0 y §5 d) -->
+    <string name="about_title">Acerca de</string>
+    <string name="about_app_name_full">K-Downloader para Android</string>
+    <string name="about_version_detail">Versión %1$s · %2$s · %3$s</string>
+    <string name="about_license_title">Software libre</string>
+    <string name="about_copyright">© 2026 Kasaco223 y colaboradores de K-Downloader</string>
+    <string name="about_gpl_notice">K-Downloader para Android es software libre: puedes redistribuirlo y modificarlo según los términos de la Licencia Pública General de GNU publicada por la Free Software Foundation, ya sea la versión 3 de la licencia o (si prefieres) cualquier versión posterior. Se distribuye con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA, ni siquiera la garantía implícita de COMERCIABILIDAD o de IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Consulta la licencia para ver los detalles.</string>
+    <string name="about_view_license">Ver la licencia</string>
+    <string name="about_source">Código fuente</string>
+    <string name="about_website">Sitio web</string>
+    <string name="about_not_affiliated">K-Downloader no está afiliado a YouTube ni a Google, ni a ningún otro sitio compatible.</string>
+
+    <!-- Licencia -->
+    <string name="license_title">Licencia Pública General de GNU</string>
+    <string name="license_official_note">Este es el texto oficial de la licencia (GPL versión 3), en inglés.</string>
+    <string name="license_load_failed">No pudimos abrir el texto de la licencia. También está en el código fuente, en android/LICENSE, y en gnu.org/licenses/gpl-3.0.html.</string>
+
+    <!-- Diagnóstico -->
+    <string name="diag_title">Diagnóstico</string>
+    <string name="diag_lead">Si algo no funciona, copia estos datos y pégalos en tu reporte. No incluyen enlaces ni datos personales.</string>
+    <string name="diag_android">Versión de Android</string>
+    <string name="diag_device">Celular</string>
+    <string name="diag_device_abis">ABI del celular</string>
+    <string name="diag_apk_abi">ABI del APK</string>
+    <string name="diag_apk_abi_unsplit">Todas (APK sin dividir)</string>
+    <string name="diag_page_size">Tamaño de página de memoria</string>
+    <string name="diag_version">Versión de la app</string>
+    <string name="diag_version_code">Código de versión</string>
+    <string name="diag_build">Compilación</string>
+    <string name="diag_commit">Commit del código fuente</string>
+    <string name="diag_commit_unknown">Desconocido (compilación local)</string>
+    <string name="diag_copy">Copiar detalles</string>
+    <string name="diag_copied">Detalles copiados. Pégalos en tu reporte.</string>
+</resources>

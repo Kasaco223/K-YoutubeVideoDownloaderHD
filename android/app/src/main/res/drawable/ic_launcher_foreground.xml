@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- La K y el botón de descarga del logo (coordenadas de logo.svg, 256×256), escalados a 0.28 y centrados para
+     quedar dentro de la zona segura del ícono adaptable (círculo de 66 dp en un lienzo de 108 dp). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.28"
+        android:scaleY="0.28"
+        android:translateX="13.12"
+        android:translateY="15.36">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M68,52h34v60l52,-60h42l-60,66 34,39h-44l-24,-28v63H68z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M132,178a46,46 0,1 0,92 0a46,46 0,1 0,-92 0z" />
+        <path
+            android:fillColor="#FF6366F1"
+            android:pathData="M168,150h20v28h16l-26,28 -26,-28h16z" />
+    </group>
+</vector>

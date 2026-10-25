@@ -1,0 +1,14 @@
+// SPDX-FileCopyrightText: 2026 Kasaco223 y colaboradores de K-Downloader
+// SPDX-License-Identifier: GPL-3.0-or-later
+package io.github.kasaco223.kdownloader.testing
+
+import androidx.test.runner.AndroidJUnitRunner
+
+/**
+ * Runner de las pruebas instrumentadas (testInstrumentationRunner en app/build.gradle.kts y ci_emulator.sh).
+ * Es el único lugar donde las pruebas pueden cambiar la Application por una con dependencias falsas
+ * (newApplication); hoy usa la real, porque esta versión todavía no tiene motor ni red.
+ *
+ * En CI corre con `-e notAnnotation io.github.kasaco223.kdownloader.testing.NetworkTest`.
+ */
+class KdlTestRunner : AndroidJUnitRunner()
